@@ -29,4 +29,13 @@ An individual object that e.g. represents a file. Usually stored in the associat
 * Clients stubs will be generated for major programming languages
 
 ## Implementations
-API: 
+API: https://github.com/ScienceObjectsDB/API
+
+Server: https://github.com/ScienceObjectsDB/CORE-Rust-Server
+
+Rust-API: https://github.com/ScienceObjectsDB/rust-api
+
+Golang-API: https://github.com/ScienceObjectsDB/go-api
+
+Java-API: https://github.com/ScienceObjectsDB/java-api
+
