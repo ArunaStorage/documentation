@@ -39,3 +39,7 @@ Golang-API: https://github.com/ScienceObjectsDB/go-api
 
 Java-API: https://github.com/ScienceObjectsDB/java-api
 
+### Authentication
+## Production
+Currently only oauth2 is supported for authentication.
+A valid oauth2 access token needs to be provided. In the gRPC API it needs to be added in the metadata of each call with the key "AccessToken"
