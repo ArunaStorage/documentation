@@ -2,8 +2,8 @@
 Design documentation for the ScienceObjectsDB. Technical documentation can be found in the implementation repositories.
 
 ## Design overview
-### Internal design
-![alt text](images/SciObjDB-Schema.jpg)
+### Internal data structure layout
+![alt text](images/sosDB-schema.png)
 
 ### Dataset
 Basic unit to organize stored data. Ownes the data objects (which are hierarchical ordered) and has version that bundle data objects. In addition it can link to external databases and/or proxies.
