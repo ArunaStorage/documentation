@@ -12,10 +12,10 @@ Basic unit to organize stored data. Ownes the data objects (which are hierarchic
 A specific version of a dataset. The version number follows semantic versionining principles. Can have additional tags like "stable", "current" or "dev" that link to a specific version and can be updated and separately queried.
 
 ### ObjectGroup
-Represents a group of objects. The individual objects can have multiple, optionally versioned, revisions that can be linked by DatasetVersion. A revision is an immutable piece of data that can not be modified, only created and deleted.
+Represents a group of objects. The individual objects can have multiple revisions that can be linked by DatasetVersion. A revision is an immutable piece of data that can not be modified, only created and deleted. Revisions can be dynamically linked by tags, e.g. stable, current, etc...
 
-### ObjectGroupVersion
-Represents a specific, optionally versioned set of objects that is linked to an object group.
+### ObjectGroupRevision
+Represents a specific revision of an object group, that can be linked to a dataset version.
 
 ### Object
 An individual object that e.g. represents a file. Usually stored in the associated object storage but can also be a virtual link to an external data object e.g. in a reference database.
