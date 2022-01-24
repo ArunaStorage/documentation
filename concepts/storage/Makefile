@@ -1,5 +1,5 @@
 
-TEXSRC		= main
+TEXSRC		= storage
 INPUT		= references.bib $(wildcard *.tex)
 
 LATEX		= pdflatex
@@ -21,10 +21,7 @@ realclean:	clean
 $(TEXSRC).aux:	main.tex $(SUBDIRS)
 		$(LATEX) $(TEXSRC).tex
 
-$(TEXSRC).bbl:	references.bib $(TEXSRC).aux
-		$(BIBTEX) $(TEXSRC) || rm $(TEXSRC).bbl
-
-$(TEXSRC).pdf:	$(TEXSRC).tex $(TEXSRC).bbl chapters/*.tex
+$(TEXSRC).pdf:	$(TEXSRC).tex *.tex
 		$(eval STAMP := $(shell stat -c %Y main.aux))
 		$(LATEX) $(TEXSRC).tex
 		$(LATEX) $(TEXSRC).tex
