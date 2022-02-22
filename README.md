@@ -8,6 +8,8 @@ Design documentation for the ScienceObjectsDB. Technical documentation can be fo
 
 #### CLI/API client
 
+Simple example: [golang example](https://github.com/ScienceObjectsDB/go-api/blob/main/examples/upload.go)
+
 1. Get Auth token
    1. Create Project
    2. Get APIToken from website (key symbol)
@@ -58,7 +60,7 @@ API: https://github.com/ScienceObjectsDB/API
 
 Server: https://github.com/ScienceObjectsDB/CORE-Server
 
-Rust-API: https://github.com/ScienceObjectsDB/rust-api
+Rust-API: [cargo](https://crates.io/crates/scienceobjectsdb_rust_api) or [github](https://github.com/ScienceObjectsDB/rust-api)
 
 Golang-API: https://github.com/ScienceObjectsDB/go-api
 
