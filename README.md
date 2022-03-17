@@ -33,13 +33,20 @@ Basic unit to organize stored data. Ownes the data objects (which are hierarchic
 
 A specific version of a dataset. The version number follows semantic versionining principles. Can have additional tags like "stable", "current" or "dev" that link to a specific version and can be updated and separately queried.
 
-### ObjectGroup
+### ObjectGroup and Objects
 
-Represents a tightly coupled group of objects, e.g. a data file and a corresponding index. It can be thought of as a directory.
+Objects represent the the actual data objects of the storage system and can be thought of as files. They are organized in ObjectGroups which represent a set of closely related objects e.g. a data file and an associated index file pointing to individual items in the data file. When creating an objects via an API call, only the internal representation is created without an actual data object stored. In order to store the actual object it has to be uploaded via an upload link that can be either provided by the call or retrived after that. After uploading the data the FinishUploadObjectGroup call has to be issued in order to finalize the object upload and make the object available. The data will not be set to available immediately but only after a set of checks has been performed.
+This can include size and hash checks as well as custom checks if file formats are correct and if the expected metadata is present and in the correct format.
 
-### Object
+### State system
 
-An individual object that e.g. represents a file. Usually stored in the associated object storage but can also be a virtual link to an external data object e.g. in a reference database.
+Resource in the storage have states. These are used to indicate the status of a resource during its lifecycle.
+TODO: Write more details on the state system.
+
+### Notification system
+
+The storage system has a notification system that can be used to receive change notification on specific resource.
+An example can be found here: https://github.com/ScienceObjectsDB/core-storage-notifications-example
 
 ### Implementation design
 
@@ -65,6 +72,8 @@ Rust-API: [cargo](https://crates.io/crates/scienceobjectsdb_rust_api) or [github
 Golang-API: https://github.com/ScienceObjectsDB/go-api
 
 Java-API: https://github.com/ScienceObjectsDB/java-api
+
+Python-API: https://github.com/ScienceObjectsDB/python-api
 
 ### Authentication
 

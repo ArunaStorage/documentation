@@ -26,4 +26,4 @@ $(TEXSRC).pdf:	$(TEXSRC).tex *.tex
 		$(LATEX) $(TEXSRC).tex
 		$(LATEX) $(TEXSRC).tex
 		$(LATEX) $(TEXSRC).tex
-		touch -cm -d @$(STAMP) main.aux
+		touch -cm main.aux
