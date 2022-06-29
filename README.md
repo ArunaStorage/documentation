@@ -15,7 +15,7 @@ Simple example: [golang example](https://github.com/ScienceObjectsDB/go-api/blob
    2. Get APIToken from website (key symbol)
 2. Install [client](#implementations) for your language or build it yourself
 3. Create dataset
-4. Create ObjectGroups with Objects
+4. Create ObjectGroups with Objects, a revision will be created automatically.
 5. Create Uploadlinks and upload data (either during objectgroup creation of via additional call)
 6. Finish object upload
 
@@ -33,10 +33,11 @@ Basic unit to organize stored data. Ownes the data objects (which are hierarchic
 
 A specific version of a dataset. The version number follows semantic versionining principles. Can have additional tags like "stable", "current" or "dev" that link to a specific version and can be updated and separately queried.
 
-### ObjectGroup and Objects
+### ObjectGroup, Revisions and Objects
 
 Objects represent the the actual data objects of the storage system and can be thought of as files. They are organized in ObjectGroups which represent a set of closely related objects e.g. a data file and an associated index file pointing to individual items in the data file. When creating an objects via an API call, only the internal representation is created without an actual data object stored. In order to store the actual object it has to be uploaded via an upload link that can be either provided by the call or retrived after that. After uploading the data the FinishUploadObjectGroup call has to be issued in order to finalize the object upload and make the object available. The data will not be set to available immediately but only after a set of checks has been performed.
 This can include size and hash checks as well as custom checks if file formats are correct and if the expected metadata is present and in the correct format.
+The actual format
 
 ### State system
 
