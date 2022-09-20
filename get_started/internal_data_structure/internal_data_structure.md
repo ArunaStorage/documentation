@@ -24,20 +24,22 @@ Additionally, an Object has revisions
 Objects in the storage have states.
 These are used to indicate the status of an Object during its lifecycle.
 
-**INITIALIZING**
-: After Object creation but before Object finishing.
+<dl>
+  <dt>INITIALIZING</dt>
+  <dd>After Object creation but before Object finishing.</dd>
 
-**AVAILABLE**
-: After Object finishing if everything succeeded.
+  <dt>AVAILABLE</dt>
+  <dd>After Object finishing if everything succeeded.</dd>
 
-**UNAVAILABLE**
-: E.g. while an Object is being updated.
+  <dt>UNAVAILABLE</dt>
+  <dd>E.g. while an Object is being updated.</dd>
 
-**ERROR**
-: If something went wrong e.g. data proxy endpoints are down.
+  <dt>ERRORy/dt>
+  <dd>If something went wrong e.g. data proxy endpoints are down.</dd>
 
-**TRASH**
-: Object was deleted and waits to be removed by the garbage collector.
+  <dt>TRASH</dt>
+  <dd>Object was deleted and waits to be removed by the garbage collector.</dd>
+</dl>
 
 ## Label/Hook [optional]
 

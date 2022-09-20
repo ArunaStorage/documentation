@@ -27,14 +27,16 @@ A more detailed description of the individual parts can be found [here](get_star
 
 ## AOS Components
 
-API
-: API definition of the AOS server
+<dl>
+  <dt>API</dt>
+  <dd>API definition of the AOS server</dd>
 
-AOS Server
-: The implementation of the API that handles the incoming requests
+  <dt>AOS Server</dt>
+  <dd>The implementation of the API that handles the incoming requests</dd>
 
-AOS Data Proxy
-: Internal server implementation handling the communication with the data storage backend used for the specific AOS instance.
+  <dt>AOS Data Proxy</dt>
+  <dd>Internal server implementation handling the communication with the data storage backend used for the specific AOS instance.</dd>
+</dl>
 
 ## Notification system
 
