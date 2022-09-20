@@ -34,7 +34,7 @@ These are used to indicate the status of an Object during its lifecycle.
   <dt>UNAVAILABLE</dt>
   <dd>E.g. while an Object is being updated.</dd>
 
-  <dt>ERRORy/dt>
+  <dt>ERROR</dt>
   <dd>If something went wrong e.g. data proxy endpoints are down.</dd>
 
   <dt>TRASH</dt>
@@ -45,11 +45,13 @@ These are used to indicate the status of an Object during its lifecycle.
 
 Simple resource which represents a key-value pair which is directly associated with a Collection, Object or ObjectGroup.
 
-**Labels**
-: Used to describe short properties of the resource with which it is associated.
+<dl>
+  <dt>Labels</dt>
+  <dd>Used to describe short properties of the resource with which it is associated.</dd>
 
-**Hooks**
-: Used to reference (external) services which automatically validate/process/analyze/... the data.
+  <dt>Hooks</dt>
+  <dd>Used to reference (external) services which automatically validate/process/analyze/... the data.</dd>
+</dl>
 
 ## ObjectGroup [optional]
 
