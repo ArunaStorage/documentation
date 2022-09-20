@@ -91,12 +91,16 @@ https://github.com/ArunaStorage/ArunaCLI
 
 ### Authentication
 
-Coming soon.
+> Coming soon.
 
 ## Production
 
-Currently only oauth2 is supported for authentication.
-A valid oauth2 access token needs to be provided.
-In the gRPC API it needs to be added in the metadata of each call with the key "AccessToken".
-For APIToken please use the key API_TOKEN. An API_Token can be obtained from the website.
-In order to login you need to be part of the scienceobjectsgroup.
+> Coming soon. 
+
+<!--
+  Currently only oauth2 is supported for authentication.
+  A valid oauth2 access token needs to be provided.
+  In the gRPC API it needs to be added in the metadata of each call with the key "AccessToken".
+  For APIToken please use the key API_TOKEN. An API_Token can be obtained from the website.
+  In order to login you need to be part of the scienceobjectsgroup.
+-->
