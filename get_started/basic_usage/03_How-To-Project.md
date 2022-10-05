@@ -16,6 +16,7 @@ API example for creating a new Project:
 
 ### Bash:
 ```bash
+# Native JSON request to create a project
 curl -d '
   {
     "name": "DummyProject", 
@@ -33,6 +34,7 @@ API examples for getting an existing Project:
 
 ### Bash:
 ```bash
+# Native JSON request to fetch information of a project
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
@@ -45,6 +47,7 @@ API examples for getting all registered Projects a specific user is associated w
 
 ### Bash:
 ```bash
+# Native JSON request to fetch information of all added users of a project
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/{user-id}/projects
@@ -57,6 +60,7 @@ API examples for updating a new Project:
 
 ### Bash:
 ```bash
+# Native JSON request to update a projects metadata
 curl -d '
   {
     "name": "Updated Dummy Project", 
@@ -78,6 +82,7 @@ The following conditions have to be met before a Project can be deleted:
 
 ### Bash:
 ```bash
+# Native JSON request to delete a project
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
