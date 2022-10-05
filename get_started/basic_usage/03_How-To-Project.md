@@ -1,0 +1,84 @@
+
+# How to use the Project API / ProjectServiceClient
+
+## Introduction
+
+Here you get a quick rundown how to basically create, read, update and delete Projects within the AOS.
+This should be the first step after gaining access to the storage and creating an API token which is described in the previous chapters: 
+
+* [**Get Storage Access**](01_Get-Storage_Access.md)
+* [**How to Authorize**](02_How-To-Auth-Tokens.md)
+
+
+## Create Project
+
+API example for creating a new Project:
+
+### Bash:
+```bash
+curl -d '
+  {
+    "name": "DummyProject", 
+    "description": "This is a new dummy project."
+  }' \
+     -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project
+```
+
+
+## Get Project
+
+API examples for getting an existing Project:
+
+### Bash:
+```bash
+curl -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
+```
+
+
+## Get all Projects of User
+
+API examples for getting all registered Projects a specific user is associated with:
+
+### Bash:
+```bash
+curl -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/{user-id}/projects
+```
+
+
+## Update Project
+
+API examples for updating a new Project:
+
+### Bash:
+```bash
+curl -d '
+  {
+    "name": "Updated Dummy Project", 
+    "description": "This is an updated dummy project."
+  }' \
+     -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/{user-id}/projects
+```
+
+
+## Delete Project
+
+API examples for deleting a Project. 
+
+The following conditions have to be met before a Project can be deleted:
+* The Project has to be empty (all Collections have to be deleted/moved)
+* You need admin permissions on the Project or have to be an AOS administrator
+
+### Bash:
+```bash
+curl -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
+```
