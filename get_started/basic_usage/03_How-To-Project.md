@@ -30,7 +30,7 @@ curl -d '
 
 ## Get Project
 
-API examples for getting an existing Project:
+API examples for fetching info fo an existing Project:
 
 ### Bash:
 ```bash
@@ -43,20 +43,21 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 
 ## Get all Projects of User
 
-API examples for getting all registered Projects a specific user is associated with:
+API examples for fetching all registered Projects a specific user is associated with:
 
 ### Bash:
 ```bash
-# Native JSON request to fetch information of all added users of a project
+# Native JSON request to fetch information of all projects a specific user is member of
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
-     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/{user-id}/projects
+     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user/{user-id}/projects
 ```
 
 
 ## Update Project
 
-API examples for updating a new Project:
+API examples for updating an existing Project.
+This request always overwrites the projects name and description, even if the fields are empty.
 
 ### Bash:
 ```bash
@@ -68,7 +69,7 @@ curl -d '
   }' \
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
-     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/{user-id}/projects
+     -X PUT https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
 ```
 
 
