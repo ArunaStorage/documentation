@@ -6,31 +6,12 @@
 The only actions that can be executed with your OIDC token are the user registration, fetching user info and API token creation/deletion.
 
 For every action afterwards inside the AOS the user needs a generated API token with sufficient permissions.
+Permissions can be granted either through scoped API tokens for projects or collections themselves or through user specific permissions which will be enforced by a global/personal token.
 
 
-## Create token
+## Generate API token
 
-A token can be created with different scopes and/or different permissions.
-
-### Available token scopes:
-* **Global/Personal**:
-
-The fields `projectId` and `collectionId` are empty. 
-This token is valid with nearly every request if the permissions are sufficient. 
-Therefore, these tokens should only be created for regular AOS users with a wide range of administrative duties.
-
-* **Project**: 
-
-The field `projectId` is filled and the field `collectionId` is empty.
-This token is valid for the specific Project and all the resources which are associated with it.
-These tokens can be used to give users general access to a Project, however, should not be distributed carelessly.
-
-* **Collection**: 
-
-The field `collectionId` is filled and the field `projectId` is empty.
-This token is valid only for the specific Collection and its containing Objects/ObjectGroups. 
-These tokens can be used to give users access to a more specific selection of Collections.
-
+An API token can be created with different scopes and/or different permissions.
 
 ### Available token permissions:
 * **NONE** ("PERMISSION_NONE"): No permissions granted
@@ -39,14 +20,36 @@ These tokens can be used to give users access to a more specific selection of Co
 * **MODIFY** ("PERMISSION_MODIFY"): Can create new resources and modify existing
 * **ADMIN** ("PERMISSION_ADMIN"): Can create new resources, modify existing and additionally delete
 
+### Available API token scopes:
+* **Global/Personal**:
+
+The fields `projectId` and `collectionId` are empty on creation.
+This token is valid with nearly every request and inherits the permissions which are set user-specific on projects. 
+
+For example, when a user is added to a project with READ permission, this token "inherits and enforces" the user's READ permission with every request regarding the project or its resources.
+
+* **Project**: 
+
+The field `projectId` is filled and the field `collectionId` is empty.
+This token is valid for the specific Project and all the resources which are associated with it.
+
+These tokens can be used to give general access to a Project and all resources registered under it, however, should not be distributed carelessly.
+
+* **Collection**: 
+
+The field `collectionId` is filled and the field `projectId` is empty.
+This token is valid only for the specific Collection and its containing Objects/ObjectGroups. 
+
+These tokens can be used to give users access to a more specific selection of Collections.
+
 
 ## Add users to Project
 
-Users can be granted specific permissions for projects, which are inherited and enforced by their personalized tokens. 
-This makes it easy to add users to projects without having to create an additional token per project for each user. 
-It also makes it easy to restrict or extend a user's permissions for a project without having to revoke and regenerate tokens.
+Users can be granted specific permissions for projects, which are inherited and enforced by their global/personal tokens. 
+This makes it easy to add users to projects without them having to create an additional token per project or even collection. 
+It also makes it easy to restrict or extend a user's permissions for a project without having to revoke, re-generate and/or re-distribute tokens.
 
-**Only project administrators can add other users to a project.** 
+**Only project administrators and/or AOS administrators can add other users to a project.** 
 
 ### Bash
 ```bash
@@ -61,8 +64,10 @@ curl -d '
   }' \
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
-     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/adduser
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
+```
 
+```bash
 # Native JSON request to add user with read only permissions to a project
 curl -d '
   {
@@ -75,11 +80,11 @@ curl -d '
 ' \
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
-     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/adduser
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
 ```
 
 
-## Generate Tokens
+## Generate API Tokens
 
 ### Bash:
 
@@ -88,11 +93,11 @@ Here are some API examples on generating API tokens with individual scopes and p
 **The token secret is only available once in the response and cannot be re-generated!**
 
 Store the received token secret in a secure location for further usage.
-If the token secret is lost or compromised delete the old token and generate a new one.
+If a token secret is lost or compromised, delete the old token and generate a new one.
 
 ```bash
 # Native JSON request to create a global/personal token
-#  This token inherits the permissions from the projects the user is a member
+#  This token inherits the permissions from the projects the user is a member of
 curl -d '
   {
     "projectId": "",
@@ -108,7 +113,7 @@ curl -d '
 ```
 
 ```bash
-# Native JSON request to create a project scoped token with modify permissions
+# Native JSON request to create a project scoped token with MODIFY permissions
 curl -d '
   {
     "projectId": "<project-id>",
@@ -125,7 +130,7 @@ curl -d '
 ```
 
 ```bash
-# Native JSON request to create a collection scoped token with read only permissions
+# Native JSON request to create a collection scoped token with READ permissions
 curl -d '
   {
     "projectId": "",
@@ -142,9 +147,11 @@ curl -d '
 ```
 
 
-## Get token(s)
+## Get API token(s)
 
 API examples to fetch info of a specific token or all tokens of the current user.
+
+**This request does not re-display the generated API token secret.**
 
 ### Bash:
 ```bash
@@ -152,13 +159,6 @@ API examples to fetch info of a specific token or all tokens of the current user
 curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/auth/token/{token-id}
-```
-
-```bash
-# Native JSON request to get info on a specific API token by its user defined name
-curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
-     -H 'Content-Type: application/json' \
-     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/auth/token?name=<token-name>
 ```
 
 ```bash
