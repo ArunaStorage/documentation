@@ -57,7 +57,8 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 ## Update Project
 
 API examples for updating an existing Project.
-This request always overwrites the projects name and description, even if the fields are empty.
+
+> :warning: **A project update overwrites all the fields in the request, even if they're empty.**
 
 ### Bash:
 ```bash
