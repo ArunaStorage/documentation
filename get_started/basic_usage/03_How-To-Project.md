@@ -6,7 +6,7 @@
 Here you get a quick rundown how to basically create, read, update and delete Projects within the AOS.
 This should be the first step after gaining access to the storage and creating an API token which is described in the previous chapters: 
 
-* [**Get Storage Access**](01_Get-Storage_Access.md)
+* [**Get Storage Access**](01_Get-Storage-Access.md)
 * [**How to Authorize**](02_How-To-Auth-Tokens.md)
 
 
