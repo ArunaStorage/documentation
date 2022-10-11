@@ -66,5 +66,5 @@ curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
 # Native JSON request to fetch user information associated with provided user id
 curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
      -H "Content-Type: application/json" \
-     -X GET 'https://api.aruna.nfdi-dev.gi.denbi.de/v1/user?userId=<user-id>
+     -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user?userId=<user-id>
 ```
