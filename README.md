@@ -58,7 +58,7 @@ An example can be found here: [Notification Stream Example](#)
 
 https://github.com/ArunaStorage/ArunaAPI
 
-* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api)
+* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
 * Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
 * Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api)
 * Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api)
