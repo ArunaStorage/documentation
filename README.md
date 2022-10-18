@@ -21,7 +21,14 @@ Details on the individual structures can be found in the API documentation and/o
 
 ### Internal data structure layout overview
 
+<!--
 ![AOS data structure diagram containing Project, Collection, Object and ObjectGroup](get_started/internal_data_structure/internal_data_structure.png)
+-->
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./get_started/internal_data_structure/internal_data_structure.dark.png">
+  <img alt="Diagram of the Aruna Object Storage " src="./get_started/internal_data_structure/internal_data_structure.png">
+</picture>
 
 A more detailed description of the individual parts can be found [here](get_started/internal_data_structure/internal_data_structure.md).
 
