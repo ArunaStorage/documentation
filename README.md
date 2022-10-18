@@ -65,6 +65,9 @@ An example can be found here: [Notification Stream Example](#)
 
 https://github.com/ArunaStorage/ArunaAPI
 
+With the release of a new API version, the client libraries are automatically compiled and upgraded to the current one. 
+The API is fundamentally backwards compatible, which means that users' applications will continue to work as usual before they also move to the new version.
+
 * Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
 * Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
 * Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api)
