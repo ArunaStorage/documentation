@@ -384,9 +384,49 @@ curl -d '
 ```
 
 
-## Move Object to other Collection
+## Create Object reference
 
-Objects can be moved to another Collection. This can be used to transfer Collection ownership of an Object.
+References of an Object can be created in other Collections, which points to the same object in the database. 
+A reference can be either _"read only"_, which means that the Object can not be modified from the specific Collection, or writeable, in which case the object in the target collection will be no different from the one in the source collection.
+
+> :information_source: **Updates on writeable references also update the Object in the source Collection.**
+
+This request needs permission in the source and target Collection.
+The required permissions on the source collection depend on whether the reference should be writeable or not:
+
+* `true`: MODIFY on the Collection or the Project under which the Collection is registered
+* `false`: READ MODIFY on the Collection or the Project under which the Collection is registered
+
+Additionally, the request needs MODIFY permissions on the target Collection or the Project under which the Collection is registered.
+
+```bash
+# Native JSON request to create a read an auto-updated only reference to keep track of an object
+curl -d '
+  {
+    "writeable": false,
+    "autoUpdate": true
+  }' \
+     -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<destination-collection-id>
+```
+
+```bash
+# Native JSON request to create a writeable reference in another collection for collaborative work
+curl -d '
+  {
+    "writeable": true,
+    "autoUpdate": true
+  }' \
+     -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<destination-collection-id>
+```
+
+### Move Object to other Collection
+
+Objects can be moved to another Collection without cloning. 
+E.g. this can be used to transfer Collection ownership of an Object.
 
 This process consists of two steps:
 1. Create writeable reference of the Object in another collection
