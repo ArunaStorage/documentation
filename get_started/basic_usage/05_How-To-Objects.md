@@ -15,6 +15,8 @@ The first step is to initialize an Object.
 This creates an Object in the AOS and marks it as _Staging_.
 As long as an Object is in the staging area data can be uploaded to it.
 
+This request needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
+
 ```bash
 # Native JSON request to initialize an staging object
 curl -d '
@@ -50,6 +52,8 @@ Data then can be uploaded through the received url to the AOS data proxy.
 
 If the data associated with the Object is greater than 4 Gigabytes you have to request a _multipart_ upload and chunk your data in parts which are at most 4 Gigabytes in size.
 You also have to request an upload url for each part individually.
+
+Requesting an upload URL needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
 
 **Note:** For each uploaded part of the multipart upload you will receive a so called `ETag` in the response header which has to be saved with the correlating part number for the Object finishing.
 
@@ -106,8 +110,9 @@ done
 
 Finishing the Object transfers it from the staging area into production. 
 From this moment the Object is generally available for other functions other than [Get Object](#get-object).
-
 On success the response will contain all the information on the finished Object.
+
+This request needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ```bash
 # Native JSON request to finish a single upload staging object
@@ -157,6 +162,8 @@ curl -d '
 
 Information on finished or staging Objects can be fetched with their id and the id of their collection.
 
+This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
+
 ```bash
 # Native JSON request to fetch information of an object by its unique id
 curl -H 'Authorization: Bearer <API_TOKEN>' \
@@ -168,6 +175,8 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 
 You can also fetch information on multiple Objects of a Collection. 
 The Objects returned will not include staging Objects.
+
+This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ```bash
 # Native JSON request to fetch information of the first 20 unfiltered objects in a collection
@@ -232,6 +241,8 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 To download the data associated with an Object you have to request a download url. 
 This can be done with an individual request or directly while getting information on an Object.
 
+This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
+
 ```bash
 # Native JSON request to fetch an Objects download url
 curl -H 'Authorization: Bearer <API_TOKEN>' \
@@ -256,6 +267,8 @@ curl -J -O -X GET <received-download-url>
 ## Update Object
 
 Objects can still be updated after finishing.
+
+This request needs at least MODIFY permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ### Update which does not create a new revision
 
@@ -394,8 +407,8 @@ A reference can be either _"read only"_, which means that the Object can not be 
 This request needs permission in the source and target Collection.
 The required permissions on the source collection depend on whether the reference should be writeable or not:
 
-* `true`: MODIFY on the Collection or the Project under which the Collection is registered
-* `false`: READ MODIFY on the Collection or the Project under which the Collection is registered
+* `true`: At least MODIFY on the source Collection or the Project under which the Collection is registered
+* `false`: At least READ on the source Collection or the Project under which the Collection is registered
 
 Additionally, the request needs MODIFY permissions on the target Collection or the Project under which the Collection is registered.
 
@@ -429,8 +442,8 @@ Objects can be moved to another Collection without cloning.
 E.g. this can be used to transfer Collection ownership of an Object.
 
 This process consists of two steps:
-1. Create writeable reference of the Object in another collection
-2. Delete reference of the Object in the source collection
+1. Create writeable reference of the Object in another Collection
+2. Delete reference of the Object in the source Collection
 
 ```bash
 # Native JSON request to create a writeable reference in another collection
@@ -441,7 +454,7 @@ curl -d '
   }' \
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
-     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<destination-collection-id>
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<target-collection-id>
 
 # Native JSON request to delete writeable reference in source collection
 curl -d '
@@ -457,9 +470,12 @@ curl -d '
 
 ## Get all Object references
 
-You can fetch information of all references an Object has to different Collections.
+You can fetch information of all references an Object has in different Collections.
+
+This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ```bash
+# Native JSON request to fetch all references of an object
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/object/<object-id>/references
@@ -480,10 +496,14 @@ Permanent deletion conditions:
 All conditions can be overwritten with the use of `force = true` in the request but this should be avoided at all costs. 
 Therefore, only users with administrator permissions on the Project can use the _force_ parameter.
 
+The required permissions of this request depend on the value of the `force` parameter:
+* `true`: At least ADMIN on the source Collection or the Project under which the Collection is registered
+* `false`: At least APPEND on the source Collection or the Project under which the Collection is registered
+
 > :warning: **Non-writeable references will also be deleted alongside with the last writeable reference.**
 
 ```bash
-# Force delete Object with all its revisions
+# Native JSON request to force delete Object with all its revisions
 curl -d \
   '{
     "withRevisions": "true", 

@@ -14,11 +14,14 @@ Permissions can be granted either through scoped API tokens for projects or coll
 An API token can be created with different scopes and/or different permissions.
 
 ### Available token permissions:
-* **NONE** ("PERMISSION_NONE"): No permissions granted
-* **READ** ("PERMISSION_READ"): Read only access
-* **APPEND** ("PERMISSION_APPEND"): Can create new resources but cannot modify existing
-* **MODIFY** ("PERMISSION_MODIFY"): Can create new resources and modify existing
-* **ADMIN** ("PERMISSION_ADMIN"): Can create new resources, modify existing and additionally delete
+* `NONE` ("PERMISSION_NONE"): No permissions granted
+* `READ` ("PERMISSION_READ"): Read only access
+* `APPEND` ("PERMISSION_APPEND"): Can create new resources but cannot modify existing
+* `MODIFY` ("PERMISSION_MODIFY"): Can create new resources and modify existing
+* `ADMIN` ("PERMISSION_ADMIN"): Can create new resources, modify existing and additionally delete
+
+So when we talk about minimum requirements for authorization, we get the following order:
+`ADMIN > MODIFY > APPEND > READ`
 
 ### Available API token scopes:
 * **Global/Personal**:
@@ -49,7 +52,7 @@ Users can be granted specific permissions for projects, which are inherited and 
 This makes it easy to add users to projects without them having to create an additional token per project or even collection. 
 It also makes it easy to restrict or extend a user's permissions for a project without having to revoke, re-generate and/or re-distribute tokens.
 
-**Only project administrators and/or AOS administrators can add other users to a project.** 
+This request needs at least ADMIN permissions on the specific Project.
 
 ### Bash
 ```bash
@@ -172,6 +175,8 @@ curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
 ## Revoke token(s)
 
 API examples to revoke/delete a specific API token or all tokens of the current user.
+
+Only AOS instance administrators can revoke API tokens of other users.
 
 ### Bash:
 ```bash

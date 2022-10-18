@@ -12,7 +12,9 @@ This should be the first step after gaining access to the storage and creating a
 
 ## Create Project
 
-API example for creating a new Project:
+API example for creating a new Project.
+
+Currently, to create a new Project you have to be an AOS instance administrator.
 
 ### Bash:
 ```bash
@@ -30,7 +32,9 @@ curl -d '
 
 ## Get Project
 
-API examples for fetching info fo an existing Project:
+API example for fetching info of an existing Project.
+
+This request needs at least READ permissions on the specific Project.
 
 ### Bash:
 ```bash
@@ -43,7 +47,9 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 
 ## Get all Projects of User
 
-API examples for fetching all registered Projects a specific user is associated with:
+API example for fetching all registered Projects a specific user is associated with.
+
+You have to be an AOS instance administrator to fetch all registered Projects associated with other users than yourself.
 
 ### Bash:
 ```bash
@@ -56,7 +62,9 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 
 ## Update Project
 
-API examples for updating an existing Project.
+API example for updating an existing Project.
+
+This request needs at least ADMIN permissions on the specific Project.
 
 > :warning: **A project update overwrites all the fields in the request, even if they're empty.**
 
@@ -80,7 +88,8 @@ API examples for deleting a Project.
 
 The following conditions have to be met before a Project can be deleted:
 * The Project has to be empty (all Collections have to be deleted/moved)
-* You need admin permissions on the Project or have to be an AOS administrator
+
+This request needs at least ADMIN permissions on the specific Project.
 
 ### Bash:
 ```bash

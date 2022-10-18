@@ -12,7 +12,8 @@ If you don't know how to create a Project you should read the previous chapter a
 ## Create Collection
 
 API example for creating a new Collection.
-This request needs at least WRITE permission on the project.
+
+This request requires at least MODIFY permission on the Project in which the Collection is to be created.
 
 ### Bash:
 ```bash
@@ -49,8 +50,9 @@ curl -d '
 
 ## Get Collection
 
-API examples for fetching an existing Collection.
-This request needs at least READ permissions on the Collection or the Project.
+API examples for fetching one or multiple existing Collection/s.
+
+This request needs at least READ permissions on the Collection or the Project under which the collection is registered.
 
 ### Bash:
 ```bash
@@ -70,7 +72,7 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 
 ## Update Collection
 
-API examples for updating a Collection.
+API example for updating a Collection.
 
 > :warning: **A collection update overwrites all the fields in the request, even if they're empty.**
 
@@ -79,6 +81,8 @@ This effectively creates a copy of the collection with a stable version and with
 Pinned collections can not be updated in place anymore.
 
 If you try to update an already versioned Collection you have to provide a (semantically) greater version in the request.
+
+This request needs at least MODIFY permissions on the Collection or the Project under which the collection is registered.
 
 ### Bash:
 ```bash
@@ -120,6 +124,8 @@ API examples to pin a Collection, i.e. give it a fixed semantic version.
 This effectively creates a copy of the collection with a stable version and with all its objects pinned to their explicit revision number.
 Pinned collections can not be updated in place anymore.
 
+This request needs at least MODIFY permissions on the Collection or the Project under which the collection is registered.
+
 ### Bash:
 ```bash
 # Native JSON request to update a collections name and description
@@ -142,7 +148,8 @@ API examples for deleting a Collection.
 
 Collections can only be deleted under the following conditions:
 * Collection has to be empty (all Objects have to be deleted/moved)
-* User needs ADMIN permissions on the specific collection or the project
+
+This request needs at least MODIFY permissions on the Collection or ADMIN permissions on the Project under which the collection is registered.
 
 ### Bash:
 ```bash

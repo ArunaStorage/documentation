@@ -14,7 +14,7 @@ Let's get started!
 
 ## User registration
 
-Users can register themselves in an AOS instance with their valid OIDC token.
+Users can register themselves in an AOS instance with their valid OIDC token received from the AAI login.
 
 ### Bash:
 ```bash
@@ -52,7 +52,7 @@ curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
 
 To check which user a token is associated with or get information about the current users permissions, you can use the UserService API.
 
-Keep in mind that only administrators can request user information of other users.
+Only AOS instance administrators can request user information of other users.
 
 ### Bash:
 ```bash
@@ -63,7 +63,7 @@ curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
 ```
 
 ```bash
-# Native JSON request to fetch user information associated with provided user id
+# Native JSON request to fetch user information associated with the provided user id
 curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
      -H "Content-Type: application/json" \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user?userId=<user-id>
