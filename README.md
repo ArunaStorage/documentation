@@ -101,6 +101,7 @@ https://github.com/ArunaStorage/ArunaCLI
     6. Finish object upload
 -->
 
+<!--
 ### Authentication
 
 > Coming soon.
@@ -108,7 +109,7 @@ https://github.com/ArunaStorage/ArunaCLI
 ## Production
 
 > Coming soon. 
-
+-->
 <!--
   Currently only oauth2 is supported for authentication.
   A valid oauth2 access token needs to be provided.
