@@ -29,6 +29,24 @@ curl -d '
      -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to create a project
+let create_request = CreateProjectRequest {
+    name: "Rust-API-Test-Project".to_string(),
+    description: "This project was created through the Rust API.".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.create_project(create_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
 
 ## Get Project
 
@@ -42,6 +60,23 @@ This request needs at least READ permissions on the specific Project.
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to fetch information of a project
+let get_request = GetProjectRequest { 
+    project_id: "<project-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.get_project(get_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
 
 
@@ -59,6 +94,23 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user/{user-id}/projects
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
+let get_request = GetUserProjectsRequest {
+    user_id: "".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.get_user_projects(get_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}\n", response);
+```
+
 
 ## Update Project
 
@@ -70,7 +122,7 @@ This request needs at least ADMIN permissions on the specific Project.
 
 ### Bash:
 ```bash
-# Native JSON request to update a projects metadata
+# Native JSON request to update the metadata of a project
 curl -d '
   {
     "name": "Updated Dummy Project", 
@@ -79,6 +131,25 @@ curl -d '
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X PUT https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to update the metadata of a project
+let update_request = UpdateProjectRequest {
+    project_id: "<project-id>".to_string(),
+    name: "Rust-API-Test-Project".to_string(),
+    description: "This project was updated through the Rust API.".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.update_project(update_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
 
 
@@ -97,4 +168,21 @@ This request needs at least ADMIN permissions on the specific Project.
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to delete a project
+let delete_request = DestroyProjectRequest {
+    project_id: "<project-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.destroy_project(delete_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
