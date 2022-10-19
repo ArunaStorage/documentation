@@ -86,6 +86,28 @@ curl -d '
      -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to add user with admin permissions to a project
+let add_request = AddUserToProjectRequest {
+    project_id: "<project-id>".to_string(),
+    user_permission: Some(ProjectPermission {
+        user_id: "<user-id>".to_string(),
+        project_id: "<project-id>".to_string(),
+        permission: Permission::Admin as i32,
+    }),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.add_user_to_project(add_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
 
 ## Generate API Tokens
 
@@ -149,6 +171,43 @@ curl -d '
      -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/token
 ```
 
+### Rust:
+
+The "in-line" conversion of a NativeDateTime to a gRPC Timestamp is kind of hacky.
+In any case it is recommended to implement the `From<NativeDateTime>` or `TryFrom<NativeDateTime>` trait for the Timestamp Struct.
+
+```rust
+// Create tonic/ArunaAPI request to create a global/personal API token with expiration
+let expires_at = NaiveDate::from_ymd(2023, 01, 01).and_hms(0, 0, 0);
+let create_request = CreateApiTokenRequest {
+    project_id: "".to_string(), 
+    collection_id: "".to_string(),
+    name: "MyPersonalToken".to_string(),
+    expires_at: Some(ExpiresAt {
+        timestamp: Some(
+            Timestamp::date_time(
+                expires_at.date().year().into(),
+                expires_at.date().month() as u8,
+                expires_at.date().day() as u8,
+                expires_at.time().hour() as u8,
+                expires_at.time().minute() as u8,
+                expires_at.time().second() as u8,
+            ).unwrap(), 
+        ),
+    }),
+    permission: Permission::None as i32,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.create_api_token(create_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
 
 ## Get API token(s)
 
@@ -169,6 +228,37 @@ curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
 curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET https://<URL-to-AOS-instance-API-gateway>/v1/auth/tokens
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to get info on a specific API token by its id
+let get_request = GetApiTokenRequest { 
+    token_id: "<token-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.get_api_token(get_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request to get info on all tokens associated with the current user
+let get_request = GetApiTokensRequest {};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.get_api_tokens(get_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
 
 
@@ -193,3 +283,35 @@ curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
      -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/auth/tokens
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to revoke the specific API token
+let delete_request = DeleteApiTokenRequest {
+    token_id: "<token-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.delete_api_token(delete_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request to to revoke all tokens of the current user
+let delete_request = DeleteApiTokensRequest {
+    user_id: "".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.delete_api_tokens(delete_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
