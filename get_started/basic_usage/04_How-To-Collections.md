@@ -17,7 +17,7 @@ This request requires at least MODIFY permission on the Project in which the Col
 
 ### Bash:
 ```bash
-# Native JSON request to create a collection
+# Native JSON request to create a new collection
 curl -d '
   {
     "name": "DummyCollection",
@@ -47,8 +47,39 @@ curl -d '
   -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to create a new collection
+let create_request = CreateNewCollectionRequest {
+    name: "Rust-API-Test-Collection".to_string(),
+    description: "This collection was created through the Rust API.".to_string(),
+    project_id: "<project-id>".to_string(),
+    labels: vec![KeyValue {
+        key: "LabelKey".to_string(),
+        value: "LabelValue".to_string(),
+    }],
+    hooks: vec![KeyValue {
+        key: "HookKey".to_string(),
+        value: "HookValue".to_string(),
+    }],
+    label_ontology: Some(LabelOntology {
+        required_label_keys: vec!["LabelKey".to_string()],
+    }),
+    dataclass: DataClass::Private as i32,
+};
 
-## Get Collection
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.create_new_collection(create_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+
+## Get Collection(s)
 
 API examples for fetching one or multiple existing Collection/s.
 
@@ -67,6 +98,93 @@ curl -H 'Authorization: Bearer <API_TOKEN>' \
 curl -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X GET "https://<URL-to-AOS-instance-API-gateway>/v1/collections/<project-id>?labelOrIdFilter.ids=<collection-id-001>&labelOrIdFilter.ids=<collection-id-002>"
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request fetch information of a collection
+let get_request = GetCollectionByIdRequest {
+    collection_id: "<collection-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.get_collection_by_id(get_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request fetch all collections of a project
+let get_request = GetCollectionsRequest {
+    project_id: "<project-id>".to_string(),
+    label_or_id_filter: None,
+    page_request: None,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.get_collections(get_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request fetch multiple collections of a project filtered by their ids
+let get_request = GetCollectionsRequest {
+    project_id: "<project-id>".to_string(),
+    label_or_id_filter: Some(LabelOrIdQuery {
+        labels: None,
+        ids: vec![
+            "<collection-id-001".to_string(),
+            "<collection-id-002".to_string(),
+        ],
+    }),
+    page_request: None,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.get_collections(get_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request fetch multiple collections of a project filtered by label keys
+let get_request = GetCollectionsRequest {
+    project_id: "<project-id>".to_string(),
+    label_or_id_filter: Some(LabelOrIdQuery {
+        labels: Some(LabelFilter {
+            labels: vec![KeyValue {
+                key: "LabelKey".to_string(),
+                value: "".to_string(),
+            }],
+            and_or_or: false,
+            keys_only: true,
+        }),
+        ids: vec![],
+    }),
+    page_request: None,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.get_collections(get_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
 
 
@@ -116,6 +234,39 @@ curl -d '
   -X PUT https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
 ```
 
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to update a collections name and description
+let update_request = UpdateCollectionRequest {
+    collection_id: "<collection-id>".to_string(),
+    name: "Rust-API-Updated-Collection".to_string(),
+    description: "This collection was updated through the Rust API.".to_string(),
+    project_id: "<project-id>".to_string(),
+    labels: vec![KeyValue {
+        key: "LabelKey".to_string(),
+        value: "LabelValue".to_string(),
+    }],
+    hooks: vec![KeyValue {
+        key: "HookKey".to_string(),
+        value: "HookValue".to_string(),
+    }],
+    label_ontology: Some(LabelOntology {
+        required_label_keys: vec!["LabelKey".to_string()],
+    }),
+    dataclass: DataClass::Private as i32,
+    version: None,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.update_collection(update_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
 
 ## Pin Collection
 
@@ -128,19 +279,42 @@ This request needs at least MODIFY permissions on the Collection or the Project 
 
 ### Bash:
 ```bash
-# Native JSON request to update a collections name and description
+# Native JSON request to pin a collection to a specific version
 curl -d '
   {
     "version": {
-        "major": 0,
-        "minor": 0,
-        "patch": 0
+        "major": 1,
+        "minor": 2,
+        "patch": 3
       }
   }' \
   -H 'Authorization: Bearer <API_TOKEN>' \
   -H 'Content-Type: application/json' \
   -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/pin
 ```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to pin a collection to a specific version
+let pin_request = PinCollectionVersionRequest {
+    collection_id: "<collection-id>".to_string(),
+    version: Some(Version {
+        major: 1,
+        minor: 2,
+        patch: 3,
+    }),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.pin_collection_version(pin_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
 
 ## Delete Collection
 
@@ -165,7 +339,7 @@ curl -d '
 ```
 
 ```bash
-# Native JSON request to force delete a collection
+# Native JSON request to force delete a collection with force
 curl -d '
   {
     "projectId": "<project-id>",
@@ -174,4 +348,41 @@ curl -d '
      -H 'Authorization: Bearer <API_TOKEN>' \
      -H 'Content-Type: application/json' \
      -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to delete a collection
+let delete_request = DeleteCollectionRequest {
+    collection_id: "<collection-id>".to_string(),
+    project_id: "<project-id>".to_string(),
+    force: false
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.delete_collection(delete_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request to delete a collection with force
+let delete_request = DeleteCollectionRequest {
+    collection_id: "<collection-id>".to_string(),
+    project_id: "<project-id>".to_string(),
+    force: true
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = collection_client.delete_collection(delete_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
 ```
