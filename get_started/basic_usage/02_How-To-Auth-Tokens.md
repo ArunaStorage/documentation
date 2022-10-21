@@ -93,8 +93,31 @@ let add_request = AddUserToProjectRequest {
     project_id: "<project-id>".to_string(),
     user_permission: Some(ProjectPermission {
         user_id: "<user-id>".to_string(),
+        display_name: "".to_string(),
         project_id: "<project-id>".to_string(),
         permission: Permission::Admin as i32,
+    }),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.add_user_to_project(add_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+```rust
+// Create tonic/ArunaAPI request to add user with read only permissions to a project
+let add_request = AddUserToProjectRequest {
+    project_id: "<project-id>".to_string(),
+    user_permission: Some(ProjectPermission {
+        user_id: "<user-id>".to_string(),
+        display_name: "".to_string(),
+        project_id: "<project-id>".to_string(),
+        permission: Permission::Read as i32,
     }),
 };
 
