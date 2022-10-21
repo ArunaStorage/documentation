@@ -132,6 +132,52 @@ println!("{:#?}", response);
 ```
 
 
+## Edit Project user permission
+
+The assigned permissions to the users can be changed by project administrators afterwards.
+
+This request needs at least ADMIN permissions on the specific Project.
+
+### Bash:
+```bash
+# Native JSON request to add user with admin permissions to a project
+curl -d '
+  {
+    "userPermission": {
+      "userId": "<user-id>",
+      "projectId": "<project-id>",
+      "permission": "PERMISSION_READ"
+    }
+  }' \
+     -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/edit_user
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to set a users permission to read-only for the specific project
+let edit_request = EditUserPermissionsForProjectRequest {
+    project_id: "<project-id>".to_string(),
+    user_permission: Some(ProjectPermission {
+        user_id: "<user-id>".to_string(),
+        display_name: "".to_string(),
+        project_id: "<project-id>".to_string(),
+        permission: Permission::Read as i32,
+    }),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.edit_user_permissions_for_project(edit_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+
 ## Generate API Tokens
 
 ### Bash:
