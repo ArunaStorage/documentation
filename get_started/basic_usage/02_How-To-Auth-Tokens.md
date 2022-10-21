@@ -178,6 +178,40 @@ println!("{:#?}", response);
 ```
 
 
+## Remove Project user
+
+Users can, of course, also be completely removed from projects again, depriving them of any access with personalized tokens. 
+However, access with project/collection scoped tokens is not restricted with the removal of the user.
+
+This request needs at least ADMIN permissions on the specific Project.
+
+### Bash:
+```bash
+# Native JSON request to remove a user from a specific project
+curl -H 'Authorization: Bearer <API_TOKEN>' \
+     -H 'Content-Type: application/json' \
+     -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/remove_user?userId=<user-id>
+```
+
+### Rust:
+```rust
+// Create tonic/ArunaAPI request to remove a user from a specific project
+let delete_request = RemoveUserFromProjectRequest {
+    project_id: "<project-id>".to_string(),
+    user_id: "<user-id>".to_string(),
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = project_client.remove_user_from_project(edit_request)
+                             .await
+                             .unwrap()
+                             .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+
+
 ## Generate API Tokens
 
 ### Bash:
