@@ -237,10 +237,10 @@ let get_request = GetUserRequest {
 };
 
 // Send the request to the AOS instance gRPC gateway
-let response: GetUserResponse = user_client.get_user(get_request)
-                                           .await
-                                           .unwrap()
-                                           .into_inner();
+let response = user_client.get_user(get_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
 
 // Do something with the response
 println!("Received permission info for user: {:#?}", response.user);
