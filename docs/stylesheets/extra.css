@@ -1,0 +1,20 @@
+:root > * {
+  --md-primary-fg-color: #165a97;
+  --md-accent-fg-color: eaf7ff;
+}
+
+.md-grid {
+  max-width: 75rem;
+}
+
+/* On mobile use default mkdocs-material CSS */
+.pull-right {}
+
+/* With enough width set to the right */
+@media only screen and (min-width: 1280px) {
+  .pull-right {
+    max-width: 30% !important;
+    margin: 18px 40px !important;
+    float: right;
+  }
+}

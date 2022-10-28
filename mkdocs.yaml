@@ -6,6 +6,9 @@ repo_url: 'https://github.com/ArunaStorage/Documentation'
 
 docs_dir: docs/
 
+nav:
+  - 'Home': index.md
+
 theme:
   name: material
   logo: assets/logo-claim.png
@@ -14,3 +17,22 @@ theme:
     - navigation.tabs
     - navigation.sections  # Sections are included in the navigation on the left.
     - toc.integrate
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - def_list
+  - attr_list
+  - md_in_html
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - glightbox
+  - search
