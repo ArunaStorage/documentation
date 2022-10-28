@@ -13,6 +13,7 @@ nav:
       - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
       - 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
       - 'Projects': get_started/basic_usage/03_How-To-Project.md
+      - 'Collections': get_started/basic_usage/04_How-To-Collections.md
 
 theme:
   name: material
