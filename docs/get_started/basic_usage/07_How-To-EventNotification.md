@@ -13,13 +13,37 @@ After subscription, you will receive mail notifications if something happens wit
 
 > _Coming soon ..._
 
-```bash
-```
+=== "Bash"
+
+    ```bash
+    ```
+
+=== "Rust"
+
+    ```rust
+    ```
+
+=== "Python"
+
+    ```python
+    ```
 
 
 ## Unsubscribe
 
 > _Coming soon ..._
 
-```bash
-```
+=== "Bash"
+
+    ```bash
+    ```
+
+=== "Rust"
+
+    ```rust
+    ```
+
+=== "Python"
+
+    ```python
+    ```
