@@ -19,6 +19,8 @@ nav:
   - 'Data Structure':
       - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
       - 'Database ERD': internal_data_structure/database_erd.md
+  - 'Generic Playbooks':
+      - 'Overview': generic_playbooks/index.md
 
 theme:
   name: material
