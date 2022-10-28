@@ -1,0 +1,36 @@
+name: Site build and deploy on push
+on:
+  push:
+    branches:
+      - master 
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          
+      - name: Update pip
+        run: pip install --upgrade pip
+        
+      - name: Install mkdocs-material
+        run: pip install mkdocs-material 
+        
+      - name: Install mkdocs-glightbox
+        run: pip install mkdocs-glightbox
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
+
+      - name: Configuration before deploy
+        run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+        
+      - name: Deploy mkdocs site to gh_pages 
+        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
