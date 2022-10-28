@@ -11,6 +11,7 @@ nav:
   - 'Get Started':
       - 'Overview': get_started/basic_usage/00_index.md
       - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
+      - 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
 
 theme:
   name: material
