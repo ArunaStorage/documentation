@@ -16,6 +16,9 @@ nav:
       - 'Collections': get_started/basic_usage/04_How-To-Collections.md
       - 'Objects': get_started/basic_usage/05_How-To-Objects.md
       - 'ObjectsGroups': get_started/basic_usage/06_How-To-ObjectGroups.md
+  - 'Data Structure':
+      - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
+      - 'Database ERD': internal_data_structure/database_erd.md
 
 theme:
   name: material
