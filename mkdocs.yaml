@@ -5,3 +5,12 @@ repo_name: 'ArunaStorage/Documentation'
 repo_url: 'https://github.com/ArunaStorage/Documentation'
 
 docs_dir: docs/
+
+theme:
+  name: material
+  logo: assets/logo-claim.png
+  favicon: assets/logo-icon.png
+  features:
+    - navigation.tabs
+    - navigation.sections  # Sections are included in the navigation on the left.
+    - toc.integrate
