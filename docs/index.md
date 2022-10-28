@@ -4,7 +4,7 @@ Welcome to the general documentation for the Aruna Object Storage (AOS).
 
 This documentation includes theoretical concepts, the internal data structure, the entity-relationship model, a basic usage guide, some generic user story playbooks, and much more in the future.
 
-Deeper technical documentation can be found in the implementation repositories for the [API](#api), [Server](#server) or [CLI](#cliapi-client).
+Deeper technical documentation can be found in the implementation repositories for the [API](#aos-api), [Server](#aos-server) or [CLI](#aos-cli).
 Details on the individual structures can be found in the API documentation and/or the [Data Structure](internal_data_structure/internal_data_structure.md) part of this documentation.
 
 <!--
@@ -29,14 +29,14 @@ Details on the individual structures can be found in the API documentation and/o
 The API is designed generally with Google Protocol Buffers. With the release of a new API version, the client libraries are automatically compiled and updated to the latest version.
 The API is fundamentally backwards compatible, which means that users' applications will continue to work as usual before they also decide to move to the new version.
 
-* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
-* Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
-* Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api) or [PyPI](https://pypi.org/project/Aruna-Python-API)
-* Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api)
+* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api){:target="_blank"} or [crates.io](https://crates.io/crates/aruna-rust-api){:target="_blank"}
+* Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api){:target="_blank"}
+* Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api){:target="_blank"} or [PyPI](https://pypi.org/project/Aruna-Python-API){:target="_blank"}
+* Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api){:target="_blank"}
 
 ### **AOS Server**
 
-[**Main Aruna Server repository**](https://github.com/ArunaStorage/ArunaServer)
+[**Main Aruna Server repository**](https://github.com/ArunaStorage/ArunaServer){:target="_blank"}
 
 The implementation of the API that handles the incoming requests.
 
