@@ -5,7 +5,7 @@ This repository contains the general documentation for the Aruna Object Storage 
 This includes a basic usage guide, the internal data structure, the entity-relationship model, some generic user story playbooks, theoretical concepts, and much more in the future.
 
 Deeper technical documentation can be found in the implementation repositories.
-Details on the individual structures can be found in the API documentation and/or the [Internal data structure](get_started/internal_data_structure) part of this repository.
+Details on the individual structures can be found in the API documentation and/or the [Internal data structure](https://ArunaStorage.github.io/Documentation/internal_data_structure/internal_data_structure/) part of this repository.
 
 [🌐 **The complete AOS documentation is available via GitHub Pages** 🌐](https://ArunaStorage.github.io/Documentation)
 
