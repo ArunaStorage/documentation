@@ -1,0 +1,7 @@
+site_name: Aruna Object Storage Documentation
+site_url: https://ArunaStorage.github.io/Documentation
+
+repo_name: 'ArunaStorage/Documentation'
+repo_url: 'https://github.com/ArunaStorage/Documentation'
+
+docs_dir: docs/
