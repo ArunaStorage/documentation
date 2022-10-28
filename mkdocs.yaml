@@ -10,6 +10,7 @@ nav:
   - 'Home': index.md
   - 'Get Started':
       - 'Overview': get_started/basic_usage/00_index.md
+      - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
 
 theme:
   name: material
@@ -27,6 +28,8 @@ markdown_extensions:
   - def_list
   - attr_list
   - md_in_html
+  - admonition
+  - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
