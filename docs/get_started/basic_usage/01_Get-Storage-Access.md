@@ -78,6 +78,103 @@ The presence of a client connection to the specific resource service is required
 
 === "Python"
 
+    To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
+
+    !!! note
+    
+        This example additionally implements an interceptor which adds the authorization token automatically to each request send by the service clients.
+
+        It is a little more complicated and extra work up front but offers the advantage of having to worry less about the correct API token request metadata later.
+
+        **All Python examples in this documentation assume that the client services have been initialized with an interceptor.**
+
+    ```python
+    import collections
+    import grpc
+    
+    from aruna.api.storage.services.v1.collection_service_pb2_grpc import CollectionServiceStub
+    from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
+    from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
+    from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
+    
+    # Valid Aruna API token
+    #   In a production environment this should be stored in a more secure location ...
+    API_TOKEN = 'MySecretArunaApiToken'
+    
+    # AOS instance gRPC gateway endpoint
+    AOS_HOST = '<URL-To-AOS-Instance-gRPC-Gateway>' # Protocol (e.g. https://) has to be omitted
+    AOS_PORT = '443'
+
+
+    class _MyAuthInterceptor(grpc.UnaryUnaryClientInterceptor):
+        """
+        Implement abstract class grpc.UnaryUnaryClientInterceptor to extend request metadata.
+        """
+        def intercept_unary_unary(self, continuation, client_call_details, request):
+            # Append authorization token to request metadata
+            metadata = []
+            if client_call_details.metadata is not None:
+               metadata = list(client_call_details.metadata)
+            metadata.append(('authorization', f'Bearer {API_TOKEN}'))
+    
+            # Continue with new client call details
+            request_iterator = iter((request,))
+            updated_details = _ClientCallDetails(
+                client_call_details.method, client_call_details.timeout, 
+                metadata, client_call_details.credentials
+            )
+    
+            return continuation(updated_details, next(request_iterator))
+    
+    
+    class _ClientCallDetails(
+            collections.namedtuple(
+                '_ClientCallDetails',
+                ('method', 'timeout', 'metadata', 'credentials')),
+            grpc.ClientCallDetails):
+        """
+        Implement grpc.ClientCallDetails to pass modified request details in interceptor.
+        """
+        pass
+    
+    
+    class AosClient(object):
+        """
+         Class to contain the AOS gRPC client service stubs for easier usage.
+        """
+        def __init__(self, ):
+            ssl_credentials = grpc.ssl_channel_credentials()
+            self.secure_channel = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
+            self.intercept_channel = grpc.intercept_channel(self.secure_channel, _MyAuthInterceptor())
+    
+            self.user_client = UserServiceStub(self.intercept_channel)
+            self.project_client = ProjectServiceStub(self.intercept_channel)
+            self.collection_client = CollectionServiceStub(self.intercept_channel)
+            self.object_client = ObjectServiceStub(self.intercept_channel)
+            self.object_group_client = ObjectGroupServiceStub(self.intercept_channel)
+    
+    
+    # Entry point of the script
+    if __name__ == '__main__':
+        # Instantiate AosClient
+        client = AosClient()
+        
+        # Do something with the client services ...
+    ```
+
+=== "Python (simple)"
+
+    To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
+
+    !!! note
+    
+        This example does not consider adding the authorization token metadata to every request. 
+
+        In this case you have to manually add the authorization token header by using the `with_call(...)` extension of the client service methods.
+
+        **All Python examples in this documentation assume that the client services have been initialized with an interceptor.**
+
     ```python
     Coming Soon ...
     ```
@@ -121,7 +218,19 @@ Users can register themselves with an individual display name in an AOS instance
 === "Python"
 
     ```python
-    Coming Soon ...
+    # Create tonic/ArunaAPI request to register OIDC user
+    request = RegisterUserRequest(
+        display_name="John Doe"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.RegisterUser(
+        request=request,
+        metadata=(('authorization', f'Bearer {OIDC_TOKEN}'),)
+    )
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -183,41 +292,21 @@ After registration users additionally have to be activated in a second step.
     // Do something with the response
     println!("Activated user: {:#?}", activate_response.user_id)
     ```
-<!--
-### Rust:
-    ```rust
-    // Create tonic/ArunaAPI request for user registration
-    let get_request = tonic::Request::new(
-        GetUserRequest {
-            user_id: "user_oidc_external_id".to_string(),
-        }
-    );
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request for user activation
+    request = ActivateUserRequest(
+        user_id="<user-id>"  # Has to be a valid UUID v4 of a registered user
+    )
     
-    // Send the request to the server
-    let get_response = user_client.get_user(get_request)
-                                  .await
-                                  .unwrap()
-                                  .into_inner();
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.ActivateUser(request=request)
     
-    // Do something with the response
-    match get_response.user {
-        None => panic!("Could not find registered user."),
-        Some(user) => {
-            // Activate registered user
-            let activate_request = ActivateUserRequest {
-                user_id: user.id,
-            };
-    
-            let activate_response = user_client.activate_user(activate_request)
-                                               .await
-                                               .unwrap()
-                                               .into_inner();
-    
-            println!("Activated user: {}", activate_response.user_id)
-        }
-    }
+    # Do something with the response
+    print(f'{response}')
     ```
--->
 
 
 ## Who Am I / What Am I
@@ -264,4 +353,17 @@ To check which user a token is associated with or get information about the curr
     for permission in response.project_permissions {
         println!("{:#?}", permission);
     }
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch user info of current user
+    request = GetUserRequest()
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetUser(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
