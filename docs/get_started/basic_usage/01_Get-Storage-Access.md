@@ -176,7 +176,45 @@ The presence of a client connection to the specific resource service is required
         **All Python examples in this documentation assume that the client services have been initialized with an interceptor.**
 
     ```python
-    Coming Soon ...
+    import grpc
+
+    from aruna.api.storage.services.v1.collection_service_pb2_grpc import CollectionServiceStub
+    from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
+    from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
+    from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
+    
+    # Valid Aruna API token
+    #   In a production environment this should be stored in a more secure location ...
+    API_TOKEN = 'MySecretArunaApiToken'
+    
+    # AOS instance gRPC gateway endpoint
+    AOS_HOST = '<URL-To-AOS-Instance-gRPC-Gateway>' # Protocol (e.g. https://) has to be omitted
+    AOS_PORT = '443'
+    
+
+    class AosClient(object):
+        """
+        Class to contain the AOS gRPC client service stubs for easier usage.
+        """
+        def __init__(self):
+            # Read TLS credentials from local trusted certificates and instantiate a channel
+            ssl_credentials = grpc.ssl_channel_credentials()
+            self.channel    = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
+    
+            self.user_client = UserServiceStub(self.channel)
+            self.project_client = ProjectServiceStub(self.channel)
+            self.collection_client = CollectionServiceStub(self.channel)
+            self.object_client = ObjectServiceStub(self.channel)
+            self.object_group_client = ObjectGroupServiceStub(self.channel)
+    
+
+    # Entry point of the Python script
+    if __name__ == '__main__':
+        # Instantiate AosClient
+        client = AosClient()
+        
+        # Do something with the client services ...
     ```
 
 
