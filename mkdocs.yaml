@@ -27,6 +27,7 @@ theme:
   logo: assets/logo-claim.png
   favicon: assets/logo-icon.png
   features:
+    - content.code.annotate
     - navigation.tabs
     - navigation.sections  # Sections are included in the navigation on the left.
     - toc.integrate
