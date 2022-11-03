@@ -135,6 +135,44 @@ It also makes it easy to restrict or extend a user's permissions for a project w
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to add user with admin permissions to a project
+    request = AddUserToProjectRequest(
+        project_id="<project-id>",
+        user_permission=ProjectPermission(
+            user_id="<user-id>",
+            project_id="<project-id>",
+            permission=Permission.Value("PERMISSION_ADMIN")  # Needs int, therefore .Value()
+        )
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.AddUserToProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to add user with read only permissions to a project
+    request = AddUserToProjectRequest(
+        project_id="<project-id>",
+        user_permission=ProjectPermission(
+            user_id="<user-id>",
+            project_id="<project-id>",
+            permission=Permission.Value("PERMISSION_READ")   # Needs int, therefore .Value()
+        )
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.AddUserToProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Edit Project user permission
 
@@ -185,6 +223,26 @@ The assigned permissions to the users can be changed by project administrators a
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to set a users permission to read only for the specific project
+    request = EditUserPermissionsForProjectRequest(
+        project_id="<project-id>",
+        user_permission=ProjectPermission(
+            user_id="<user-id>",
+            project_id="<project-id>",
+            permission=Permission.Value("PERMISSION_READ")  # Needs int, therefore .Value()
+        )
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.EditUserPermissionsForProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Remove Project user
 
@@ -221,6 +279,22 @@ However, access with project/collection scoped tokens is not restricted with the
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to remove a user from a specific project
+    request = RemoveUserFromProjectRequest(
+        project_id="<project-id>",
+        user_id="<user-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.RemoveUserFromProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -326,6 +400,61 @@ Here are some API examples on generating API tokens with individual scopes and p
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to create a global/personal API token with expiration date
+    request = CreateAPITokenRequest(
+        project_id="",  # Paramater can also be omitted if empty
+        collection_id="",  # Paramater can also be omitted if empty
+        name="MyPersonalToken",
+        expires_at=ExpiresAt(
+            timestamp=Timestamp(seconds=int(datetime.datetime(2023, 1, 1).timestamp()))
+        ),
+        permission=Permission.Value("PERMISSION_NONE")  # Paramater can also be omitted for personal tokens
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.CreateAPIToken(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to create a project scoped API token with MODIFY permission
+    request = CreateAPITokenRequest(
+        project_id="<project-id>",
+        collection_id="",  # Paramater can also be omitted if empty
+        name="ProjectReadOnly",
+        expires_at=None,  # Paramater can also be omitted if None
+        permission=Permission.Value("PERMISSION_MODIFY")
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.CreateAPIToken(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to create a collection scoped API token with APPEND permission
+    request = CreateAPITokenRequest(
+        project_id="",  # Paramater can also be omitted if empty
+        collection_id="<collection-id>",  
+        name="ProjectReadOnly",
+        expires_at=None,  # Paramater can also be omitted if None
+        permission=Permission.Value("PERMISSION_APPEND")
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.CreateAPIToken(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get API token(s)
 
@@ -381,6 +510,32 @@ API examples to fetch info of a specific token or all tokens of the current user
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to get info on a specific API token by its id
+    request = GetAPITokenRequest(
+        token_id="<token-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetAPIToken(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to get info on all tokens associated with the current user
+    request = GetAPITokensRequest()
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetAPITokens(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -440,4 +595,30 @@ API examples to revoke/delete a specific API token or all tokens of the current 
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to revoke the specific API token
+    request = DeleteAPITokenRequest(
+        token_id="<token-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.DeleteAPIToken(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to to revoke all tokens of the current user
+    request = DeleteAPITokensRequest()
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.DeleteAPITokens(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
