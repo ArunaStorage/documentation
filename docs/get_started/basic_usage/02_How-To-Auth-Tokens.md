@@ -185,7 +185,7 @@ The assigned permissions to the users can be changed by project administrators a
 === "Bash"
 
     ```bash
-    # Native JSON request to add user with admin permissions to a project
+    # Native JSON request to set a users permission to read only for the specific project
     curl -d '
       {
         "userPermission": {
@@ -202,7 +202,7 @@ The assigned permissions to the users can be changed by project administrators a
 === "Rust"
 
     ```rust
-    // Create tonic/ArunaAPI request to set a users permission to read-only for the specific project
+    // Create tonic/ArunaAPI request to set a users permission to read only for the specific project
     let edit_request = EditUserPermissionsForProjectRequest {
         project_id: "<project-id>".to_string(),
         user_permission: Some(ProjectPermission {
@@ -247,6 +247,7 @@ The assigned permissions to the users can be changed by project administrators a
 ## Remove Project user
 
 Users can, of course, also be completely removed from projects again, depriving them of any access with personalized tokens. 
+
 However, access with project/collection scoped tokens is not restricted with the removal of the user.
 
 !!! Info
@@ -369,7 +370,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     In any case it is recommended to implement the `From<NativeDateTime>` or `TryFrom<NativeDateTime>` trait for the Timestamp Struct.
 
     ```rust
-    // Create tonic/ArunaAPI request to create a global/personal API token with expiration
+    // Create tonic/ArunaAPI request to create a global/personal API token with expiration date
     let expires_at = NaiveDate::from_ymd(2023, 01, 01).and_hms(0, 0, 0);
     let create_request = CreateApiTokenRequest {
         project_id: "".to_string(), 
@@ -405,13 +406,13 @@ Here are some API examples on generating API tokens with individual scopes and p
     ```python
     # Create tonic/ArunaAPI request to create a global/personal API token with expiration date
     request = CreateAPITokenRequest(
-        project_id="",  # Paramater can also be omitted if empty
-        collection_id="",  # Paramater can also be omitted if empty
+        project_id="",  # Parameter can also be omitted if empty
+        collection_id="",  # Parameter can also be omitted if empty
         name="MyPersonalToken",
         expires_at=ExpiresAt(
             timestamp=Timestamp(seconds=int(datetime.datetime(2023, 1, 1).timestamp()))
         ),
-        permission=Permission.Value("PERMISSION_NONE")  # Paramater can also be omitted for personal tokens
+        permission=Permission.Value("PERMISSION_NONE")  # Parameter can also be omitted for personal tokens
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -425,9 +426,9 @@ Here are some API examples on generating API tokens with individual scopes and p
     # Create tonic/ArunaAPI request to create a project scoped API token with MODIFY permission
     request = CreateAPITokenRequest(
         project_id="<project-id>",
-        collection_id="",  # Paramater can also be omitted if empty
+        collection_id="",  # Parameter can also be omitted if empty
         name="ProjectReadOnly",
-        expires_at=None,  # Paramater can also be omitted if None
+        expires_at=None,  # Parameter can also be omitted if None
         permission=Permission.Value("PERMISSION_MODIFY")
     )
     
@@ -441,10 +442,10 @@ Here are some API examples on generating API tokens with individual scopes and p
     ```python
     # Create tonic/ArunaAPI request to create a collection scoped API token with APPEND permission
     request = CreateAPITokenRequest(
-        project_id="",  # Paramater can also be omitted if empty
+        project_id="",  # Parameter can also be omitted if empty
         collection_id="<collection-id>",  
         name="ProjectReadOnly",
-        expires_at=None,  # Paramater can also be omitted if None
+        expires_at=None,  # Parameter can also be omitted if None
         permission=Permission.Value("PERMISSION_APPEND")
     )
     

@@ -146,7 +146,7 @@ You also have to request an upload url for each part individually.
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
-=== "Bash"
+=== "Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to request an upload url for single part upload
@@ -612,6 +612,8 @@ On success the response will contain all the information on the finished Object.
 
 Information on finished or staging Objects can be fetched with their id and the id of their collection.
 
+The `with_url` (or `withUrl`) parameter controls if the response includes a download URL for the specific object.
+
 !!! Info
 
     This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
@@ -625,7 +627,15 @@ Information on finished or staging Objects can be fetched with their id and the 
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}
     ```
 
+    ```bash
+    # Native JSON request to fetch information of an object by its unique id including a download url
+    curl -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}?withUrl=true
+    ```
+
 === "Rust"
+
     ```rust
     // Create tonic/ArunaAPI request to fetch information of an object
     let get_request = GetObjectByIdRequest {
@@ -1673,7 +1683,7 @@ This process consists of two steps:
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>
+         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<source-object-id>
     ```
 
 === "Rust"
@@ -1699,7 +1709,7 @@ This process consists of two steps:
     
     // Create tonic/ArunaAPI request to delete the object in the source collection
     let delete_request = DeleteObjectRequest {
-        object_id: "<object-id>".to_string(),
+        object_id: "<source-object-id>".to_string(),
         collection_id: "<source-collection-id>".to_string(),
         with_revisions: true,
         force: false,

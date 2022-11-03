@@ -23,8 +23,8 @@ API example for creating a new Collection.
     # Native JSON request to create a new collection
     curl -d '
       {
-        "name": "DummyCollection",
-        "description": "Description of a dummy collection.",
+        "name": "cURL-API-Test-Collection",
+        "description": "This collection was created with a cURL request.",
         "projectId": "<project-id>",
         "labels": [
           {
@@ -56,7 +56,7 @@ API example for creating a new Collection.
     // Create tonic/ArunaAPI request to create a new collection
     let create_request = CreateNewCollectionRequest {
         name: "Rust-API-Test-Collection".to_string(),
-        description: "This collection was created through the Rust API.".to_string(),
+        description: "This collection was created with the gRPC Rust API client.".to_string(),
         project_id: "<project-id>".to_string(),
         labels: vec![KeyValue {
             key: "LabelKey".to_string(),
@@ -99,7 +99,7 @@ API example for creating a new Collection.
             value="HookValue"
         )],
         label_ontology=LabelOntology(["LabelKey"]),
-        dataclass=DataClass.Value("DATACLASS_PRIVATE")
+        dataclass=DataClass.Value("DATA_CLASS_PRIVATE")
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -137,7 +137,7 @@ API examples for fetching one or multiple existing Collection/s.
 === "Rust"
 
     ```rust
-    // Create tonic/ArunaAPI request fetch information of a collection
+    // Create tonic/ArunaAPI request to fetch information of a collection
     let get_request = GetCollectionByIdRequest {
         collection_id: "<collection-id>".to_string(),
     };
@@ -153,7 +153,7 @@ API examples for fetching one or multiple existing Collection/s.
     ```
     
     ```rust
-    // Create tonic/ArunaAPI request fetch all collections of a project
+    // Create tonic/ArunaAPI request to fetch all collections of a project
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
         label_or_id_filter: None,
@@ -171,7 +171,7 @@ API examples for fetching one or multiple existing Collection/s.
     ```
     
     ```rust
-    // Create tonic/ArunaAPI request fetch multiple collections of a project filtered by their ids
+    // Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by their ids
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
         label_or_id_filter: Some(LabelOrIdQuery {
@@ -195,7 +195,7 @@ API examples for fetching one or multiple existing Collection/s.
     ```
     
     ```rust
-    // Create tonic/ArunaAPI request fetch multiple collections of a project filtered by label keys
+    // Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by label keys
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
         label_or_id_filter: Some(LabelOrIdQuery {
@@ -398,7 +398,7 @@ API example for updating a Collection.
             value="HookValue"
         )],
         label_ontology=LabelOntology(["LabelKey"]),
-        dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+        dataclass=DataClass.Value("DATA_CLASS_PRIVATE"),
         version=None  # Parameter can also be omitted if None
     )
 

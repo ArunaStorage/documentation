@@ -6,7 +6,7 @@
 For the general access a registered account within the official NFDI/NFDI4Biodiversity/GFBio AAI is needed to obtain a valid OIDC token from one of those.
 
 After login, you can use your OIDC token to register yourself at an AOS instance. 
-To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an administrator.
+To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.
 
 Please note that these following tutorials cover only the most basic operations. 
 For a complete list of the public API endpoints, their matching requests and responses, please refer to our [Aruna Object Storage REST API Swagger-UI](https://api.aruna.nfdi-dev.gi.denbi.de/swagger-ui/){:target="_blank"}.
@@ -20,7 +20,7 @@ The presence of a client connection to the specific resource service is required
 
 !!! Danger
 
-    This is a minimal reproducible example for demonstration which should not be used 'as-is' in a production environment!
+    These are minimal reproducible examples only for demonstration purposes which should not be used 'as-is' in a production environment!
 
 === "Rust"
 
@@ -49,7 +49,7 @@ The presence of a client connection to the specific resource service is required
             let mut mut_req: tonic::Request<()> = request;
             let metadata = mut_req.metadata_mut();
             metadata.append(
-                AsciiMetadataKey::from_bytes("Authorization".as_bytes()).unwrap(),
+                AsciiMetadataKey::from_bytes("authorization".as_bytes()).unwrap(),
                 AsciiMetadataValue::try_from(format!("Bearer {}", self.api_token.as_str())).unwrap(),
             );
     

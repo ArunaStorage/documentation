@@ -22,8 +22,8 @@ API example for creating an ObjectGroup.
     # Native JSON request to create a new object group
     curl -d '
       {
-        "name": "DummyGroup",
-        "description": "This is a dummy object group for testing purposes.",
+        "name": "cURL-API-Test-ObjectGroup",
+        "description": "This object group was created with a cURL request.",
         "objectIds": [
           "<object-id-001>",
           "<object-id-002>",
@@ -51,7 +51,7 @@ API example for creating an ObjectGroup.
     // Create tonic/ArunaAPI request to create a new object group
     let create_request = CreateObjectGroupRequest {
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was created through the Rust API.".to_string(),
+        description: "This object group was created with the gRPC Rust API client.".to_string(),
         collection_id: "<collection-id>".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
@@ -62,8 +62,8 @@ API example for creating an ObjectGroup.
             "<object-id-004>".to_string(),
         ],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -104,7 +104,8 @@ API example for creating an ObjectGroup.
     print(f'{response}')
     ```
 
-## Get ObjectGroup
+
+## Get ObjectGroup(s)
 
 Fetching information of an ObjectGroup only returns information of the ObjectGroup itself, not the containing Objects.
 
@@ -574,7 +575,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was updated through the Rust API.".to_string(),
+        description: "This object group was updated with the gRPC Rust API client.".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
             "<object-id-002>".to_string(),
@@ -582,8 +583,8 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         ],
         meta_object_ids: vec!["<object-id-004>".to_string()],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -604,7 +605,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was updated through the Rust API.".to_string(),
+        description: "This object group was updated with the gRPC Rust API client.".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
             "<object-id-002>".to_string(),
@@ -612,8 +613,8 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         ],
         meta_object_ids: vec!["<object-id-004>".to_string()],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -706,7 +707,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 === "Bash"
 
     ```bash
-    # Native JSON request to delete ObjectGroup with all its revisions
+    # Native JSON request to delete an ObjectGroup revision
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
@@ -715,7 +716,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 === "Rust"
 
     ```rust
-    // Create tonic/ArunaAPI request to create a new object group
+    // Create tonic/ArunaAPI request to delete an ObjectGroup revision
     let delete_request = DeleteObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
