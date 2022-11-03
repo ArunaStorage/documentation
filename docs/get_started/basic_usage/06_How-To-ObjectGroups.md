@@ -22,8 +22,8 @@ API example for creating an ObjectGroup.
     # Native JSON request to create a new object group
     curl -d '
       {
-        "name": "DummyGroup",
-        "description": "This is a dummy object group for testing purposes.",
+        "name": "cURL-API-Test-ObjectGroup",
+        "description": "This object group was created with a cURL request.",
         "objectIds": [
           "<object-id-001>",
           "<object-id-002>",
@@ -51,7 +51,7 @@ API example for creating an ObjectGroup.
     // Create tonic/ArunaAPI request to create a new object group
     let create_request = CreateObjectGroupRequest {
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was created through the Rust API.".to_string(),
+        description: "This object group was created with the gRPC Rust API client.".to_string(),
         collection_id: "<collection-id>".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
@@ -62,8 +62,8 @@ API example for creating an ObjectGroup.
             "<object-id-004>".to_string(),
         ],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -78,8 +78,34 @@ API example for creating an ObjectGroup.
     println!("{:#?}", response);
     ```
 
+=== "Python"
 
-## Get ObjectGroup
+    ```python
+    # Create tonic/ArunaAPI request to create a new object group
+    request = CreateObjectGroupRequest(
+        name="Python-API-Test-ObjectGroup",
+        description="This object group was created with the gRPC Python API client.",
+        collection_id="<collection-id>",
+        object_ids=["<object-id-001>",
+                    "<object-id-002>",
+                    "<object-id-003>"],
+        meta_object_ids=["<object-id-004>"],
+        labels=[KeyValue(
+            key="isDummyGroup",
+            value="true"
+        )],
+        hooks=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.CreateObjectGroup(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+
+## Get ObjectGroup(s)
 
 Fetching information of an ObjectGroup only returns information of the ObjectGroup itself, not the containing Objects.
 
@@ -196,6 +222,73 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information about a specific object group
+    request = GetObjectGroupByIdRequest(
+        group_id="<object-group-id>",
+        collection_id="<collection-id>"
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupById(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information about the first 20 revisions of an object group
+    request = GetObjectGroupHistoryRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=None  # Parameter can also be omitted if None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupHistory(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information about the first 250 revisions of an object group
+    request = GetObjectGroupHistoryRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=PageRequest(
+            last_uuid="",  # Parameter can also be omitted if empty
+            page_size=250
+        )
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupHistory(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information about the revisions 21-40 (i.e. next page) of an object group
+    request = GetObjectGroupHistoryRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=PageRequest(
+            last_uuid="<last-received-object-group-id>",  
+            page_size=0  # Parameter can also be omitted if <= 0 (Defaults to 20)
+        )
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupHistory(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get all ObjectGroups of Collection
 
@@ -232,6 +325,23 @@ You can also fetch all ObjectGroups of a Collection at once.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information about the first 20 object groups of a collection
+    request = GetObjectGroupsRequest(
+        collection_id="<collection-id>",
+        page_request=None,
+        label_id_filter=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroups(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -330,6 +440,59 @@ There is also the possibility to only fetch the objects marked as metadata of th
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of the first 20 objects of an object group including meta objects
+    request = GetObjectGroupObjectsRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=None,
+        meta_only=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of the first 250 objects of an object group including meta objects
+    request = GetObjectGroupObjectsRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=PageRequest(
+            last_uuid="",
+            page_size=250
+        ),
+        meta_only=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to to fetch information only of meta objects of an object group
+    request = GetObjectGroupObjectsRequest(
+        collection_id="<collection-id>",
+        group_id="<object-group-id>",
+        page_request=None,
+        meta_only=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroupObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Update ObjectGroup
 
@@ -412,7 +575,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was updated through the Rust API.".to_string(),
+        description: "This object group was updated with the gRPC Rust API client.".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
             "<object-id-002>".to_string(),
@@ -420,8 +583,8 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         ],
         meta_object_ids: vec!["<object-id-004>".to_string()],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -442,7 +605,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         name: "Rust-API-Test-ObjectGroup".to_string(),
-        description: "This object group was updated through the Rust API.".to_string(),
+        description: "This object group was updated with the gRPC Rust API client.".to_string(),
         object_ids: vec![
             "<object-id-001>".to_string(),
             "<object-id-002>".to_string(),
@@ -450,8 +613,8 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
         ],
         meta_object_ids: vec!["<object-id-004>".to_string()],
         labels: vec![KeyValue {
-            key: "LabelKey".to_string(),
-            value: "LabelValue".to_string(),
+            key: "isDummyGroup".to_string(),
+            value: "true".to_string(),
         }],
         hooks: vec![],
     };
@@ -464,6 +627,58 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to update the description of an object group
+    request = UpdateObjectGroupRequest(
+        group_id="<object-group-id>",
+        name="Python-API-Test-ObjectGroup",
+        description="This object group was updated with the gRPC Python API client.",
+        collection_id="<collection-id>",
+        object_ids=["<object-id-001>",
+                    "<object-id-002>",
+                    "<object-id-003>"],
+        meta_object_ids=["<object-id-004>"],
+        labels=[KeyValue(
+            key="isDummyGroup",
+            value="true"
+        )],
+        hooks=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.UpdateObjectGroup(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to update the description of an object group
+    request = UpdateObjectGroupRequest(
+        group_id="<object-group-id>",
+        name="Python-API-Test-ObjectGroup",
+        description="This object group was updated with the gRPC Python API client.",
+        collection_id="<collection-id>",
+        object_ids=["<object-id-001>",
+                    "<object-id-002>",
+                    "<object-id-005>"],
+        meta_object_ids=["<object-id-004>"],
+        labels=[KeyValue(
+            key="isDummyGroup",
+            value="true"
+        )],
+        hooks=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.UpdateObjectGroup(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -492,7 +707,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 === "Bash"
 
     ```bash
-    # Native JSON request to delete ObjectGroup with all its revisions
+    # Native JSON request to delete an ObjectGroup revision
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
@@ -501,7 +716,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 === "Rust"
 
     ```rust
-    // Create tonic/ArunaAPI request to create a new object group
+    // Create tonic/ArunaAPI request to delete an ObjectGroup revision
     let delete_request = DeleteObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
@@ -515,4 +730,20 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to delete an ObjectGroup revision
+    request = DeleteObjectGroupRequest(
+        group_id="<object-group-id>",
+        collection_id="<collection-id>"
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.DeleteObjectGroup(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```

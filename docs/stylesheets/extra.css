@@ -1,6 +1,7 @@
 :root > * {
   --md-primary-fg-color: #165a97;
-  --md-accent-fg-color: eaf7ff;
+  --md-accent-fg-color: #165a97;
+  --md-tooltip-width: 600px;
 }
 
 .md-grid {

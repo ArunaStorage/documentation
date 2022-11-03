@@ -85,6 +85,40 @@ As long as an Object is in the staging area data can be uploaded to it.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to initialize an staging object
+    request = InitializeNewObjectRequest(
+        object=StageObject(
+            filename="aruna.png",
+            description="Aruna Object Storage logo",
+            collection_id="<collection-id>",
+            content_len=123456,
+            source=None,  # Parameter can also be omitted if None
+            dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+            labels=[KeyValue(
+                key="LabelKey",
+                value="LabelValue"
+            )],
+            hooks=[KeyValue(
+                key="HookKey",
+                value="HookValue"
+            )]
+        ),
+        collection_id="<collection-id>",
+        preferred_endpoint_id="",  # Parameter can also be omitted if empty
+        multipart=False,
+        is_specification=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.InitializeNewObject(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Upload data to an Staging Object
 
@@ -112,7 +146,7 @@ You also have to request an upload url for each part individually.
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
-=== "Bash"
+=== "Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to request an upload url for single part upload
@@ -152,6 +186,35 @@ You also have to request an upload url for each part individually.
     // Do something with the response
     println!("{:#?}", response);
     ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to request an upload url for single part upload
+    request = GetUploadURLRequest(
+        object_id="<object-id>",
+        upload_id="<upload-id>",
+        collection_id="<collection-id>",
+        multipart=False,
+        part_number=1
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetUploadURL(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    upload_url = response.url.url
+
+    # Upload local file to the generated upload URL
+    file_path = "/tmp/aruna.png"
+    headers = {'Content-type': 'application/octet-stream'}
+    upload_response = requests.put(upload_url, data=open(file_path, 'rb'), headers=headers)
+
+    # Do something with the response
+    print(f'{upload_response}')
+    ```
+
 
 ### Multipart upload
 
@@ -202,6 +265,26 @@ You also have to request an upload url for each part individually.
     // Do something with the response
     println!("{:#?}", response);
     ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to request an upload url for specific part of multipart upload
+    request = GetUploadURLRequest(
+        object_id="<object-id>",
+        upload_id="<upload-id>",
+        collection_id="<collection-id>",
+        multipart=True,
+        part_number=<part-number>
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetUploadURL(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ##### Multipart upload example
 
@@ -287,6 +370,69 @@ You also have to request an upload url for each part individually.
     
     // Retain the completed parts for usage in the FinishObjectRequest
     println!("{:#?}", completed_parts);
+    ```
+
+=== "Python"
+
+    ```python
+    CHUNK_SIZE = 1024 * 1024 * 50;  # 50MiB chunks
+    
+    file_path = "/path/to/local/file"
+    headers = {'Content-type': 'application/octet-stream'}  # Arbitrary binary data upload
+    completed_parts = []
+    
+    # Open file and return a stream
+    with open(file_path, 'rb') as file_in:
+        for i, data_chunk in enumerate(read_file_chunks(file_in, CHUNK_SIZE)):  # (1)
+            # Create tonic/ArunaAPI request to request an upload url for multipart upload part
+            get_request = GetUploadURLRequest(
+                object_id="<object-id>",
+                upload_id="<upload-id>",
+                collection_id="<collection-id>",
+                multipart=True,
+                part_number=i+1
+            )
+
+            # Send the request to the AOS instance gRPC gateway
+            get_response = client.object_client.GetUploadURL(request=get_request)
+
+            # Extraxt download url from response
+            upload_url = get_response.url.url
+
+            # Upload file content chunk to upload url
+            upload_response = requests.put(upload_url, data=data_chunk, headers=headers)
+
+            # Parse ETag from response header
+            etag = str(upload_response.headers["etag"].replace("\"", ""))
+
+            # Collect ETag with corresponding part number
+            completed_parts.append(
+                CompletedParts(
+                    etag=etag,
+                    part=i+1
+                )
+            )
+
+    # Retain the completed parts for usage in the FinishObjectRequest
+    print(f'{completed_parts}')
+    ```
+
+    1. **This function returns a generator with byte chunks of the specified file:**
+    ```python
+        def read_file_chunks(file_object, chunk_size=5242880):
+        """
+        Generator to read set chunk sizes of a file object.
+        Args:
+            file_object: Open file handle
+            chunk_size: Size of chunk to read (Default: 5MiB)
+        
+        Returns: Generator with file content bytes in chunk size
+        """
+        while True:
+            data = file_object.read(chunk_size)
+            if not data:
+                break
+            yield data
     ```
 
 
@@ -406,10 +552,67 @@ On success the response will contain all the information on the finished Object.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to finish a single part upload staging object
+    request = FinishObjectStagingRequest(
+        object_id="<object-id>",
+        upload_id="<upload-id>",
+        collection_id="<collection-id>",
+        hash=Hash(
+            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
+            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
+        ),
+        no_upload=False,
+        completed_parts=[],
+        auto_update=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.FinishObjectStaging(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to finish a multipart upload staging object
+    finish_request = FinishObjectStagingRequest(
+        object_id="<object-id>",
+        upload_id="<upload-id>",
+        collection_id="<collection-id>",
+        hash=Hash(
+            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
+            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
+        ),
+        no_upload=False,
+        completed_parts=[
+            CompletedParts(
+                etag="<upload-etag>",  # E.g. bfa7d257edcc9b962b7ab1a0a75b9808
+                part=1
+             ),
+            CompletedParts(
+                etag="<upload-etag>",  # E.g. af62c64eb6bcc9890d0aadf5720bf1ff
+                part=2
+            )
+        ],
+        auto_update=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.FinishObjectStaging(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get Object
 
 Information on finished or staging Objects can be fetched with their id and the id of their collection.
+
+The `with_url` (or `withUrl`) parameter controls if the response includes a download URL for the specific object.
 
 !!! Info
 
@@ -424,7 +627,15 @@ Information on finished or staging Objects can be fetched with their id and the 
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}
     ```
 
+    ```bash
+    # Native JSON request to fetch information of an object by its unique id including a download url
+    curl -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}?withUrl=true
+    ```
+
 === "Rust"
+
     ```rust
     // Create tonic/ArunaAPI request to fetch information of an object
     let get_request = GetObjectByIdRequest {
@@ -441,6 +652,23 @@ Information on finished or staging Objects can be fetched with their id and the 
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to to fetch information of an object
+    request = GetObjectByIDRequest(
+        object_id="<object-id>",
+        collection_id="<collection-id>",
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjectByID(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -608,6 +836,106 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of the first 20 unfiltered objects in a collection
+    request = GetObjectsRequest(
+        collection_id="<collection-id>",
+        page_request=None,
+        label_id_filter=None,
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of the first 250 unfiltered objects in a collection
+    request = GetObjectsRequest(
+        collection_id="<collection-id>",
+        page_request=PageRequest(
+            last_uuid="",  # Parameter can also be omitted if empty
+            page_size=250
+        ),
+        label_id_filter=None,
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of the objects 21-40 (i.e. the next page) in a collection
+    request = GetObjectsRequest(
+        collection_id="<collection-id>",
+        page_request=PageRequest(
+            last_uuid="<last-received-object-id>",
+            page_size=0  # Parameter can also be omitted if <= 0
+        ),
+        label_id_filter=None,  # Parameter can also be omitted if None
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of all objects in a collection matching one of the provided ids
+    request = GetObjectsRequest(
+        collection_id="<collection-id>",
+        page_request=None,  # Parameter can also be omitted if None
+        label_id_filter=LabelOrIDQuery(
+            labels=None,  # Parameter can also be omitted if None
+            ids=["<object-id-001>", "<object-id-001>"]
+        ),
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch multiple objects of a collection filtered by label key(s)
+    request = GetObjectsRequest(
+        collection_id="<collection-id>",
+        page_request=None,  # Parameter can also be omitted if None
+        label_id_filter=LabelOrIDQuery(
+            labels=LabelFilter(
+                labels=[KeyValue(
+                    key="isDummyObject",
+                    value=""  # Parameter can also be omitted if empty or keys_only=True
+                )],
+                and_or_or=False,
+                keys_only=True
+            )
+        ),
+        with_url=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetObjects(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Download Object data
 
@@ -673,6 +1001,40 @@ This can be done with an individual request or directly while getting informatio
     copy(&mut content, &mut target_file).unwrap();
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch an Objects download url
+    download_url_request = GetDownloadURLRequest(
+        collection_id="<collection-id>",
+        object_id="<object-id>"
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    download_url_response = client.object_client.GetDownloadURL(request=download_url_request)
+
+    # Extract download url from response
+    download_url = download_url_response.url.url
+
+    # Try to extract filename from download url query parameter
+    parsed_url = urlparse(download_url)
+    local_filename = parse_qs(parsed_url.query)['filename'][0]
+    
+    if local_filename is None:
+        local_filepath = os.path.join("/tmp", f'object.{object_id}')
+    else:
+        local_filepath = os.path.join("/tmp", local_filename)
+
+    # Send GET request to download url
+    with requests.get(download_url, stream=True) as r:
+        r.raise_for_status()
+
+        // Write response content in chunks to local file
+        with open(local_filepath, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):  # Chunk size can be adapted
+                f.write(chunk)
+    ```
+
 
 ## Update Object
 
@@ -725,6 +1087,26 @@ Just adding one or multiple labels to an Object does not create a new revision.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to add a label to an object
+    request = AddLabelToObjectRequest(
+        object_id="<object-id>",
+        collection_id="<collection-id>",
+        labels_to_add=[KeyValue(
+            key="AnotherKey",
+            value="AnotherValue"
+        )]
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.AddLabelToObject(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -848,6 +1230,63 @@ Comparable to the Object initialization process, the updated Object must be fini
     // Do something with the response
     println!("{:#?}", response);
     ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to update an objects description
+    update_request = UpdateObjectRequest(
+        object_id="<object-id>",
+        collection_id="<collection-id>",
+        object=StageObject(
+            filename="aruna.png",
+            description="An updated description of the AOS logo.",
+            collection_id="<collection-id>",
+            content_len=123456,
+            source=None,  # Parameter can also be omitted if None
+            dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+            labels=[KeyValue(
+                key="LabelKey",
+                value="LabelValue"
+            )],
+            hooks=[KeyValue(
+                key="HookKey",
+                value="HookValue"
+            )]
+        ),
+        reupload=False,
+        preferred_endpoint_id="",  # Parameter can also be omitted if empty
+        multi_part=False,  # Parameter can also be omitted if `reupload=False`
+        is_specification=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    update_response = client.object_client.UpdateObject(request=update_request)
+
+    # Do something with the response
+    print(f'{update_response}')
+
+    # Create tonic/ArunaAPI request to finish a single part upload staging object
+    finish_request = FinishObjectStagingRequest(
+        object_id=update_response.object_id,
+        upload_id=update_response.upload_id,
+        collection_id=update_response.collection_id,
+        hash=Hash(
+            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
+            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
+        ),
+        no_upload=True,
+        completed_parts=[],
+        auto_update=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    finish_response = client.object_client.FinishObjectStaging(request=finish_request)
+
+    # Do something with the response
+    print(f'{finish_response}')
+    ```
+
 
 #### Update with data re-upload
 
@@ -1008,6 +1447,86 @@ Comparable to the Object initialization process, the updated Object must be fini
     println!("{:#?}", finish_response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to update an objects description as well as re-upload the data
+    update_request = UpdateObjectRequest(
+        object_id="<object-id>",
+        collection_id="<collection-id>",
+        object=StageObject(
+            filename="aruna.png",
+            description="An updated description of the AOS logo.",
+            collection_id="<collection-id>",
+            content_len=1234567,
+            source=None,  # Parameter can also be omitted if None
+            dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+            labels=[KeyValue(
+                key="LabelKey",
+                value="LabelValue"
+            )],
+            hooks=[KeyValue(
+                key="HookKey",
+                value="HookValue"
+            )]
+        ),
+        reupload=True,
+        preferred_endpoint_id="",  # Parameter can also be omitted if empty
+        multi_part=False,  # Parameter can also be omitted if `reupload=False`
+        is_specification=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    update_response = client.object_client.UpdateObject(request=update_request)
+
+    # Do something with the response
+    print(f'{update_response}')
+
+    # Create tonic/ArunaAPI request to request an upload url for single part upload
+    get_request = GetUploadURLRequest(
+        object_id=update_response.object_id,
+        upload_id=update_response.upload_id,
+        collection_id=update_response.collection_id,
+        multipart=False,
+        part_number=1
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    get_response = client.object_client.GetUploadURL(request=get_request)
+
+    # Do something with the response
+    print(f'{get_response}')
+    upload_url = get_response.url.url
+
+    # Upload updated local file to the generated upload URL
+    file_path = "/path/to/updated/local/file"
+    headers = {'Content-type': 'application/octet-stream'}
+    upload_response = requests.put(upload_url, data=open(file_path, 'rb'), headers=headers)
+
+    # Do something with the response (e.g. check status if was successful)
+    print(f'{upload_response}')
+
+    # Create tonic/ArunaAPI request to finish a single part upload staging object
+    finish_request = FinishObjectStagingRequest(
+        object_id=update_response.object_id,
+        upload_id=update_response.upload_id,
+        collection_id=update_response.collection_id,
+        hash=Hash(
+            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
+            hash="<updated-file-sha256-hashsum>"  # E.g. b53d51ea15b07422bb19d5f8671174e7d45b04f21cfed652127f845f5945bf38
+        ),
+        no_upload=False,
+        completed_parts=[],
+        auto_update=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    finish_response = client.object_client.FinishObjectStaging(request=finish_request)
+
+    # Do something with the response
+    print(f'{finish_response}')
+    ```
+
 
 ## Create Object reference
 
@@ -1096,6 +1615,42 @@ A reference can be either _"read only"_, which means that the Object can not be 
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to create an auto-updated read-only reference to keep track of an object
+    request = CreateObjectReferenceRequest(
+        object_id="<object-id>",
+        collection_id="<source-collection-id>",
+        target_collection_id="<target-collection-id>",
+        writeable=False,
+        auto_update=True
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.CreateObjectReference(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to create a writeable reference in another collection for collaborative work
+    request = CreateObjectReferenceRequest(
+        object_id="<object-id>",
+        collection_id="<source-collection-id>",
+        target_collection_id="<target-collection-id>",
+        writeable=True,
+        auto_update=True
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.CreateObjectReference(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Move Object to other Collection
 
@@ -1128,7 +1683,7 @@ This process consists of two steps:
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>
+         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<source-object-id>
     ```
 
 === "Rust"
@@ -1154,7 +1709,7 @@ This process consists of two steps:
     
     // Create tonic/ArunaAPI request to delete the object in the source collection
     let delete_request = DeleteObjectRequest {
-        object_id: "<object-id>".to_string(),
+        object_id: "<source-object-id>".to_string(),
         collection_id: "<source-collection-id>".to_string(),
         with_revisions: true,
         force: false,
@@ -1168,6 +1723,39 @@ This process consists of two steps:
     
     // Do something with the response
     println!("{:#?}", delete_response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to create a writeable reference in another collection
+    create_request = CreateObjectReferenceRequest(
+        object_id="<object-id>",
+        collection_id="<source-collection-id>",
+        target_collection_id="<target-collection-id>",
+        writeable=True,
+        auto_update=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    create_response = client.object_client.CreateObjectReference(request=create_request)
+
+    # Do something with the response
+    print(f'{create_response}')
+    
+    # Create tonic/ArunaAPI request to delete the object in the source collection
+    delete_request = DeleteObjectRequest(
+        object_id="<source-object-id>",
+        collection_id="<source-collection-id>",
+        with_revisions=True,
+        force=False
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    delete_response = client.object_client.DeleteObject(request=delete_request)
+    
+    # Do something with the response
+    print(f'Deleted: {delete_response}')
     ```
 
 
@@ -1206,6 +1794,23 @@ You can fetch information of all references an Object has in different Collectio
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to
+    request = GetReferencesRequest(
+        object_id="<object-id>",
+        collection_id="<collection-id>",
+        with_revisions=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.GetReferences(request=request)
+
+    # Do something with the response
+    print(f'Deleted: {response}')
     ```
 
 
@@ -1269,3 +1874,19 @@ Permanent deletion conditions:
     // Do something with the response
     println!("{:#?}", response);
     ```
+
+=== "Python"
+
+    # Create tonic/ArunaAPI request to delete an object with all its revisions
+    request = DeleteObjectRequest(
+        object_id="<source-object-id>",
+        collection_id="<source-collection-id>",
+        with_revisions=True,
+        force=True
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.DeleteObject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')

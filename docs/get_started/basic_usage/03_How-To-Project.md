@@ -22,8 +22,8 @@ API example for creating a new Project.
     # Native JSON request to create a project
     curl -d '
       {
-        "name": "DummyProject", 
-        "description": "This is a new dummy project."
+        "name": "cURL-API-Test-Project", 
+        "description": "This project was created with a cURL request."
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -36,7 +36,7 @@ API example for creating a new Project.
     // Create tonic/ArunaAPI request to create a project
     let create_request = CreateProjectRequest {
         name: "Rust-API-Test-Project".to_string(),
-        description: "This project was created through the Rust API.".to_string(),
+        description: "This project was created with the gRPC Rust API client.".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -47,6 +47,22 @@ API example for creating a new Project.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to create a project
+    request = CreateProjectRequest(
+        name="Python-API-Test-Project",
+        description="This project was created with the gRPC Python API client."
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.CreateProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -85,6 +101,21 @@ API example for fetching info of an existing Project.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of a project
+    request = GetProjectRequest(
+        project_id="<project-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.GetProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get all Projects of User
 
@@ -121,6 +152,21 @@ API example for fetching all registered Projects a specific user is associated w
     println!("{:#?}\n", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
+    request = GetUserProjectsRequest(
+        user_id=""  # Parameter can be omitted if empty
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetUserProjects(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Update Project
 
@@ -141,8 +187,8 @@ API example for updating an existing Project.
     # Native JSON request to update the metadata of a project
     curl -d '
       {
-        "name": "Updated Dummy Project", 
-        "description": "This is an updated dummy project."
+        "name": "cURL-API-Test-Project", 
+        "description": "This project was updated with a cURL request."
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -156,7 +202,7 @@ API example for updating an existing Project.
     let update_request = UpdateProjectRequest {
         project_id: "<project-id>".to_string(),
         name: "Rust-API-Test-Project".to_string(),
-        description: "This project was updated through the Rust API.".to_string(),
+        description: "This project was updated with the gRPC Rust API client.".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -167,6 +213,23 @@ API example for updating an existing Project.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to update the metadata of a project
+    request = UpdateProjectRequest(
+        project_id="<project-id>",
+        name="Python-API-Test-Project",
+        description="This project was updated with the gRPC Python API client."
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.UpdateProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -208,4 +271,19 @@ API examples for deleting a Project.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to delete a project
+    request = DestroyProjectRequest(
+        project_id="<project-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.DestroyProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
