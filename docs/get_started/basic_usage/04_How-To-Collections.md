@@ -82,6 +82,33 @@ API example for creating a new Collection.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to create a new collection
+    request = CreateNewCollectionRequest(
+        name="Python-API-Test-Collection",
+        description="This collection was created with the gRPC Python API client.",
+        project_id="<project-id>",
+        labels=[KeyValue(
+            key="LabelKey",
+            value="LabelValue"
+        )],
+        hooks=[KeyValue(
+            key="HookKey",
+            value="HookValue"
+        )],
+        label_ontology=LabelOntology(["LabelKey"]),
+        dataclass=DataClass.Value("DATACLASS_PRIVATE")
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.CreateNewCollection(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get Collection(s)
 
@@ -195,6 +222,77 @@ API examples for fetching one or multiple existing Collection/s.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch information of a collection
+    request = GetCollectionByIDRequest(
+        collection_id="<collection-id>"
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.GetCollectionByID(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request fetch first 20 collections of a project
+    request = GetCollectionsRequest(
+        project_id="<project-id>",
+        label_or_id_filter=None,  # Parameter can also be omitted if None
+        page_request=None  # Parameter can also be omitted if None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.GetCollections(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by their ids
+    GetCollectionsRequest(
+        project_id="<project-id>",
+        label_or_id_filter=LabelOrIDQuery(
+            labels=None,  # Parameter can also be omitted if None
+            ids=["<collection-id-001",
+                 "<collection-id-002"]
+        ),
+        page_request=None  # Parameter can also be omitted if None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.GetCollections(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by label keys
+    request = GetCollectionsRequest(
+        project_id="<project-id>",
+        label_or_id_filter=LabelOrIDQuery(
+            labels=LabelFilter(
+                labels=[KeyValue(key="LabelKey")],
+                and_or_or=False,
+                keys_only=True
+            ),
+            ids=None  # Parameter can also be omitted if None
+        ),
+        page_request=None  # Parameter can also be omitted if None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.GetCollections(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Update Collection
 
@@ -282,6 +380,35 @@ API example for updating a Collection.
     println!("{:#?}", response);
     ```
 
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to update a collections name and description
+    request = UpdateCollectionRequest(
+        project_id="<project-id>",
+        collection_id="<collection-id>",
+        name="Python-API-Updated-Collection",
+        description="This collection was updated with the gRPC Python API client.",
+        labels=[KeyValue(
+            key="LabelKey",
+            value="LabelValue"
+        )],
+        hooks=[KeyValue(
+            key="HookKey",
+            value="HookValue"
+        )],
+        label_ontology=LabelOntology(["LabelKey"]),
+        dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+        version=None  # Parameter can also be omitted if None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.UpdateCollection(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Pin Collection
 
@@ -332,6 +459,26 @@ Pinned collections can not be updated in place anymore.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to pin a collection to a specific version
+    request = PinCollectionVersionRequest(
+        collection_id="<collection-id>",
+        version=Version(
+            major=1,
+            minor=2,
+            patch=3
+        )
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.PinCollectionVersion(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -410,4 +557,36 @@ API examples for deleting a Collection.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== "Python"
+
+    ```python
+    # Create tonic/ArunaAPI request to delete a collection
+    request = DeleteCollectionRequest(
+        collection_id="<collection-id>",
+        project_id="<project-id>",
+        force=False
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.DeleteCollection(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python
+    # Create tonic/ArunaAPI request to delete a collection with force
+    request = DeleteCollectionRequest(
+        collection_id="<collection-id>",
+        project_id="<project-id>",
+        force=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.collection_client.DeleteCollection(request=request)
+
+    # Do something with the response
+    print(f'{response}')
     ```
