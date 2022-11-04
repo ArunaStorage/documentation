@@ -16,7 +16,7 @@ API example for creating a new Project.
 
     Currently, to create a new Project you have to be an AOS instance administrator.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to create a project
@@ -30,7 +30,7 @@ API example for creating a new Project.
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to create a project
@@ -49,7 +49,7 @@ API example for creating a new Project.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to create a project
@@ -74,7 +74,7 @@ API example for fetching info of an existing Project.
 
     This request needs at least READ permissions on the specific Project.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information of a project
@@ -83,7 +83,7 @@ API example for fetching info of an existing Project.
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information of a project
@@ -101,7 +101,7 @@ API example for fetching info of an existing Project.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information of a project
@@ -125,7 +125,7 @@ API example for fetching all registered Projects a specific user is associated w
 
     You have to be an AOS instance administrator to fetch all registered Projects associated with other users than yourself.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information of all projects a specific user is member of
@@ -134,7 +134,7 @@ API example for fetching all registered Projects a specific user is associated w
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user/{user-id}/projects
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
@@ -152,7 +152,7 @@ API example for fetching all registered Projects a specific user is associated w
     println!("{:#?}\n", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
@@ -181,7 +181,7 @@ API example for updating an existing Project.
     **A project update overwrites all the fields in the request, even if they're empty. 
     If you want to retain a field you have to explicitly set the old value.**
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to update the metadata of a project
@@ -195,7 +195,7 @@ API example for updating an existing Project.
          -X PUT https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to update the metadata of a project
@@ -215,7 +215,7 @@ API example for updating an existing Project.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to update the metadata of a project
@@ -246,7 +246,7 @@ API examples for deleting a Project.
 
     This request needs at least ADMIN permissions on the specific Project.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to delete a project
@@ -255,7 +255,7 @@ API examples for deleting a Project.
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/project/{project-id}
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to delete a project
@@ -273,7 +273,7 @@ API examples for deleting a Project.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to delete a project

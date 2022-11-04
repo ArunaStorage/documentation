@@ -16,7 +16,7 @@ API example for creating an ObjectGroup.
 
     This request needs at least APPEND permissions on the ObjectGroup's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to create a new object group
@@ -45,7 +45,7 @@ API example for creating an ObjectGroup.
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to create a new object group
@@ -78,7 +78,7 @@ API example for creating an ObjectGroup.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to create a new object group
@@ -113,7 +113,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
 
     This request needs at least READ permissions on the ObjectGroup's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information about a specific object group
@@ -143,7 +143,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/history?pageRequest.lastUuid=<last-received-object-group-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information about a specific object group
@@ -222,7 +222,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information about a specific object group
@@ -298,7 +298,7 @@ You can also fetch all ObjectGroups of a Collection at once.
 
     This request needs at least READ permissions on the ObjectGroup's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information about the first 20 object groups of a collection
@@ -307,7 +307,7 @@ You can also fetch all ObjectGroups of a Collection at once.
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information about the first 20 object groups of a collection
@@ -327,7 +327,7 @@ You can also fetch all ObjectGroups of a Collection at once.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information about the first 20 object groups of a collection
@@ -355,7 +355,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
     This request needs at least READ permissions on the ObjectGroup's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information of the first 20 objects of an object group including meta objects
@@ -378,7 +378,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/objects?metaOnly=true
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information of the first 20 objects of an object group including meta objects
@@ -440,7 +440,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information of the first 20 objects of an object group including meta objects
@@ -511,7 +511,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
     **A object group update overwrites all the fields in the request, even if they're empty. 
     If you want to retain a field you have to explicitly set the old value.**
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to update the description of an object group
@@ -567,7 +567,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to update the description of an object group
@@ -629,7 +629,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to update the description of an object group
@@ -704,7 +704,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 
     **ObjectGroup revisions can not be restored even if the revision still exists as DELETED.**
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to delete an ObjectGroup revision
@@ -713,7 +713,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to delete an ObjectGroup revision
@@ -732,7 +732,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to delete an ObjectGroup revision

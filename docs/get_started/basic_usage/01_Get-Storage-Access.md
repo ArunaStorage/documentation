@@ -22,7 +22,9 @@ The presence of a client connection to the specific resource service is required
 
     These are minimal reproducible examples only for demonstration purposes which should not be used 'as-is' in a production environment!
 
-=== "Rust"
+=== ":simple-rust: Rust"
+
+    To use the Rust API library you have to set it as dependency `aruna-rust-api = "<Aruna-Rust-API-Version>"` in the `cargo.toml` of your project.
 
     ```rust
     use aruna_rust_api::api::aruna::api::storage::services::v1::{
@@ -76,7 +78,7 @@ The presence of a client connection to the specific resource service is required
     }
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
 
@@ -163,7 +165,7 @@ The presence of a client connection to the specific resource service is required
         # Do something with the client services ...
     ```
 
-=== "Python (simple)"
+=== ":simple-python: Python (simple)"
 
     To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
 
@@ -222,7 +224,7 @@ The presence of a client connection to the specific resource service is required
 
 Users can register themselves with an individual display name in an AOS instance with their valid OIDC token received from the AAI login.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to register OIDC user
@@ -235,7 +237,7 @@ Users can register themselves with an individual display name in an AOS instance
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/register
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to register OIDC user
@@ -253,7 +255,7 @@ Users can register themselves with an individual display name in an AOS instance
     println!("Registered user: {:#?}", response.user_id)
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to register OIDC user
@@ -280,7 +282,7 @@ Users can register themselves with an individual display name in an AOS instance
 
 After registration users additionally have to be activated in a second step.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # For convenience, administrators can request info on all unactivated users at once
@@ -297,7 +299,7 @@ After registration users additionally have to be activated in a second step.
     ```
 
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch all not activated users
@@ -331,7 +333,7 @@ After registration users additionally have to be activated in a second step.
     println!("Activated user: {:#?}", activate_response.user_id)
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request for user activation
@@ -355,7 +357,7 @@ To check which user a token is associated with or get information about the curr
 
     Only AOS instance administrators can request user information of other users.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch user information associated with authorization token
@@ -371,7 +373,7 @@ To check which user a token is associated with or get information about the curr
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user?userId=<user-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch user info of current user
@@ -393,7 +395,7 @@ To check which user a token is associated with or get information about the curr
     }
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch user info of current user

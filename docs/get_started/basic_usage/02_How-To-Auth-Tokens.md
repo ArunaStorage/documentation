@@ -56,7 +56,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
 
     This request needs at least ADMIN permissions on the specific Project.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to add user with admin permissions to a project
@@ -89,7 +89,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to add user with admin permissions to a project
@@ -135,7 +135,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to add user with admin permissions to a project
@@ -182,7 +182,7 @@ The assigned permissions to the users can be changed by project administrators a
 
     This request needs at least ADMIN permissions on the specific Project.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to set a users permission to read only for the specific project
@@ -199,7 +199,7 @@ The assigned permissions to the users can be changed by project administrators a
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/edit_user
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to set a users permission to read only for the specific project
@@ -223,7 +223,7 @@ The assigned permissions to the users can be changed by project administrators a
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to set a users permission to read only for the specific project
@@ -254,7 +254,7 @@ However, access with project/collection scoped tokens is not restricted with the
 
     This request needs at least ADMIN permissions on the specific Project.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to remove a user from a specific project
@@ -263,7 +263,7 @@ However, access with project/collection scoped tokens is not restricted with the
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/remove_user?userId=<user-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to remove a user from a specific project
@@ -282,7 +282,7 @@ However, access with project/collection scoped tokens is not restricted with the
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to remove a user from a specific project
@@ -310,7 +310,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     Store the received token secret in a secure location for further usage.
     If a token secret is lost or compromised, delete the old token and generate a new one.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to create a global/personal token
@@ -363,7 +363,7 @@ Here are some API examples on generating API tokens with individual scopes and p
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/token
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     The "in-line" conversion of a NativeDateTime to a gRPC Timestamp is kind of hacky.
     
@@ -401,7 +401,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to create a global/personal API token with expiration date
@@ -465,7 +465,7 @@ API examples to fetch info of a specific token or all tokens of the current user
 
     This request does not re-display the generated API token secret. See [Generate API Tokens](#generate-api-tokens).
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to get info on a specific API token by its id
@@ -481,7 +481,7 @@ API examples to fetch info of a specific token or all tokens of the current user
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/auth/tokens
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to get info on a specific API token by its id
@@ -513,7 +513,7 @@ API examples to fetch info of a specific token or all tokens of the current user
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to get info on a specific API token by its id
@@ -548,7 +548,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
 
     Only AOS instance administrators can revoke API tokens of other users.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to revoke the specific API token
@@ -564,7 +564,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/auth/tokens
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to revoke the specific API token
@@ -598,7 +598,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to revoke the specific API token

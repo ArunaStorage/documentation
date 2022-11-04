@@ -17,7 +17,7 @@ API example for creating a new Collection.
 
     This request requires at least MODIFY permission on the Project in which the Collection is to be created.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to create a new collection
@@ -50,7 +50,7 @@ API example for creating a new Collection.
       -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to create a new collection
@@ -82,7 +82,7 @@ API example for creating a new Collection.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to create a new collection
@@ -118,7 +118,7 @@ API examples for fetching one or multiple existing Collection/s.
 
     This request needs at least READ permissions on the Collection or the Project under which the collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to fetch information of a collection
@@ -134,7 +134,7 @@ API examples for fetching one or multiple existing Collection/s.
          -X GET "https://<URL-to-AOS-instance-API-gateway>/v1/collections/<project-id>?labelOrIdFilter.ids=<collection-id-001>&labelOrIdFilter.ids=<collection-id-002>"
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to fetch information of a collection
@@ -222,7 +222,7 @@ API examples for fetching one or multiple existing Collection/s.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to fetch information of a collection
@@ -313,7 +313,7 @@ API example for updating a Collection.
 
     This request needs at least MODIFY permissions on the Collection or the Project under which the collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to update a collections name and description
@@ -346,7 +346,7 @@ API example for updating a Collection.
       -X PUT https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to update a collections name and description
@@ -380,7 +380,7 @@ API example for updating a Collection.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to update a collections name and description
@@ -421,7 +421,7 @@ Pinned collections can not be updated in place anymore.
 
     This request needs at least MODIFY permissions on the Collection or the Project under which the collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to pin a collection to a specific version
@@ -438,7 +438,7 @@ Pinned collections can not be updated in place anymore.
       -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/pin
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to pin a collection to a specific version
@@ -461,7 +461,7 @@ Pinned collections can not be updated in place anymore.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to pin a collection to a specific version
@@ -495,7 +495,7 @@ API examples for deleting a Collection.
 
     This request needs at least MODIFY permissions on the Collection or ADMIN permissions on the Project under which the collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
     ```bash
     # Native JSON request to delete a collection
@@ -521,7 +521,7 @@ API examples for deleting a Collection.
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
     ```rust
     // Create tonic/ArunaAPI request to delete a collection
@@ -559,7 +559,7 @@ API examples for deleting a Collection.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
     ```python
     # Create tonic/ArunaAPI request to delete a collection
