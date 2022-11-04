@@ -13,19 +13,19 @@ After subscription, you will receive mail notifications if something happens wit
 
 > _Coming soon ..._
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     ```
 
 
@@ -33,17 +33,17 @@ After subscription, you will receive mail notifications if something happens wit
 
 > _Coming soon ..._
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     ```

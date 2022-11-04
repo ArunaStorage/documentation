@@ -19,9 +19,9 @@ As long as an Object is in the staging area data can be uploaded to it.
 
     This request needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to initialize an staging object
     curl -d '
       {
@@ -48,9 +48,9 @@ As long as an Object is in the staging area data can be uploaded to it.
       -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to initialize an staging object
     let init_request = InitializeNewObjectRequest {
         object: Some(StageObject {
@@ -85,9 +85,9 @@ As long as an Object is in the staging area data can be uploaded to it.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to initialize an staging object
     request = InitializeNewObjectRequest(
         object=StageObject(
@@ -134,9 +134,9 @@ You also have to request an upload url for each part individually.
 
 ### Single part upload
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to request an upload url for single part upload
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -146,9 +146,9 @@ You also have to request an upload url for each part individually.
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to request an upload url for single part upload
     let get_request = GetUploadUrlRequest {
         object_id: "<object-id>".to_string(),
@@ -187,9 +187,9 @@ You also have to request an upload url for each part individually.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to request an upload url for single part upload
     request = GetUploadURLRequest(
         object_id="<object-id>",
@@ -232,9 +232,9 @@ You also have to request an upload url for each part individually.
 
     **If the data is stored in an S3 endpoint individual parts of multipart upload have to be at least 5MiB in size (5242880 bytes) or the Object finishing will fail.**
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to request an upload url for specific part of multipart upload
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -244,9 +244,9 @@ You also have to request an upload url for each part individually.
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to request an upload url for specific part of multipart upload
     let get_request = GetUploadUrlRequest {
         object_id: "<object-id>".to_string(),
@@ -266,9 +266,9 @@ You also have to request an upload url for each part individually.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to request an upload url for specific part of multipart upload
     request = GetUploadURLRequest(
         object_id="<object-id>",
@@ -288,9 +288,9 @@ You also have to request an upload url for each part individually.
 
 ##### Multipart upload example
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     COLLECTION_ID=<collection-id>
     OBJECT_ID=<staging-object-id>
     UPLOAD_ID=<objects-upload-id>
@@ -311,9 +311,9 @@ You also have to request an upload url for each part individually.
     done
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     let mut file = tokio::fs::File::open("/path/to/local/file").await.unwrap();     // File handle
     let mut remaining_bytes: usize = file.metadata().await.unwrap().len() as usize; // File size in bytes
     let mut upload_part_counter: i64 = 0; 
@@ -372,9 +372,9 @@ You also have to request an upload url for each part individually.
     println!("{:#?}", completed_parts);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     CHUNK_SIZE = 1024 * 1024 * 50;  # 50MiB chunks
     
     file_path = "/path/to/local/file"
@@ -418,7 +418,7 @@ You also have to request an upload url for each part individually.
     ```
 
     1. **This function returns a generator with byte chunks of the specified file:**
-    ```python
+    ```python linenums="1"
         def read_file_chunks(file_object, chunk_size=5242880):
         """
         Generator to read set chunk sizes of a file object.
@@ -446,9 +446,9 @@ On success the response will contain all the information on the finished Object.
 
     This request needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to finish a single upload staging object
     curl -d '
       {
@@ -465,7 +465,7 @@ On success the response will contain all the information on the finished Object.
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/staging/{upload-id}/finish
     ```
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to finish a multipart upload staging object
     curl -d '
       {
@@ -491,9 +491,9 @@ On success the response will contain all the information on the finished Object.
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/staging/{upload-id}/finish
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to finish a single part upload staging object
     let finish_request = FinishObjectStagingRequest {
         object_id: "<object-id>".to_string(),
@@ -518,7 +518,7 @@ On success the response will contain all the information on the finished Object.
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to finish a multipart upload staging object
     let finish_request = FinishObjectStagingRequest {
         object_id: "<object-id>".to_string(),
@@ -552,9 +552,9 @@ On success the response will contain all the information on the finished Object.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to finish a single part upload staging object
     request = FinishObjectStagingRequest(
         object_id="<object-id>",
@@ -576,7 +576,7 @@ On success the response will contain all the information on the finished Object.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to finish a multipart upload staging object
     finish_request = FinishObjectStagingRequest(
         object_id="<object-id>",
@@ -618,25 +618,25 @@ The `with_url` (or `withUrl`) parameter controls if the response includes a down
 
     This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of an object by its unique id
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}
     ```
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of an object by its unique id including a download url
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}?withUrl=true
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of an object
     let get_request = GetObjectByIdRequest {
         collection_id: "<collection-id>".to_string(),
@@ -654,9 +654,9 @@ The `with_url` (or `withUrl`) parameter controls if the response includes a down
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to to fetch information of an object
     request = GetObjectByIDRequest(
         object_id="<object-id>",
@@ -685,39 +685,39 @@ Additionally, you can include id or label filters to narrow the returned Objects
 
     This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of the first 20 unfiltered objects in a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of the first 250 unfiltered objects in a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects?pageRequest.pageSize=250
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of the objects 21-40 (i.e. the next page) in a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects?pageRequest.lastUuid=<id-of-last-received-object>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of all objects in a collection matching one of the provided ids
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects?labelIdFilter.ids=<object-id-001>&labelIdFilter.ids=<object-id-002>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to fetch information of the first 20 unfiltered objects in a collection
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -737,7 +737,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to fetch information of the first 250 unfiltered objects in a collection
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -760,7 +760,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to fetch information of the objects 21-40 (i.e. the next page) in a collection
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -783,7 +783,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to fetch information of all objects in a collection matching one of the provided ids
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -806,7 +806,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI to fetch multiple object of a collection filtered by label key(s)
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -836,9 +836,9 @@ Additionally, you can include id or label filters to narrow the returned Objects
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of the first 20 unfiltered objects in a collection
     request = GetObjectsRequest(
         collection_id="<collection-id>",
@@ -854,7 +854,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of the first 250 unfiltered objects in a collection
     request = GetObjectsRequest(
         collection_id="<collection-id>",
@@ -873,7 +873,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of the objects 21-40 (i.e. the next page) in a collection
     request = GetObjectsRequest(
         collection_id="<collection-id>",
@@ -892,7 +892,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of all objects in a collection matching one of the provided ids
     request = GetObjectsRequest(
         collection_id="<collection-id>",
@@ -911,7 +911,7 @@ Additionally, you can include id or label filters to narrow the returned Objects
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch multiple objects of a collection filtered by label key(s)
     request = GetObjectsRequest(
         collection_id="<collection-id>",
@@ -946,9 +946,9 @@ This can be done with an individual request or directly while getting informatio
 
     This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch an Objects download url
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -958,7 +958,7 @@ This can be done with an individual request or directly while getting informatio
     curl -J -O -X GET <received-download-url>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of an Object including its download id
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -968,9 +968,9 @@ This can be done with an individual request or directly while getting informatio
     curl -J -O -X GET <received-download-url>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Send GET request to download url
     let response = reqwest::get(download_url).await.unwrap();
     
@@ -1001,9 +1001,9 @@ This can be done with an individual request or directly while getting informatio
     copy(&mut content, &mut target_file).unwrap();
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch an Objects download url
     download_url_request = GetDownloadURLRequest(
         collection_id="<collection-id>",
@@ -1048,9 +1048,9 @@ Objects can still be updated after finishing.
 
 Just adding one or multiple labels to an Object does not create a new revision.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to add a label to an object
     curl -d '
       {
@@ -1066,9 +1066,9 @@ Just adding one or multiple labels to an Object does not create a new revision.
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/add_labels
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to add a label to an object
     let add_request = AddLabelToObjectRequest {
         object_id: "<object-id>".to_string(),
@@ -1089,9 +1089,9 @@ Just adding one or multiple labels to an Object does not create a new revision.
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to add a label to an object
     request = AddLabelToObjectRequest(
         object_id="<object-id>",
@@ -1123,9 +1123,9 @@ Comparable to the Object initialization process, the updated Object must be fini
 
 #### Update without data re-upload
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update an objects description
     curl -d '
       {
@@ -1168,9 +1168,9 @@ Comparable to the Object initialization process, the updated Object must be fini
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/staging/{upload-id}/finish
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update an objects description
     let update_request = UpdateObjectRequest {
         object_id: "<object-id>".to_string(),
@@ -1231,9 +1231,9 @@ Comparable to the Object initialization process, the updated Object must be fini
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update an objects description
     update_request = UpdateObjectRequest(
         object_id="<object-id>",
@@ -1290,9 +1290,9 @@ Comparable to the Object initialization process, the updated Object must be fini
 
 #### Update with data re-upload
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update an Objects description as well as re-upload the data
     curl -d '
       {
@@ -1343,9 +1343,9 @@ Comparable to the Object initialization process, the updated Object must be fini
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/staging/{upload-id}/finish
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update an objects description as well as re-upload the data
     let update_request = UpdateObjectRequest {
         object_id: "<object-id>".to_string(),
@@ -1447,9 +1447,9 @@ Comparable to the Object initialization process, the updated Object must be fini
     println!("{:#?}", finish_response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update an objects description as well as re-upload the data
     update_request = UpdateObjectRequest(
         object_id="<object-id>",
@@ -1547,9 +1547,9 @@ A reference can be either _"read only"_, which means that the Object can not be 
 
     Additionally, the request needs MODIFY permissions on the target Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create an auto-updated read-only reference to keep track of an object
     curl -d '
       {
@@ -1561,7 +1561,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<destination-collection-id>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a writeable reference in another collection for collaborative work
     curl -d '
       {
@@ -1573,9 +1573,9 @@ A reference can be either _"read only"_, which means that the Object can not be 
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<object-id>/reference/<destination-collection-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create an auto-updated read-only reference to keep track of an object
     let create_request = CreateObjectReferenceRequest {
         object_id: "<object-id>".to_string(),
@@ -1595,7 +1595,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a writeable reference in another collection for collaborative work
     let create_request = CreateObjectReferenceRequest {
         object_id: "<object-id>".to_string(),
@@ -1615,9 +1615,9 @@ A reference can be either _"read only"_, which means that the Object can not be 
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create an auto-updated read-only reference to keep track of an object
     request = CreateObjectReferenceRequest(
         object_id="<object-id>",
@@ -1634,7 +1634,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a writeable reference in another collection for collaborative work
     request = CreateObjectReferenceRequest(
         object_id="<object-id>",
@@ -1662,9 +1662,9 @@ This process consists of two steps:
 1. Create writeable reference of the Object in another Collection
 2. Delete reference of the Object in the source Collection
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a writeable reference in another collection
     curl -d '
       {
@@ -1686,9 +1686,9 @@ This process consists of two steps:
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<source-collection-id>/object/<source-object-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a writeable reference in another collection
     let create_request = CreateObjectReferenceRequest {
         object_id: "<object-id>".to_string(),
@@ -1725,9 +1725,9 @@ This process consists of two steps:
     println!("{:#?}", delete_response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a writeable reference in another collection
     create_request = CreateObjectReferenceRequest(
         object_id="<object-id>",
@@ -1767,18 +1767,18 @@ You can fetch information of all references an Object has in different Collectio
 
     This request needs at least READ permissions on the Object's Collection or the Project under which the Collection is registered.
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch all references of an object
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/object/<object-id>/references
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch all references of an object
     let get_request = GetReferencesRequest {
         object_id: "<object-id>".to_string(),
@@ -1796,9 +1796,9 @@ You can fetch information of all references an Object has in different Collectio
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to
     request = GetReferencesRequest(
         object_id="<object-id>",
@@ -1840,9 +1840,9 @@ Permanent deletion conditions:
 
     **Non-writeable references will also be deleted alongside with the last writeable reference.**
 
-=== "Bash"
+=== ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to force delete an object with all its revisions
     curl -d \
       '{
@@ -1854,9 +1854,9 @@ Permanent deletion conditions:
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/object/<object-id>
     ```
 
-=== "Rust"
+=== ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to delete an object with all its revisions
     let delete_request = DeleteObjectRequest {
         object_id: "<object-id>".to_string(),
@@ -1875,8 +1875,9 @@ Permanent deletion conditions:
     println!("{:#?}", response);
     ```
 
-=== "Python"
+=== ":simple-python: Python"
 
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to delete an object with all its revisions
     request = DeleteObjectRequest(
         object_id="<source-object-id>",
@@ -1890,3 +1891,4 @@ Permanent deletion conditions:
     
     # Do something with the response
     print(f'{response}')
+    ```
