@@ -58,7 +58,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to add user with admin permissions to a project
     curl -d '
       {
@@ -73,7 +73,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to add user with read only permissions to a project
     curl -d '
       {
@@ -91,7 +91,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to add user with admin permissions to a project
     let add_request = AddUserToProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -113,7 +113,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to add user with read only permissions to a project
     let add_request = AddUserToProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -137,7 +137,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to add user with admin permissions to a project
     request = AddUserToProjectRequest(
         project_id="<project-id>",
@@ -155,7 +155,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to add user with read only permissions to a project
     request = AddUserToProjectRequest(
         project_id="<project-id>",
@@ -184,7 +184,7 @@ The assigned permissions to the users can be changed by project administrators a
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to set a users permission to read only for the specific project
     curl -d '
       {
@@ -201,7 +201,7 @@ The assigned permissions to the users can be changed by project administrators a
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to set a users permission to read only for the specific project
     let edit_request = EditUserPermissionsForProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -225,7 +225,7 @@ The assigned permissions to the users can be changed by project administrators a
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to set a users permission to read only for the specific project
     request = EditUserPermissionsForProjectRequest(
         project_id="<project-id>",
@@ -256,7 +256,7 @@ However, access with project/collection scoped tokens is not restricted with the
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to remove a user from a specific project
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -265,7 +265,7 @@ However, access with project/collection scoped tokens is not restricted with the
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to remove a user from a specific project
     let delete_request = RemoveUserFromProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -284,7 +284,7 @@ However, access with project/collection scoped tokens is not restricted with the
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to remove a user from a specific project
     request = RemoveUserFromProjectRequest(
         project_id="<project-id>",
@@ -312,7 +312,7 @@ Here are some API examples on generating API tokens with individual scopes and p
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a global/personal token
     #  This token inherits the permissions from the projects the user is a member of
     curl -d '
@@ -329,7 +329,7 @@ Here are some API examples on generating API tokens with individual scopes and p
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/token
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a project scoped token with MODIFY permissions
     curl -d '
       {
@@ -346,7 +346,7 @@ Here are some API examples on generating API tokens with individual scopes and p
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/token
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a collection scoped token with READ permissions
     curl -d '
       {
@@ -369,7 +369,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     
     In any case it is recommended to implement the `From<NativeDateTime>` or `TryFrom<NativeDateTime>` trait for the Timestamp Struct.
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a global/personal API token with expiration date
     let expires_at = NaiveDate::from_ymd(2023, 01, 01).and_hms(0, 0, 0);
     let create_request = CreateApiTokenRequest {
@@ -403,7 +403,7 @@ Here are some API examples on generating API tokens with individual scopes and p
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a global/personal API token with expiration date
     request = CreateAPITokenRequest(
         project_id="",  # Parameter can also be omitted if empty
@@ -422,7 +422,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a project scoped API token with MODIFY permission
     request = CreateAPITokenRequest(
         project_id="<project-id>",
@@ -439,7 +439,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a collection scoped API token with APPEND permission
     request = CreateAPITokenRequest(
         project_id="",  # Parameter can also be omitted if empty
@@ -467,14 +467,14 @@ API examples to fetch info of a specific token or all tokens of the current user
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to get info on a specific API token by its id
     curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/auth/token/{token-id}
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to get info on all tokens associated with the current user
     curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -483,7 +483,7 @@ API examples to fetch info of a specific token or all tokens of the current user
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to get info on a specific API token by its id
     let get_request = GetApiTokenRequest { 
         token_id: "<token-id>".to_string(),
@@ -499,7 +499,7 @@ API examples to fetch info of a specific token or all tokens of the current user
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to get info on all tokens associated with the current user
     let get_request = GetApiTokensRequest {};
     
@@ -515,7 +515,7 @@ API examples to fetch info of a specific token or all tokens of the current user
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to get info on a specific API token by its id
     request = GetAPITokenRequest(
         token_id="<token-id>"
@@ -528,7 +528,7 @@ API examples to fetch info of a specific token or all tokens of the current user
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to get info on all tokens associated with the current user
     request = GetAPITokensRequest()
     
@@ -550,14 +550,14 @@ API examples to revoke/delete a specific API token or all tokens of the current 
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to revoke the specific API token
     curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/auth/token/{token-id}
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to revoke all tokens of the current user
     curl -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -566,7 +566,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to revoke the specific API token
     let delete_request = DeleteApiTokenRequest {
         token_id: "<token-id>".to_string(),
@@ -582,7 +582,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to to revoke all tokens of the current user
     let delete_request = DeleteApiTokensRequest {
         user_id: "".to_string(),
@@ -600,7 +600,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to revoke the specific API token
     request = DeleteAPITokenRequest(
         token_id="<token-id>"
@@ -613,7 +613,7 @@ API examples to revoke/delete a specific API token or all tokens of the current 
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to to revoke all tokens of the current user
     request = DeleteAPITokensRequest()
     

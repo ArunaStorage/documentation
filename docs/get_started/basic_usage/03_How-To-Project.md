@@ -18,7 +18,7 @@ API example for creating a new Project.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a project
     curl -d '
       {
@@ -32,7 +32,7 @@ API example for creating a new Project.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a project
     let create_request = CreateProjectRequest {
         name: "Rust-API-Test-Project".to_string(),
@@ -51,7 +51,7 @@ API example for creating a new Project.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a project
     request = CreateProjectRequest(
         name="Python-API-Test-Project",
@@ -76,7 +76,7 @@ API example for fetching info of an existing Project.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of a project
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -85,7 +85,7 @@ API example for fetching info of an existing Project.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of a project
     let get_request = GetProjectRequest { 
         project_id: "<project-id>".to_string(),
@@ -103,7 +103,7 @@ API example for fetching info of an existing Project.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of a project
     request = GetProjectRequest(
         project_id="<project-id>"
@@ -127,7 +127,7 @@ API example for fetching all registered Projects a specific user is associated w
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of all projects a specific user is member of
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -136,7 +136,7 @@ API example for fetching all registered Projects a specific user is associated w
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
     let get_request = GetUserProjectsRequest {
         user_id: "".to_string(),
@@ -154,7 +154,7 @@ API example for fetching all registered Projects a specific user is associated w
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of all projects a specific user is member of
     request = GetUserProjectsRequest(
         user_id=""  # Parameter can be omitted if empty
@@ -183,7 +183,7 @@ API example for updating an existing Project.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update the metadata of a project
     curl -d '
       {
@@ -197,7 +197,7 @@ API example for updating an existing Project.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update the metadata of a project
     let update_request = UpdateProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -217,7 +217,7 @@ API example for updating an existing Project.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update the metadata of a project
     request = UpdateProjectRequest(
         project_id="<project-id>",
@@ -248,7 +248,7 @@ API examples for deleting a Project.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to delete a project
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -257,7 +257,7 @@ API examples for deleting a Project.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to delete a project
     let delete_request = DestroyProjectRequest {
         project_id: "<project-id>".to_string(),
@@ -275,7 +275,7 @@ API examples for deleting a Project.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to delete a project
     request = DestroyProjectRequest(
         project_id="<project-id>"

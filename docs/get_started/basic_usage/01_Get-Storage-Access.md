@@ -26,7 +26,7 @@ The presence of a client connection to the specific resource service is required
 
     To use the Rust API library you have to set it as dependency `aruna-rust-api = "<Aruna-Rust-API-Version>"` in the `cargo.toml` of your project.
 
-    ```rust
+    ```rust linenums="1"
     use aruna_rust_api::api::aruna::api::storage::services::v1::{
         user_service_client,
         project_service_client,
@@ -90,7 +90,7 @@ The presence of a client connection to the specific resource service is required
 
         **All Python examples in this documentation assume that the client services have been initialized with an interceptor.**
 
-    ```python
+    ```python linenums="1"
     import collections
     import grpc
     
@@ -177,7 +177,7 @@ The presence of a client connection to the specific resource service is required
 
         **All Python examples in this documentation assume that the client services have been initialized with an interceptor.**
 
-    ```python
+    ```python linenums="1"
     import grpc
 
     from aruna.api.storage.services.v1.collection_service_pb2_grpc import CollectionServiceStub
@@ -226,7 +226,7 @@ Users can register themselves with an individual display name in an AOS instance
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to register OIDC user
     curl -d '
       {
@@ -239,7 +239,7 @@ Users can register themselves with an individual display name in an AOS instance
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to register OIDC user
     let register_request = RegisterUserRequest {
         display_name: "John Doe".to_string(),
@@ -257,7 +257,7 @@ Users can register themselves with an individual display name in an AOS instance
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to register OIDC user
     request = RegisterUserRequest(
         display_name="John Doe"
@@ -284,14 +284,14 @@ After registration users additionally have to be activated in a second step.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # For convenience, administrators can request info on all unactivated users at once
     curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
          -H "Content-Type: application/json" \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user/not_activated
     ```
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to activate registered user
     curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
          -H "Content-Type: application/json" \
@@ -301,7 +301,7 @@ After registration users additionally have to be activated in a second step.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch all not activated users
     let get_request = GetNotActivatedUsersRequest {};
     
@@ -315,7 +315,7 @@ After registration users additionally have to be activated in a second step.
     println!("{:#?}", unactivated);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request for user activation
     let user_id = uuid::Uuid::parse("12345678-1234-1234-1234-123456789999").unwrap();
     
@@ -335,7 +335,7 @@ After registration users additionally have to be activated in a second step.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request for user activation
     request = ActivateUserRequest(
         user_id="<user-id>"  # Has to be a valid UUID v4 of a registered user
@@ -359,14 +359,14 @@ To check which user a token is associated with or get information about the curr
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch user information associated with authorization token
     curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
          -H "Content-Type: application/json" \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch user information associated with the provided user id
     curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
          -H "Content-Type: application/json" \
@@ -375,7 +375,7 @@ To check which user a token is associated with or get information about the curr
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch user info of current user
     let get_request = GetUserRequest {
         user_id: "".to_string()
@@ -397,7 +397,7 @@ To check which user a token is associated with or get information about the curr
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch user info of current user
     request = GetUserRequest()
     

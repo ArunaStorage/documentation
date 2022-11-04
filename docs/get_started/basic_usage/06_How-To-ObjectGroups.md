@@ -18,7 +18,7 @@ API example for creating an ObjectGroup.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a new object group
     curl -d '
       {
@@ -47,7 +47,7 @@ API example for creating an ObjectGroup.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a new object group
     let create_request = CreateObjectGroupRequest {
         name: "Rust-API-Test-ObjectGroup".to_string(),
@@ -80,7 +80,7 @@ API example for creating an ObjectGroup.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a new object group
     request = CreateObjectGroupRequest(
         name="Python-API-Test-ObjectGroup",
@@ -115,28 +115,28 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information about a specific object group
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information about the first 20 revisions of an object group
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/history
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information about the first 250 revisions of an object group
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/history?pageRequest.pageSize=250
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information about the revisions 21-40 (i.e. next page) of an object group
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -145,7 +145,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information about a specific object group
     let get_request = GetObjectGroupByIdRequest { 
         group_id: "<object-group-id>".to_string(), 
@@ -162,7 +162,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information about the first 20 revisions of an object group
     let get_request = GetObjectGroupHistoryRequest {
         group_id: "<object-group-id>".to_string(),
@@ -180,7 +180,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information about the first 250 revisions of an object group
     let get_request = GetObjectGroupHistoryRequest {
         group_id: "<object-group-id>".to_string(),
@@ -201,7 +201,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information about the revisions 21-40 (i.e. next page) of an object group
     let get_request = GetObjectGroupHistoryRequest {
         group_id: "<object-group-id>".to_string(),
@@ -224,7 +224,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information about a specific object group
     request = GetObjectGroupByIdRequest(
         group_id="<object-group-id>",
@@ -238,7 +238,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information about the first 20 revisions of an object group
     request = GetObjectGroupHistoryRequest(
         collection_id="<collection-id>",
@@ -253,7 +253,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information about the first 250 revisions of an object group
     request = GetObjectGroupHistoryRequest(
         collection_id="<collection-id>",
@@ -271,7 +271,7 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information about the revisions 21-40 (i.e. next page) of an object group
     request = GetObjectGroupHistoryRequest(
         collection_id="<collection-id>",
@@ -300,7 +300,7 @@ You can also fetch all ObjectGroups of a Collection at once.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information about the first 20 object groups of a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -309,7 +309,7 @@ You can also fetch all ObjectGroups of a Collection at once.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information about the first 20 object groups of a collection
     let get_request = GetObjectGroupsRequest {
         collection_id: "<collection-id>".to_string(),
@@ -329,7 +329,7 @@ You can also fetch all ObjectGroups of a Collection at once.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information about the first 20 object groups of a collection
     request = GetObjectGroupsRequest(
         collection_id="<collection-id>",
@@ -357,21 +357,21 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of the first 20 objects of an object group including meta objects
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/objects
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of the first 250 objects of an object group including meta objects
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<group-id>/objects?pageRequest.pageSize=250
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information only of meta objects of an object group
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -380,7 +380,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of the first 20 objects of an object group including meta objects
     let get_request = GetObjectGroupObjectsRequest {
         group_id: "<object-group-id>".to_string(),
@@ -399,7 +399,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of the first 250 objects of an object group including meta objects
     let get_request = GetObjectGroupObjectsRequest {
         group_id: "<object-group-id>".to_string(),
@@ -421,7 +421,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information only of meta objects of an object group
     let get_request = GetObjectGroupObjectsRequest {
         group_id: "<object-group-id>".to_string(),
@@ -442,7 +442,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of the first 20 objects of an object group including meta objects
     request = GetObjectGroupObjectsRequest(
         collection_id="<collection-id>",
@@ -458,7 +458,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of the first 250 objects of an object group including meta objects
     request = GetObjectGroupObjectsRequest(
         collection_id="<collection-id>",
@@ -477,7 +477,7 @@ There is also the possibility to only fetch the objects marked as metadata of th
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to to fetch information only of meta objects of an object group
     request = GetObjectGroupObjectsRequest(
         collection_id="<collection-id>",
@@ -513,7 +513,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update the description of an object group
     curl -d '
       {
@@ -540,7 +540,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
          -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
     ```
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update the description and objects contained in the object group
     curl -d '
       {
@@ -569,7 +569,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update the description of an object group
     let update_request = UpdateObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
@@ -599,7 +599,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
     println!("{:#?}", response);
     ```
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update the description and objects contained in the object group
     let update_request = UpdateObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
@@ -631,7 +631,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update the description of an object group
     request = UpdateObjectGroupRequest(
         group_id="<object-group-id>",
@@ -656,7 +656,7 @@ Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update the description of an object group
     request = UpdateObjectGroupRequest(
         group_id="<object-group-id>",
@@ -706,7 +706,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to delete an ObjectGroup revision
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -715,7 +715,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to delete an ObjectGroup revision
     let delete_request = DeleteObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
@@ -734,7 +734,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to delete an ObjectGroup revision
     request = DeleteObjectGroupRequest(
         group_id="<object-group-id>",

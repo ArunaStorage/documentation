@@ -19,7 +19,7 @@ API example for creating a new Collection.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to create a new collection
     curl -d '
       {
@@ -52,7 +52,7 @@ API example for creating a new Collection.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a new collection
     let create_request = CreateNewCollectionRequest {
         name: "Rust-API-Test-Collection".to_string(),
@@ -84,7 +84,7 @@ API example for creating a new Collection.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to create a new collection
     request = CreateNewCollectionRequest(
         name="Python-API-Test-Collection",
@@ -120,14 +120,14 @@ API examples for fetching one or multiple existing Collection/s.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch information of a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to fetch multiple collections of a project
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -136,7 +136,7 @@ API examples for fetching one or multiple existing Collection/s.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch information of a collection
     let get_request = GetCollectionByIdRequest {
         collection_id: "<collection-id>".to_string(),
@@ -152,7 +152,7 @@ API examples for fetching one or multiple existing Collection/s.
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch all collections of a project
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
@@ -170,7 +170,7 @@ API examples for fetching one or multiple existing Collection/s.
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by their ids
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
@@ -194,7 +194,7 @@ API examples for fetching one or multiple existing Collection/s.
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by label keys
     let get_request = GetCollectionsRequest {
         project_id: "<project-id>".to_string(),
@@ -224,7 +224,7 @@ API examples for fetching one or multiple existing Collection/s.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch information of a collection
     request = GetCollectionByIDRequest(
         collection_id="<collection-id>"
@@ -237,7 +237,7 @@ API examples for fetching one or multiple existing Collection/s.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request fetch first 20 collections of a project
     request = GetCollectionsRequest(
         project_id="<project-id>",
@@ -252,7 +252,7 @@ API examples for fetching one or multiple existing Collection/s.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by their ids
     GetCollectionsRequest(
         project_id="<project-id>",
@@ -271,7 +271,7 @@ API examples for fetching one or multiple existing Collection/s.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to fetch multiple collections of a project filtered by label keys
     request = GetCollectionsRequest(
         project_id="<project-id>",
@@ -315,7 +315,7 @@ API example for updating a Collection.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to update a collections name and description
     curl -d '
       {
@@ -348,7 +348,7 @@ API example for updating a Collection.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to update a collections name and description
     let update_request = UpdateCollectionRequest {
         collection_id: "<collection-id>".to_string(),
@@ -382,7 +382,7 @@ API example for updating a Collection.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to update a collections name and description
     request = UpdateCollectionRequest(
         project_id="<project-id>",
@@ -423,7 +423,7 @@ Pinned collections can not be updated in place anymore.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to pin a collection to a specific version
     curl -d '
       {
@@ -440,7 +440,7 @@ Pinned collections can not be updated in place anymore.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to pin a collection to a specific version
     let pin_request = PinCollectionVersionRequest {
         collection_id: "<collection-id>".to_string(),
@@ -463,7 +463,7 @@ Pinned collections can not be updated in place anymore.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to pin a collection to a specific version
     request = PinCollectionVersionRequest(
         collection_id="<collection-id>",
@@ -497,7 +497,7 @@ API examples for deleting a Collection.
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to delete a collection
     curl -d '
       {
@@ -509,7 +509,7 @@ API examples for deleting a Collection.
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>
     ```
     
-    ```bash
+    ```bash linenums="1"
     # Native JSON request to force delete a collection with force
     curl -d '
       {
@@ -523,7 +523,7 @@ API examples for deleting a Collection.
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to delete a collection
     let delete_request = DeleteCollectionRequest {
         collection_id: "<collection-id>".to_string(),
@@ -541,7 +541,7 @@ API examples for deleting a Collection.
     println!("{:#?}", response);
     ```
     
-    ```rust
+    ```rust linenums="1"
     // Create tonic/ArunaAPI request to delete a collection with force
     let delete_request = DeleteCollectionRequest {
         collection_id: "<collection-id>".to_string(),
@@ -561,7 +561,7 @@ API examples for deleting a Collection.
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to delete a collection
     request = DeleteCollectionRequest(
         collection_id="<collection-id>",
@@ -576,7 +576,7 @@ API examples for deleting a Collection.
     print(f'{response}')
     ```
 
-    ```python
+    ```python linenums="1"
     # Create tonic/ArunaAPI request to delete a collection with force
     request = DeleteCollectionRequest(
         collection_id="<collection-id>",

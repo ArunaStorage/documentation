@@ -15,17 +15,17 @@ After subscription, you will receive mail notifications if something happens wit
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     ```
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     ```
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     ```
 
 
@@ -35,15 +35,15 @@ After subscription, you will receive mail notifications if something happens wit
 
 === ":simple-curl: cURL"
 
-    ```bash
+    ```bash linenums="1"
     ```
 
 === ":simple-rust: Rust"
 
-    ```rust
+    ```rust linenums="1"
     ```
 
 === ":simple-python: Python"
 
-    ```python
+    ```python linenums="1"
     ```
