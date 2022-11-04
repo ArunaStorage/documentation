@@ -304,7 +304,7 @@ You can also fetch all ObjectGroups of a Collection at once.
     # Native JSON request to fetch information about the first 20 object groups of a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/groups
     ```
 
 === ":simple-rust: Rust"
