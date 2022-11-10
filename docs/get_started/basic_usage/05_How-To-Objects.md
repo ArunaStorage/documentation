@@ -724,7 +724,6 @@ Additionally, you can include id or label filters to narrow the returned Objects
         page_request: None,
         label_id_filter: None,
         with_url: false,
-        include_history: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -747,7 +746,6 @@ Additionally, you can include id or label filters to narrow the returned Objects
         }),
         label_id_filter: None,
         with_url: false,
-        include_history: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -770,7 +768,6 @@ Additionally, you can include id or label filters to narrow the returned Objects
         }),
         label_id_filter: None,
         with_url: false,
-        include_history: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -793,7 +790,6 @@ Additionally, you can include id or label filters to narrow the returned Objects
             ids: vec!["<object-id-001>".to_string(), "<object-id-001>".to_string()],
         }),
         with_url: false,
-        include_history: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -823,7 +819,6 @@ Additionally, you can include id or label filters to narrow the returned Objects
             ids: vec![],
         }),
         with_url: false,
-        include_history: false,
     };
     
     // Send the request to the AOS instance gRPC gateway

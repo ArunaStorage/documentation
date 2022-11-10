@@ -105,7 +105,7 @@ API example for creating an ObjectGroup.
     ```
 
 
-## Get ObjectGroup(s)
+## Get ObjectGroup (and its revisions)
 
 Fetching information of an ObjectGroup only returns information of the ObjectGroup itself, not the containing Objects.
 
@@ -290,9 +290,9 @@ Fetching information of an ObjectGroup only returns information of the ObjectGro
     ```
 
 
-## Get all ObjectGroups of Collection
+## Get ObjectGroups of Collection
 
-You can also fetch all ObjectGroups of a Collection at once.
+You can also fetch multiple ObjectGroups of a Collection at once.
 
 !!! Info
 
@@ -304,7 +304,21 @@ You can also fetch all ObjectGroups of a Collection at once.
     # Native JSON request to fetch information about the first 20 object groups of a collection
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/groups
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to fetch information about the first 250 object groups of a collection
+    curl -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/groups?pageRequest.pageSize=250
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to fetch information about the object group 21-40 (i.e. next page) of an collection
+    curl -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/groups?pageRequest.lastUuid=<last-received-object-group-id>
     ```
 
 === ":simple-rust: Rust"
@@ -314,6 +328,48 @@ You can also fetch all ObjectGroups of a Collection at once.
     let get_request = GetObjectGroupsRequest {
         collection_id: "<collection-id>".to_string(),
         page_request: None,
+        label_id_filter: None,
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = object_group_client.get_object_groups(get_request)
+                                      .await
+                                      .unwrap()
+                                      .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to fetch information about the first 250 object groups of a collection
+    let get_request = GetObjectGroupsRequest {
+        collection_id: "<collection-id>".to_string(),
+        page_request: Some(PageRequest {
+            last_uuid: "".to_string(),
+            page_size: 250,
+        }),
+        label_id_filter: None,
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = object_group_client.get_object_groups(get_request)
+                                      .await
+                                      .unwrap()
+                                      .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to fetch information about the object groups 21-40 (i.e. next page) of an collection
+    let get_request = GetObjectGroupsRequest {
+        collection_id: "<collection-id>".to_string(),
+        page_request: Some(PageRequest {
+            last_uuid: "<id-of-last-received-object-group>".to_string(),
+            page_size: 0,
+        }),
         label_id_filter: None,
     };
     
@@ -344,6 +400,41 @@ You can also fetch all ObjectGroups of a Collection at once.
     print(f'{response}')
     ```
 
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to fetch information about the first 250 object groups of a collection
+    request = GetObjectGroupsRequest(
+        collection_id="<collection-id>",
+        page_request=PageRequest(
+            last_uuid="",  # Parameter can also be omitted if empty
+            page_size=250
+        ),
+        label_id_filter=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroups(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to fetch information about the object groups 21-40 (i.e. next page) of an collection
+    request = GetObjectGroupsRequest(
+        collection_id="<collection-id>",
+        page_request=PageRequest(
+            last_uuid="<last-received-object-group-id>",  
+            page_size=0  # Parameter can also be omitted if <= 0 (Defaults to 20)
+        )
+        label_id_filter=None
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.GetObjectGroups(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
 
 ## Get ObjectGroup Objects
 
