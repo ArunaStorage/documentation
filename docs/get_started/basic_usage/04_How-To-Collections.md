@@ -321,7 +321,6 @@ API example for updating a Collection.
       {
         "name": "UpdatedDummyCollection",
         "description": "Updated description of a dummy collection.",
-        "projectId": "<project-id>",
         "labels": [
           {
             "key": "LabelKey",
@@ -354,7 +353,6 @@ API example for updating a Collection.
         collection_id: "<collection-id>".to_string(),
         name: "Rust-API-Updated-Collection".to_string(),
         description: "This collection was updated through the Rust API.".to_string(),
-        project_id: "<project-id>".to_string(),
         labels: vec![KeyValue {
             key: "LabelKey".to_string(),
             value: "LabelValue".to_string(),
@@ -385,7 +383,6 @@ API example for updating a Collection.
     ```python linenums="1"
     # Create tonic/ArunaAPI request to update a collections name and description
     request = UpdateCollectionRequest(
-        project_id="<project-id>",
         collection_id="<collection-id>",
         name="Python-API-Updated-Collection",
         description="This collection was updated with the gRPC Python API client.",
@@ -501,7 +498,6 @@ API examples for deleting a Collection.
     # Native JSON request to delete a collection
     curl -d '
       {
-        "projectId": "<project-id>",
         "force": false
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
@@ -513,7 +509,6 @@ API examples for deleting a Collection.
     # Native JSON request to force delete a collection with force
     curl -d '
       {
-        "projectId": "<project-id>",
         "force": true
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
@@ -527,7 +522,6 @@ API examples for deleting a Collection.
     // Create tonic/ArunaAPI request to delete a collection
     let delete_request = DeleteCollectionRequest {
         collection_id: "<collection-id>".to_string(),
-        project_id: "<project-id>".to_string(),
         force: false
     };
     
@@ -545,7 +539,6 @@ API examples for deleting a Collection.
     // Create tonic/ArunaAPI request to delete a collection with force
     let delete_request = DeleteCollectionRequest {
         collection_id: "<collection-id>".to_string(),
-        project_id: "<project-id>".to_string(),
         force: true
     };
     
@@ -565,7 +558,6 @@ API examples for deleting a Collection.
     # Create tonic/ArunaAPI request to delete a collection
     request = DeleteCollectionRequest(
         collection_id="<collection-id>",
-        project_id="<project-id>",
         force=False
     )
 
@@ -580,7 +572,6 @@ API examples for deleting a Collection.
     # Create tonic/ArunaAPI request to delete a collection with force
     request = DeleteCollectionRequest(
         collection_id="<collection-id>",
-        project_id="<project-id>",
         force=True
     )
 
