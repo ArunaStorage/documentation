@@ -1041,7 +1041,7 @@ Objects can still be updated after finishing.
 
 ### Update which does not create a new revision
 
-Just adding one or multiple labels to an Object does not create a new revision.
+Just adding one or multiple labels to an Object does not create a new revision with this specific request.
 
 === ":simple-curl: cURL"
 
@@ -1065,7 +1065,7 @@ Just adding one or multiple labels to an Object does not create a new revision.
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to add a label to an object
-    let add_request = AddLabelToObjectRequest {
+    let add_request = AddLabelsToObjectRequest {
         object_id: "<object-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         labels_to_add: vec![KeyValue {
@@ -1088,7 +1088,7 @@ Just adding one or multiple labels to an Object does not create a new revision.
 
     ```python linenums="1"
     # Create tonic/ArunaAPI request to add a label to an object
-    request = AddLabelToObjectRequest(
+    request = AddLabelsToObjectRequest(
         object_id="<object-id>",
         collection_id="<collection-id>",
         labels_to_add=[KeyValue(
@@ -1098,7 +1098,7 @@ Just adding one or multiple labels to an Object does not create a new revision.
     )
 
     # Send the request to the AOS instance gRPC gateway
-    response = client.object_client.AddLabelToObject(request=request)
+    response = client.object_client.AddLabelsToObject(request=request)
 
     # Do something with the response
     print(f'{response}')
