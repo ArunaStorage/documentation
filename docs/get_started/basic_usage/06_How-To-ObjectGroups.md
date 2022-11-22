@@ -436,6 +436,7 @@ You can also fetch multiple ObjectGroups of a Collection at once.
     print(f'{response}')
     ```
 
+
 ## Get ObjectGroup Objects
 
 Information of the containing Objects have to be requested separately.
@@ -587,7 +588,80 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
 ## Update ObjectGroup
 
-Updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
+ObjectGroups can also be updated after creation. 
+
+!!! Info
+
+    This request needs at least MODIFY permissions on the Object's Collection or the Project under which the Collection is registered.
+
+### Update which does not create a new revision
+
+Just adding one or multiple labels to an Object does not create a new revision with this specific request.
+
+=== ":simple-curl: cURL"
+
+    ```bash linenums="1"
+    # Native JSON request to add a label to an object 
+    curl -d '
+      {
+        "labelsToAdd": [
+          {
+            "key": "AnotherKey",
+            "value": "AnotherValue"
+         }
+       ]
+      }' \
+         -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection_id}/group/{group_id}/add_labels
+    ```
+
+=== ":simple-rust: Rust"
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to add a label to an object group
+    let add_request = AddLabelsToObjectGroupRequest {
+        collection_id: "<collection-id>".to_string(),
+        group_id: "<object-group-id>".to_string(),
+        labels_to_add: vec![KeyValue {
+            key: "AnotherKey".to_string(),
+            value: "AnotherValue".to_string(),
+        }],
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = object_group_client.add_labels_to_object_group(add_request)
+                                      .await
+                                      .unwrap()
+                                      .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add a label to an object group
+    request = AddLabelsToObjectGroupRequest(
+        collection_id="<collection-id>",
+        group_id="<object-id>",
+        labels_to_add=[KeyValue(
+            key="AnotherKey",
+            value="AnotherValue"
+        )]
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_group_client.AddLabelsToObjectGroup(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+### Update which creates a new revision
+
+Otherwise, updating an ObjectGroup itself always creates a new revision of the ObjectGroup.
 
 !!! Note 
 
