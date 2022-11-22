@@ -1035,6 +1035,13 @@ This can be done with an individual request or directly while getting informatio
 
 Objects can still be updated after finishing.
 
+!!! Note
+
+    Concurrent updates from different collections are possible but discouraged.
+
+    If you want to explicitly update an object without paying attention to whether 
+    it is being updated by someone else at that moment, the `force` parameter can be used.
+
 !!! Info
 
     This request needs at least MODIFY permissions on the Object's Collection or the Project under which the Collection is registered.
@@ -1141,7 +1148,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         "reupload": false,
         "preferredEndpointId": "",
         "multiPart": false,
-        "isSpecification": false
+        "isSpecification": false,
+        "force": false
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1189,7 +1197,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         reupload: false,
         preferred_endpoint_id: "".to_string(),
         multi_part: false,
-        is_specification: false
+        is_specification: false,
+        force: false
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1252,7 +1261,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         reupload=False,
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multi_part=False,  # Parameter can also be omitted if `reupload=False`
-        is_specification=False
+        is_specification=False,
+        force=False
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -1308,7 +1318,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         "reupload": true,
         "preferredEndpointId": "",
         "multiPart": false,
-        "isSpecification": false
+        "isSpecification": false,
+        "force": false
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1364,7 +1375,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         reupload: true,
         preferred_endpoint_id: "".to_string(),
         multi_part: false,
-        is_specification: false
+        is_specification: false,
+        force: false
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1468,7 +1480,8 @@ Comparable to the Object initialization process, the updated Object must be fini
         reupload=True,
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multi_part=False,  # Parameter can also be omitted if `reupload=False`
-        is_specification=False
+        is_specification=False,
+        force=False
     )
 
     # Send the request to the AOS instance gRPC gateway
