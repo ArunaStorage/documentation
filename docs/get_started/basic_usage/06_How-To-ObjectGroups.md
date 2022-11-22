@@ -588,15 +588,16 @@ There is also the possibility to only fetch the objects marked as metadata of th
 
 ## Update ObjectGroup
 
-ObjectGroups can also be updated after creation. 
+ObjectGroups can also be updated after creation.
 
-!!! Info
-
-    This request needs at least MODIFY permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ### Update which does not create a new revision
 
 Just adding one or multiple labels to an Object does not create a new revision with this specific request.
+
+!!! Info
+
+    This request needs at least MODIFY permissions on the Object's Collection or the Project under which the Collection is registered.
 
 === ":simple-curl: cURL"
 
