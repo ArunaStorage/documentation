@@ -26,11 +26,12 @@ A more detailed description of the individual resources can be found in the [com
 
 The API is designed generally with Google Protocol Buffers. With the release of a new API version, the client libraries are automatically compiled and updated to the latest version.
 The API is fundamentally backwards compatible, which means that users' applications will continue to work as usual before they also decide to move to the new version.
+The API currently contains part that are not fully implemented in the backend yet. For testing please use those components that are marked with "STABLE"
 
-* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
-* Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
-* Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api) or [PyPI](https://pypi.org/project/Aruna-Python-API)
-* Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api)
+- Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
+- Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
+- Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api) or [PyPI](https://pypi.org/project/Aruna-Python-API)
+- Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api)
 
 ### **AOS Server**
 
@@ -39,9 +40,9 @@ The API is fundamentally backwards compatible, which means that users' applicati
 The implementation of the API that handles the incoming requests.
 
 > Aruna Object Storage is data lake application with API that manages scientific data objects according to FAIR principles.
-It interacts with multiple data storage backends (e.g. S3, File ...) via the DataProxy application and stores a rich and queryable set of metadata about stored objects in a
-postgres compatible database (e.g. CockroachDB).
-Aruna is conceptually geo-redundant with multiple dataset and database locations. Users can choose where and how to store their data.
+> It interacts with multiple data storage backends (e.g. S3, File ...) via the DataProxy application and stores a rich and queryable set of metadata about stored objects in a
+> postgres compatible database (e.g. CockroachDB).
+> Aruna is conceptually geo-redundant with multiple dataset and database locations. Users can choose where and how to store their data.
 
 ### **AOS Data Proxy**
 
@@ -59,14 +60,13 @@ This is the internal server implementation handling the communication between th
 > This is a simple CLI application for the ScienceObjectsDB API.
 > Its currently work in progress and will be developed along with the API. Neither concept nor implementation are final.
 
-* **Notification system**
+- **Notification system**
 
 The storage system has a notification system that can be used to receive change notification on specific resources.
 
 The notification system is currently still in the implementation phase but will be available soon.
 
 <!-- An example can be found here: [Notification Stream Example](#) -->
-
 
 ## Implementation design trivia
 
