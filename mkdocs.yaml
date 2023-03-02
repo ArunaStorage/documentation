@@ -26,6 +26,7 @@ theme:
   name: material
   logo: assets/logo-claim.png
   favicon: assets/logo-icon.png
+  custom_dir: overrides
   features:
     - content.code.annotate
     - navigation.tabs
