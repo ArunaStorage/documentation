@@ -2,35 +2,43 @@ name: Site build and deploy on push
 on:
   push:
     branches:
-      - master 
-      - main
+      - 'v*.*' # Always deploy on version branch update
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+        with:
+          fetch-depth: 0 # fetch all commits/branches
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-          
+
       - name: Update pip
         run: pip install --upgrade pip
-        
+
       - name: Install mkdocs-material
-        run: pip install mkdocs-material 
-        
+        run: pip install mkdocs-material
+
       - name: Install mkdocs-glightbox
         run: pip install mkdocs-glightbox
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
+      - name: Install mike
+        run: pip install mike
 
-      - name: Configuration before deploy
-        run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
-        
-      - name: Deploy mkdocs site to gh_pages 
-        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
+      - name: Configure Git user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Deploy version site to gh_pages with mike
+        run: mike deploy -F mkdocs.yaml -p ${{ steps.extract_branch.outputs.branch }}

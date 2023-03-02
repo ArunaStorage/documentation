@@ -1,8 +1,8 @@
 site_name: Aruna Object Storage Documentation
 site_url: https://ArunaStorage.github.io/Documentation
 
-repo_name: 'ArunaStorage/Documentation'
-repo_url: 'https://github.com/ArunaStorage/Documentation'
+repo_name: 'ArunaStorage/ArunaAPI'
+repo_url: 'https://github.com/ArunaStorage/ArunaPI'
 
 docs_dir: docs/
 
@@ -26,6 +26,7 @@ theme:
   name: material
   logo: assets/logo-claim.png
   favicon: assets/logo-icon.png
+  #custom_dir: overrides
   features:
     - content.code.annotate
     - navigation.tabs
@@ -55,3 +56,10 @@ markdown_extensions:
 plugins:
   - glightbox
   - search
+  - mike:
+      version_selector: true
+      css_dir: stylesheets
+
+extra:
+  version:
+    provider: mike
