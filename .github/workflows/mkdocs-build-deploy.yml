@@ -2,7 +2,7 @@ name: Site build and deploy on push
 on:
   push:
     branches:
-      - 'v*.*' # Always build/deploy on version branch update
+      - 'v*.*' # Always deploy on version branch update
 
 jobs:
   deploy:
@@ -34,6 +34,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
