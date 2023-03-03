@@ -40,7 +40,8 @@ As long as an Object is in the staging area data can be uploaded to it.
         },
         "preferredEndpointId": "",
         "multipart": false,
-        "isSpecification": false
+        "isSpecification": false,
+        "hash": {}
       }' \
       -H 'Authorization: Bearer <API_TOKEN>' \
       -H 'Content-Type: application/json' \
@@ -71,6 +72,7 @@ As long as an Object is in the staging area data can be uploaded to it.
         preferred_endpoint_id: "".to_string(),
         multipart: false,
         is_specification: false,
+        hash: None,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -106,7 +108,8 @@ As long as an Object is in the staging area data can be uploaded to it.
         collection_id="<collection-id>",
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multipart=False,
-        is_specification=False
+        is_specification=False,
+        hash=None  # Will be provided at object finish in this example
     )
 
     # Send the request to the AOS instance gRPC gateway
