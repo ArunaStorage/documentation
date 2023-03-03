@@ -4,7 +4,7 @@
 ## Introduction
 
 Objects are the primary resource to actually hold the data you upload. 
-Before you can initialize any Objects you have to create Collection to ensure consistent 
+Before you can initialize any Objects you have to create a Collection to ensure consistent authorization for all 
 
 If you don't know how to create a Collection you should read the previous chapter about the [**Collection API basics**](04_How-To-Collections.md).
 
@@ -27,8 +27,6 @@ As long as an Object is in the staging area data can be uploaded to it.
       {
         "object": {
           "filename": "aruna.png",
-          "description": "Aruna Object Storage logo.",
-          "collectionId": "<collection-id>",
           "contentLen": "123456",
           "dataclass": "DATA_CLASS_PRIVATE",
           "labels": [
@@ -37,7 +35,8 @@ As long as an Object is in the staging area data can be uploaded to it.
               "value": "LabelValue"
             }
           ],
-          "hooks": []
+          "hooks": [],
+          "subPath": ""
         },
         "preferredEndpointId": "",
         "multipart": false,
@@ -55,8 +54,6 @@ As long as an Object is in the staging area data can be uploaded to it.
     let init_request = InitializeNewObjectRequest {
         object: Some(StageObject {
             filename: "aruna.png".to_string(),
-            description: "Aruna Object Storage logo".to_string(),
-            collection_id: "<collection-id>".to_string(),
             content_len: 123456,
             source: None,
             dataclass: DataClass::Private as i32,
@@ -68,6 +65,7 @@ As long as an Object is in the staging area data can be uploaded to it.
                 key: "HookKey".to_string(),
                 value: "HookValue".to_string(),
             }],
+            sub_path: "".to_string(),
         }),
         collection_id: "<collection-id>".to_string(),
         preferred_endpoint_id: "".to_string(),
@@ -92,8 +90,6 @@ As long as an Object is in the staging area data can be uploaded to it.
     request = InitializeNewObjectRequest(
         object=StageObject(
             filename="aruna.png",
-            description="Aruna Object Storage logo",
-            collection_id="<collection-id>",
             content_len=123456,
             source=None,  # Parameter can also be omitted if None
             dataclass=DataClass.Value("DATACLASS_PRIVATE"),
@@ -104,7 +100,8 @@ As long as an Object is in the staging area data can be uploaded to it.
             hooks=[KeyValue(
                 key="HookKey",
                 value="HookValue"
-            )]
+            )],
+            subPath="",  # Parameter can also be omitted if empty
         ),
         collection_id="<collection-id>",
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
@@ -1128,28 +1125,28 @@ Comparable to the Object initialization process, the updated Object must be fini
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to update an objects description
+    # Native JSON request to update an objects dataclass
     curl -d '
       {
         "object": {
           "filename": "aruna.png",
-          "description": "An updated description of the AOS logo.",
-          "collectionId": "<collection-id>",
           "contentLen": "123456",
-          "dataclass": "DATA_CLASS_PRIVATE",
+          "dataclass": "DATA_CLASS_PUBLIC",
             "labels": [
               {
                 "key": "LabelKey",
                 "value": "LabelValue"
               }
             ],
-            "hooks": []
+            "hooks": [],
+            "subPath": ""
           },
         "reupload": false,
         "preferredEndpointId": "",
         "multiPart": false,
         "isSpecification": false,
-        "force": false
+        "force": false,
+        "hash": {}
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1174,17 +1171,15 @@ Comparable to the Object initialization process, the updated Object must be fini
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to update an objects description
+    // Create tonic/ArunaAPI request to update an objects dataclass
     let update_request = UpdateObjectRequest {
         object_id: "<object-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         object: Some(StageObject {
             filename: "aruna.png".to_string(),
-            description: "An updated description of the AOS logo.".to_string(),
-            collection_id: "<collection-id>".to_string(),
             content_len: 123456,
             source: None,
-            dataclass: DataClass::Private as i32,
+            dataclass: DataClass::Public as i32,
             labels: vec![KeyValue {
                 key: "LabelKey".to_string(),
                 value: "LabelValue".to_string(),
@@ -1193,12 +1188,14 @@ Comparable to the Object initialization process, the updated Object must be fini
                 key: "HookKey".to_string(),
                 value: "HookValue".to_string(),
             }],
+            sub_path: "".to_string(),
         }),
         reupload: false,
         preferred_endpoint_id: "".to_string(),
         multi_part: false,
         is_specification: false,
-        force: false
+        force: false,
+        hash: None, // Will be provided at object finish in this example
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1244,11 +1241,9 @@ Comparable to the Object initialization process, the updated Object must be fini
         collection_id="<collection-id>",
         object=StageObject(
             filename="aruna.png",
-            description="An updated description of the AOS logo.",
-            collection_id="<collection-id>",
             content_len=123456,
             source=None,  # Parameter can also be omitted if None
-            dataclass=DataClass.Value("DATACLASS_PRIVATE"),
+            dataclass=DataClass.Value("DATACLASS_PUBLIC"),
             labels=[KeyValue(
                 key="LabelKey",
                 value="LabelValue"
@@ -1256,13 +1251,15 @@ Comparable to the Object initialization process, the updated Object must be fini
             hooks=[KeyValue(
                 key="HookKey",
                 value="HookValue"
-            )]
+            )],
+            subPath="",  # Parameter can also be omitted if empty
         ),
         reupload=False,
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multi_part=False,  # Parameter can also be omitted if `reupload=False`
         is_specification=False,
-        force=False
+        force=False,
+        hash=None  # Will be provided at object finish in this example
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -1298,13 +1295,11 @@ Comparable to the Object initialization process, the updated Object must be fini
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to update an Objects description as well as re-upload the data
+    # Native JSON request to re-upload the modified data
     curl -d '
       {
         "object": {
           "filename": "aruna.png",
-          "description": "An updated description of the AOS logo.",
-          "collectionId": "<collection-id>",
           "contentLen": "1234567",
           "dataclass": "DATA_CLASS_PRIVATE",
             "labels": [
@@ -1313,13 +1308,15 @@ Comparable to the Object initialization process, the updated Object must be fini
                 "value": "LabelValue"
               }
             ],
-            "hooks": []
+            "hooks": [],
+            "subPath": ""
           },
         "reupload": true,
         "preferredEndpointId": "",
         "multiPart": false,
         "isSpecification": false,
-        "force": false
+        "force": false,
+        "hash": {}
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1352,14 +1349,12 @@ Comparable to the Object initialization process, the updated Object must be fini
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to update an objects description as well as re-upload the data
+    // Create tonic/ArunaAPI request to re-upload the modified data
     let update_request = UpdateObjectRequest {
         object_id: "<object-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
         object: Some(StageObject {
             filename: "aruna.png".to_string(),
-            description: "An updated description of the AOS logo.".to_string(),
-            collection_id: "<collection-id>".to_string(),
             content_len: 1234567,
             source: None,
             dataclass: DataClass::Private as i32,
@@ -1371,12 +1366,14 @@ Comparable to the Object initialization process, the updated Object must be fini
                 key: "HookKey".to_string(),
                 value: "HookValue".to_string(),
             }],
+            sub_path: "".to_string(),
         }),
         reupload: true,
         preferred_endpoint_id: "".to_string(),
         multi_part: false,
         is_specification: false,
-        force: false
+        force: false,
+        hash: None, // Will be provided at object finish in this example
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1457,14 +1454,12 @@ Comparable to the Object initialization process, the updated Object must be fini
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to update an objects description as well as re-upload the data
+    # Create tonic/ArunaAPI request to re-upload the modified data
     update_request = UpdateObjectRequest(
         object_id="<object-id>",
         collection_id="<collection-id>",
         object=StageObject(
             filename="aruna.png",
-            description="An updated description of the AOS logo.",
-            collection_id="<collection-id>",
             content_len=1234567,
             source=None,  # Parameter can also be omitted if None
             dataclass=DataClass.Value("DATACLASS_PRIVATE"),
@@ -1475,13 +1470,15 @@ Comparable to the Object initialization process, the updated Object must be fini
             hooks=[KeyValue(
                 key="HookKey",
                 value="HookValue"
-            )]
+            )],
+            subPath="",  # Parameter can also be omitted if empty
         ),
         reupload=True,
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multi_part=False,  # Parameter can also be omitted if `reupload=False`
         is_specification=False,
-        force=False
+        force=False,
+        hash=None  # Will be provided at object finish in this example
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -1562,7 +1559,8 @@ A reference can be either _"read only"_, which means that the Object can not be 
     curl -d '
       {
         "writeable": false,
-        "autoUpdate": true
+        "autoUpdate": true,
+        "subPath": ""
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1575,6 +1573,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
       {
         "writeable": true,
         "autoUpdate": true
+        "subPath": ""
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1591,6 +1590,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
         target_collection_id: "<target-collection-id>".to_string(),
         writeable: false,
         auto_update: true,
+        sub_path: "".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1611,6 +1611,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
         target_collection_id: "<target-collection-id>".to_string(),
         writeable: true,
         auto_update: true,
+        sub_path: "".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1632,7 +1633,8 @@ A reference can be either _"read only"_, which means that the Object can not be 
         collection_id="<source-collection-id>",
         target_collection_id="<target-collection-id>",
         writeable=False,
-        auto_update=True
+        auto_update=True,
+        subPath="",  # Parameter can also be omitted if empty
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -1649,7 +1651,8 @@ A reference can be either _"read only"_, which means that the Object can not be 
         collection_id="<source-collection-id>",
         target_collection_id="<target-collection-id>",
         writeable=True,
-        auto_update=True
+        auto_update=True,
+        subPath="",  # Parameter can also be omitted if empty
     )
     
     # Send the request to the AOS instance gRPC gateway

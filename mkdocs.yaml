@@ -15,7 +15,8 @@ nav:
       - 'Projects': get_started/basic_usage/03_How-To-Project.md
       - 'Collections': get_started/basic_usage/04_How-To-Collections.md
       - 'Objects': get_started/basic_usage/05_How-To-Objects.md
-      - 'ObjectsGroups': get_started/basic_usage/06_How-To-ObjectGroups.md
+      - 'Object Paths': get_started/basic_usage/06_How-To-Object-Paths.md
+      - 'ObjectsGroups': get_started/basic_usage/07_How-To-ObjectGroups.md
   - 'Data Structure':
       - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
       - 'Database ERD': internal_data_structure/database_erd.md

@@ -3,7 +3,7 @@
 
 ## Introduction
 
-For the general access a registered account within the official NFDI/NFDI4Biodiversity/GFBio AAI is needed to obtain a valid OIDC token from one of those.
+For the general access a registered account within the official NFDI/FAIR-DS AAI is needed to obtain a valid OIDC token from one of those.
 
 After login, you can use your OIDC token to register yourself at an AOS instance. 
 To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.
