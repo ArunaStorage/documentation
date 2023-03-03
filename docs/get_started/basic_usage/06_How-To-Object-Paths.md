@@ -104,7 +104,7 @@ API example for modifying the visibility of an objects' path.
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection_id}/object/{object_id}/path/{path}/visibility
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection_id}/path/{path}/visibility
     ```
 
     To make the specific path visible again just use the parameter `"visibility": true`.
