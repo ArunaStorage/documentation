@@ -879,6 +879,13 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
          -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>
     ```
 
+    ```bash linenums="1"
+    # Native JSON request to completely delete an ObjectGroup with all its revisions
+    curl -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v1/collection/<collection-id>/group/<object-group-id>?withRevisions=true
+    ```
+
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
@@ -886,6 +893,7 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
     let delete_request = DeleteObjectGroupRequest {
         group_id: "<object-group-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
+        with_revisions: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -898,13 +906,17 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
     println!("{:#?}", response);
     ```
 
+    To fully delete an ObjectGroup with all its revisions use the parameter `with_revisions: true`.
+
+
 === ":simple-python: Python"
 
     ```python linenums="1"
     # Create tonic/ArunaAPI request to delete an ObjectGroup revision
     request = DeleteObjectGroupRequest(
         group_id="<object-group-id>",
-        collection_id="<collection-id>"
+        collection_id="<collection-id>",
+        with_revisions=True
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -913,3 +925,5 @@ Deleted ObjectGroups are excluded from the general methods which fetch multiple 
     # Do something with the response
     print(f'{response}')
     ```
+
+    To fully delete an ObjectGroup with all its revisions use the parameter `with_revisions=True`.

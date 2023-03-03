@@ -79,7 +79,7 @@ API example for creating an additional path associated with an object.
     request = CreateObjectPathRequest(
         object_id="<object-id>",
         collection_id="<collection-id>",
-        subPath="/custom"
+        sub_path="/custom"
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -88,6 +88,67 @@ API example for creating an additional path associated with an object.
     # Do something with the response
     print(f'{response}')
     ```
+
+
+## Set Object Path visibility
+
+API example for modifying the visibility of an objects' path.
+
+=== ":simple-curl: cURL"
+
+    ```bash linenums="1"
+    # Native JSON request to modify the visibility of a path of an object
+    curl -d '
+      {
+        "visibility": false
+      }' \
+         -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection_id}/object/{object_id}/path/{path}/visibility
+    ```
+
+    To make the specific path visible again just use the parameter `"visibility": true`.
+
+=== ":simple-rust: Rust"
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to modify the visibility of a path of an object
+    let set_request = SetObjectPathVisibilityRequest {
+        collection_id: "<collection-id>".to_string(),
+        path: "<object-path>".to_string(),
+        visibility: false,
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = object_client.set_object_path_visibility(set_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    To make the specific path visible again just use the parameter `visibility: true`.
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to modify the visibility of a path of an object
+    request = SetObjectPathVisibilityRequest(
+        collection_id="<collection-id>",
+        path="/<object-path>",
+        visibility=True
+    )
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.object_client.SetObjectPathVisibility(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    To make the specific path visible again just use the parameter `visibility=True`.
 
 
 ## Get Object Paths
