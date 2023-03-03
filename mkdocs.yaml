@@ -2,7 +2,7 @@ site_name: Aruna Object Storage Documentation
 site_url: https://ArunaStorage.github.io/Documentation
 
 repo_name: 'ArunaStorage/ArunaAPI'
-repo_url: 'https://github.com/ArunaStorage/ArunaPI'
+repo_url: 'https://github.com/ArunaStorage/ArunaAPI'
 
 docs_dir: docs/
 
