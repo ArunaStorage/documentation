@@ -1830,15 +1830,34 @@ You can fetch information of all references an Object has in different Collectio
 
 ## Delete Object
 
-Objects can only be deleted from a Collection if at least one other writeable reference of the Object exists in another Collection.
-If at least one writeable reference still exists in another collection, only the object's reference to the specific collection is removed.
+Objects can also be deleted again according to the FAIR guidelines.
 
-This also applies for all revisions of the Object and will be enforced if `withRevisions = true` is set.
+This means that deleted objects or individually deleted revisions of objects do not simply disappear, 
+but a reference to the deleted resource remains.
 
-Permanent deletion conditions:
+**Object deletion rulebook:**
 
-* No writeable references of the specific Object and its revisions in other Collections
-* Use of `force = true` in request
+??? Example "Deletion of the last reference of an Object deletes the complete Object."
+
+    ![Visualization what happens if the last reference of an object gets deleted.](../imgs/delete_last_object_reference.png)
+
+??? Example "Deleting a reference of an object while other references still exist only removes the specific reference."
+
+    ![Visualization what happens if some reference of an object gets deleted.](../imgs/delete_some_object_reference.png)
+
+??? Example "If the last existing reference of an Object is `writeable == false` (i.e. read-only) the Object exists without possibility of further modification."
+
+    ![Visualization what happens if the last writeable reference of an object gets deleted.](../imgs/delete_last_writeable_reference.png)
+
+??? Example "With `force == true` an Objects revision can be deleted without regards to other references."
+
+    ![Visualization what happens if an object revision gets forcefully deleted.](../imgs/delete_force_object_reference.png)
+
+??? Example "With `force == true` and `with_revisions == true` an Object can be deleted completely without regards to other references."
+
+    ![Visualization what happens if all object revisions get forcefully deleted.](../imgs/delete_force_revisions_object.png)
+
+!!! Warning "Deletion of Objects from versioned Collections is prohibited without exceptions."
 
 !!! Info
 
@@ -1850,18 +1869,14 @@ Permanent deletion conditions:
     All conditions can be overwritten with the use of `force = true` in the request but this should be avoided at all costs.
     Therefore, only users with ADMIN permissions on the Project can use `force = true` in the request.
 
-!!! Warning
-
-    **Non-writeable references will also be deleted alongside with the last writeable reference.**
-
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # Native JSON request to force delete an object with all its revisions
     curl -d \
       '{
-        "withRevisions": "true", 
-        "force": "true"
+        "withRevisions": "false", 
+        "force": "false"
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -1875,8 +1890,8 @@ Permanent deletion conditions:
     let delete_request = DeleteObjectRequest {
         object_id: "<object-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
-        with_revisions: true,
-        force: true,
+        with_revisions: false,
+        force: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1896,8 +1911,8 @@ Permanent deletion conditions:
     request = DeleteObjectRequest(
         object_id="<source-object-id>",
         collection_id="<source-collection-id>",
-        with_revisions=True,
-        force=True
+        with_revisions=False,
+        force=False
     )
     
     # Send the request to the AOS instance gRPC gateway
