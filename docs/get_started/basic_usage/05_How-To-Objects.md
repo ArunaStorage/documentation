@@ -1035,12 +1035,9 @@ This can be done with an individual request or directly while getting informatio
 
 Objects can still be updated after finishing.
 
-!!! Note
-
-    Concurrent updates from different collections are possible but discouraged.
-
-    If you want to explicitly update an object without paying attention to whether 
-    it is being updated by someone else at that moment, the `force` parameter can be used.
+When an update is started, a staging Object with the status _Initializing_  is created in the specific collection. Only 
+one staging object per object can exist at a time, so parallel updates of an object are prohibited. This limitation 
+is due to the S3 compatibility of the AOS, but also helps to maintain the consistency of the revision hierarchy.
 
 !!! Info
 
