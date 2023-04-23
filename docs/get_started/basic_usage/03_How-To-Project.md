@@ -22,7 +22,7 @@ API example for creating a new Project.
     # Native JSON request to create a project
     curl -d '
       {
-        "name": "cURL-API-Test-Project", 
+        "name": "curl-api-test-project", 
         "description": "This project was created with a cURL request."
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
@@ -35,7 +35,7 @@ API example for creating a new Project.
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a project
     let create_request = CreateProjectRequest {
-        name: "Rust-API-Test-Project".to_string(),
+        name: "rust-api-test-project".to_string(),
         description: "This project was created with the gRPC Rust API client.".to_string(),
     };
     
@@ -54,7 +54,7 @@ API example for creating a new Project.
     ```python linenums="1"
     # Create tonic/ArunaAPI request to create a project
     request = CreateProjectRequest(
-        name="Python-API-Test-Project",
+        name="python-api-test-project",
         description="This project was created with the gRPC Python API client."
     )
     
@@ -187,7 +187,7 @@ API example for updating an existing Project.
     # Native JSON request to update the metadata of a project
     curl -d '
       {
-        "name": "cURL-API-Test-Project", 
+        "name": "curl-api-test-project", 
         "description": "This project was updated with a cURL request."
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
@@ -201,7 +201,7 @@ API example for updating an existing Project.
     // Create tonic/ArunaAPI request to update the metadata of a project
     let update_request = UpdateProjectRequest {
         project_id: "<project-id>".to_string(),
-        name: "Rust-API-Test-Project".to_string(),
+        name: "rust-api-test-project".to_string(),
         description: "This project was updated with the gRPC Rust API client.".to_string(),
     };
     
@@ -221,7 +221,7 @@ API example for updating an existing Project.
     # Create tonic/ArunaAPI request to update the metadata of a project
     request = UpdateProjectRequest(
         project_id="<project-id>",
-        name="Python-API-Test-Project",
+        name="python-api-test-project",
         description="This project was updated with the gRPC Python API client."
     )
     
