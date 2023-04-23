@@ -6,15 +6,34 @@
 In order for the AOS to provide an S3 compatible interface, it is necessary that Objects can be accessed via one or more unique paths instead of their id.
 
 Currently, these paths comply with the standardized specifications of AWS S3 and are represented in the format  
-`<collection-version>.<collection-name>.<project-name>/<custom-path>/<object-filename>` which resembles the S3 path-style `s3://bucket/key` where:
+`<collection-version>.<collection-name>.<project-name>.<aos-dataproxy-endpoint>/<custom-path>/<object-filename>` which resembles the S3 path-style `s3://bucket.location/key` where:
 
-* bucket: `<collection-version>.<collection-name>.<project-name>`
+* bucket: `<collection-version>.<collection-name>.<project-name>.<aos-dataproxy-endpoint>`
 * key: `<custom-path>/<object-filename>`
-
-<!--With the introduction of other AOS instances this will change to the S3 virtual-hosted-style which also includes the location in the URL `s3://bucket.location/key`.-->
 
 When an object is initialized, a default path is automatically created if no custom path is specified. 
 This also applies when creating a reference to another collection. An object is thus always accessible via at least one path in each of its collections.
+
+??? Example "Example for a default object path"
+
+    * **Project name:** `dummy-project`
+    * **Collection name:** `sample-collection`
+    * **Collection version:** `None`
+    * **DataProxy URL:** `https://data.aos-endpoint.gi.de`
+    * **Object filename:** `example.file`
+
+    This would correspond to the path: `s3://latest.sample-collection.dummy-project.data.aos-endpoint.gi.de/example.file`
+
+??? Example "Example for a custom object path"
+
+    * **Project name:** `dummy-project`
+    * **Collection name:** `sample-collection`
+    * **Collection version:** `1.2.3`
+    * **DataProxy URL:** `https://data.aos-endpoint.gi.de`
+    * **Custom object path:** `/my-subdir`
+    * **Object filename:** `example.file`
+
+    This would correspond to the path: `s3://1.2.3.sample-collection.dummy-project.data.aos-endpoint.gi.de/my-subdir/example.file`
 
 !!! Warning
 
@@ -33,7 +52,7 @@ API example for creating an additional path associated with an object.
 !!! Note
 
     As specified in S3, you always get the latest version of an object via a path. 
-    The request of a specific object version is currently not possible.
+    The request of a specific object version is currently not supported.
 
 !!! Info
 
@@ -138,7 +157,7 @@ API example for modifying the visibility of an objects' path.
     request = SetObjectPathVisibilityRequest(
         collection_id="<collection-id>",
         path="/<object-path>",
-        visibility=True
+        visibility=False
     )
 
     # Send the request to the AOS instance gRPC gateway
