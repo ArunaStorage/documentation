@@ -8,7 +8,7 @@ The only actions that can be executed with your OIDC token are the user registra
 For every action afterwards inside the AOS the user needs a generated API token with sufficient permissions.
 Permissions can be granted either through scoped API tokens for projects or collections themselves or through user specific permissions which will be enforced by a global/personal token.
 
-!!! tip "S3 Secret Access Key / Access Key ID"
+!!! Tip "S3 Secret Access Key / Access Key ID"
 
     With the creation of an API token you will also receive credentials which can be used for the S3 compatible interface of the respective AOS instance DataProxy. 
 
@@ -106,7 +106,7 @@ It also makes it easy to restrict or extend a user's permissions for a project w
           "userId": "<user-id>",
           "projectId": "<project-id>",
           "permission": "PERMISSION_READ",
-          "serviceAccount": "true"
+          "serviceAccount": true
         }
       }
     ' \

@@ -12,8 +12,13 @@ If you don't know how to create a Collection you should read the previous chapte
 ## Initialize Object
 
 The first step is to initialize an Object.
-This creates an Object in the AOS and marks it as _Staging_.
+This creates an Object in the AOS with a status of _Initializing_ and marks it as _Staging_.
 As long as an Object is in the staging area data can be uploaded to it.
+
+!!! Tip "Hash validation"
+
+    If you provide a hash with the initializing of an Object it will be automatically validated by 
+    the DataProxy after the data upload has been finished. This ensures that the upload was successful and complete. 
 
 !!! Info
 
@@ -22,7 +27,7 @@ As long as an Object is in the staging area data can be uploaded to it.
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to initialize an staging object
+    # Native JSON request to initialize a staging object
     curl -d '
       {
         "object": {
@@ -41,7 +46,10 @@ As long as an Object is in the staging area data can be uploaded to it.
         "preferredEndpointId": "",
         "multipart": false,
         "isSpecification": false,
-        "hash": {}
+        "hash": {
+            "alg": "HASHALGORITHM_SHA256",
+            "hash": "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
+        }
       }' \
       -H 'Authorization: Bearer <API_TOKEN>' \
       -H 'Content-Type: application/json' \
@@ -72,7 +80,10 @@ As long as an Object is in the staging area data can be uploaded to it.
         preferred_endpoint_id: "".to_string(),
         multipart: false,
         is_specification: false,
-        hash: None,
+        hash: Some(Hash {
+            alg: Hashalgorithm::Sha256 as i32,
+            hash: "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33".to_string(),
+        },
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -109,7 +120,10 @@ As long as an Object is in the staging area data can be uploaded to it.
         preferred_endpoint_id="",  # Parameter can also be omitted if empty
         multipart=False,
         is_specification=False,
-        hash=None  # Will be provided at object finish in this example
+        hash=Hash(
+            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
+            hash="5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
+        ) 
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -125,14 +139,22 @@ As long as an Object is in the staging area data can be uploaded to it.
 After initializing an Object you can request an upload url with the object id you received from the initialization.
 Data then can be uploaded through the received url to the AOS data proxy.
 
-If the data associated with the Object is greater than 4 Gigabytes you have to request a _multipart_ upload and chunk your data in parts which are at most 4 Gigabytes in size.
+If the data associated with the Object is greater than 5 Gigabytes you have to request a _multipart_ upload and chunk your data in parts which are at most 5 Gigabytes in size.
 You also have to request an upload url for each part individually.
+
+!!! Tip "S3 Presigned download URL"
+
+    You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to upload the Object data to.
 
 !!! Info
 
     Requesting an upload URL needs at least APPEND permissions on the Object's Collection or the Project under which the Collection is registered.
 
 ### Single part upload
+
+!!! Info
+
+    **Single part upload automatically starts the finishing process of the respective Object once the upload has been finished to make it available.**
 
 === ":simple-curl: cURL"
 
@@ -223,6 +245,8 @@ You also have to request an upload url for each part individually.
     For each uploaded part of the multipart upload you will receive a so called `ETag` in the response header which has to be saved with the correlating part number for the Object finishing.
 
     Numbers of upload parts start with 1, not 0.
+
+    **Multipart uploads have to be finished manually as the DataProxy cannot know or guess how many parts will be uploaded in total.**
 
 !!! Tip
 
@@ -333,7 +357,12 @@ You also have to request an upload url for each part individually.
     
         // Fill buffer with bytes from file
         let mut data_buf = vec![0u8; buffer_size];
-        file.read_exact(&mut data_buf).await.unwrap();
+        let successful_read = file.read_exact(&mut data_buf).await;
+
+        match successful_read {
+            Ok(bytes) => bytes,
+            Err(_) => file.read_to_end(&mut data_buf).await.unwrap(),
+        };
     
         // Create tonic/ArunaAPI request to request an upload url for multipart upload part
         let upload_url = object_client
@@ -438,9 +467,18 @@ You also have to request an upload url for each part individually.
 
 ## Finish Object
 
-Finishing the Object transfers it from the staging area into production. 
+Finishing the Object transfers it from the staging area into production i.e. makes it available.
 From this moment the Object is generally available for other functions other than [Get Object](#get-object).
 On success the response will contain all the information on the finished Object.
+
+!!! Info
+
+    Object finishing is only needed in the following cases:
+
+    * Object created/updated without upload
+    * Object created/updated with multipart upload
+
+    Single part upload automatically starts the finishing process of the respective Object once the data upload has been finished.
 
 !!! Info
 
@@ -449,14 +487,11 @@ On success the response will contain all the information on the finished Object.
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to finish a single upload staging object
+    # Native JSON request to finish a staging object without upload
     curl -d '
       {
-        "hash": {
-          "alg": "HASHALGORITHM_SHA256",
-          "hash": "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c"
-        },
-        "noUpload": false,
+        "hash": {},
+        "noUpload": true,
         "completedParts": [],
         "autoUpdate": true
       }' \
@@ -471,7 +506,7 @@ On success the response will contain all the information on the finished Object.
       {
         "hash": {
           "alg": "HASHALGORITHM_SHA256",
-          "hash": "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c"
+          "hash": "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
         },
         "noUpload": false,
         "completedParts": [
@@ -494,16 +529,13 @@ On success the response will contain all the information on the finished Object.
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to finish a single part upload staging object
+    // Create tonic/ArunaAPI request to finish a staging object without upload
     let finish_request = FinishObjectStagingRequest {
         object_id: "<object-id>".to_string(),
         upload_id: "<upload-id>".to_string(),
         collection_id: "<collection-id>".to_string(),
-        hash: Some(Hash {
-            alg: Hashalgorithm::Sha256 as i32,
-            hash: "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c".to_string()
-        }),
-        no_upload: false,
+        hash: None,
+        no_upload: true,
         completed_parts: vec![],
         auto_update: true,
     };
@@ -526,7 +558,7 @@ On success the response will contain all the information on the finished Object.
         collection_id: "<collection-id>".to_string(),
         hash: Some(Hash {
             alg: Hashalgorithm::Sha256 as i32,
-            hash: "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c".to_string()
+            hash: "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33".to_string()
         }),
         no_upload: false,
         completed_parts: vec![
@@ -555,17 +587,14 @@ On success the response will contain all the information on the finished Object.
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to finish a single part upload staging object
+    # Create tonic/ArunaAPI request to finish a staging object without upload
     request = FinishObjectStagingRequest(
         object_id="<object-id>",
         upload_id="<upload-id>",
         collection_id="<collection-id>",
-        hash=Hash(
-            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
-            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
-        ),
-        no_upload=False,
-        completed_parts=[],
+        hash=None,  # Parameter can also be omitted if None
+        no_upload=True,
+        completed_parts=[],  # Parameter can also be omitted if empty
         auto_update=True
     )
 
@@ -584,7 +613,7 @@ On success the response will contain all the information on the finished Object.
         collection_id="<collection-id>",
         hash=Hash(
             alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
-            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
+            hash="<sha256-file-hashsum>"  # E.g. 5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33
         ),
         no_upload=False,
         completed_parts=[
@@ -610,9 +639,9 @@ On success the response will contain all the information on the finished Object.
 
 ## Get Object
 
-Information on finished or staging Objects can be fetched with their id and the id of their collection.
+Information on finished or staging Objects can be fetched with their id and the id of their Collection.
 
-The `with_url` (or `withUrl`) parameter controls if the response includes a download URL for the specific object.
+The `with_url` (or `withUrl`) parameter controls if the response includes a download URL for the specific Object.
 
 !!! Info
 
@@ -674,12 +703,14 @@ The `with_url` (or `withUrl`) parameter controls if the response includes a down
 
 ## Get Objects
 
-You can also fetch information on multiple Objects of a Collection. 
+You can also fetch information on multiple Objects of a Collection with a single request. 
 The Objects returned will not include staging Objects.
 
 By default, this request also returns only the first 20 Objects.
 You can either increase the page size to receive more Objects per request and/or request the next Objects by pagination. 
 Additionally, you can include id or label filters to narrow the returned Objects.
+
+The `with_url` (or `withUrl`) parameter controls if the response includes a download URL for each of the returned Objects.
 
 !!! Info
 
@@ -688,10 +719,10 @@ Additionally, you can include id or label filters to narrow the returned Objects
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to fetch information of the first 20 unfiltered objects in a collection
+    # Native JSON request to fetch information of the first 20 unfiltered objects in a collection with download URLs
     curl -H 'Authorization: Bearer <API_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/objects?withUrl=true
     ```
     
     ```bash linenums="1"
@@ -718,12 +749,12 @@ Additionally, you can include id or label filters to narrow the returned Objects
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI to fetch information of the first 20 unfiltered objects in a collection
+    // Create tonic/ArunaAPI to fetch information of the first 20 unfiltered objects in a collection with download URLs
     let get_request = GetObjectsRequest {
         collection_id: "<collection-id>".to_string(),
         page_request: None,
         label_id_filter: None,
-        with_url: false,
+        with_url: true,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -834,12 +865,12 @@ Additionally, you can include id or label filters to narrow the returned Objects
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to fetch information of the first 20 unfiltered objects in a collection
+    # Create tonic/ArunaAPI request to fetch information of the first 20 unfiltered objects in a collection with download URLs
     request = GetObjectsRequest(
         collection_id="<collection-id>",
         page_request=None,
         label_id_filter=None,
-        with_url=False
+        with_url=True
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -936,6 +967,10 @@ Additionally, you can include id or label filters to narrow the returned Objects
 
 To download the data associated with an Object you have to request a download url. 
 This can be done with an individual request or directly while getting information on an Object.
+
+!!! Tip "S3 Presigned download URL"
+
+    You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to download the Object data from.
 
 !!! Info
 
@@ -1035,7 +1070,7 @@ This can be done with an individual request or directly while getting informatio
 
 Objects can still be updated after finishing.
 
-When an update is started, a staging Object with the status _Initializing_  is created in the specific collection. Only 
+When an update is started, a staging Object with the status _Initializing_ is created in the specific collection. Only 
 one staging object per object can exist at a time, so parallel updates of an object are prohibited. This limitation 
 is due to the S3 compatibility of the AOS, but also helps to maintain the consistency of the revision hierarchy.
 
@@ -1155,10 +1190,7 @@ Comparable to the Object initialization process, the updated Object must be fini
     # Native JSON request to finish the updated object
     curl -d '
       {
-        "hash": {
-          "alg": "HASHALGORITHM_SHA256",
-          "hash": "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c"
-        },
+        "hash": {},
         "noUpload": true,
         "completedParts": [],
         "autoUpdate": true
@@ -1195,7 +1227,7 @@ Comparable to the Object initialization process, the updated Object must be fini
         multi_part: false,
         is_specification: false,
         force: false,
-        hash: None, // Will be provided at object finish in this example
+        hash: None, // Not needed in case of no data upload
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -1213,10 +1245,7 @@ Comparable to the Object initialization process, the updated Object must be fini
         object_id: object_id,
         upload_id_ staging_id,
         collection_id: collection_id,
-        hash: Some(Hash {
-            alg: Hashalgorithm::Sha256 as i32,
-            hash: "8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c".to_string()
-        }),
+        hash: None,
         no_upload: true,
         completed_parts: vec![],
         auto_update: true,
@@ -1259,7 +1288,7 @@ Comparable to the Object initialization process, the updated Object must be fini
         multi_part=False,  # Parameter can also be omitted if `reupload=False`
         is_specification=False,
         force=False,
-        hash=None  # Will be provided at object finish in this example
+        hash=None  # Not needed in case of no data upload
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -1273,10 +1302,7 @@ Comparable to the Object initialization process, the updated Object must be fini
         object_id=update_response.object_id,
         upload_id=update_response.upload_id,
         collection_id=update_response.collection_id,
-        hash=Hash(
-            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
-            hash="<sha256-file-hashsum>"  # E.g. 8e83e391f7d4bd995e772029a097d42f9fa4f433a8e99585d4a902f599dc7b9c
-        ),
+        hash=None,
         no_upload=True,
         completed_parts=[],
         auto_update=True
@@ -1330,20 +1356,7 @@ Comparable to the Object initialization process, the updated Object must be fini
     # Native JSON request to upload single part data through the generated data proxy upload url
     curl -X PUT -T <path-to-local-file> <upload-url>
     
-    # Native JSON request to finish the updated object
-    curl -d '
-      {
-        "hash": {
-          "alg": "HASHALGORITHM_SHA256",
-          "hash": "cb380c5ed9724991fb91acb9e21ba11ff68c27bc3a6121284a946cccfdfaaf47"
-        },
-        "noUpload": false,
-        "completedParts": [],
-        "autoUpdate": true
-      }' \
-         -H 'Authorization: Bearer <API_TOKEN>' \
-         -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/collection/{collection-id}/object/{object-id}/staging/{upload-id}/finish
+    # Request to finish the updated object only needed in case of no upload or multipart upload
     ```
 
 === ":simple-rust: Rust"
@@ -1427,28 +1440,7 @@ Comparable to the Object initialization process, the updated Object must be fini
     // Do something with the response
     println!("{:#?}", upload_response);
     
-    // Create tonic/ArunaAPI request to finish a single part upload staging object
-    let finish_request = FinishObjectStagingRequest {
-        object_id: object_id,
-        upload_id: staging_id,
-        collection_id: collection_id,
-        hash: Some(Hash {
-            alg: Hashalgorithm::Sha256 as i32,
-            hash: "c1557cf6f426823f248f7285b3540812521935ebca372fb6689463efd6cadb61".to_string()
-        }),
-        no_upload: false,
-        completed_parts: vec![],
-        auto_update: true,
-    };
-    
-    // Send the request to the AOS instance gRPC gateway
-    let finish_response = object_client.finish_object_staging(finish_request)
-                                       .await
-                                       .unwrap()
-                                       .into_inner();
-    
-    // Do something with the response
-    println!("{:#?}", finish_response);
+    // Request to finish a staging object only needed in case of no upload or multipart upload
     ```
 
 === ":simple-python: Python"
@@ -1511,25 +1503,7 @@ Comparable to the Object initialization process, the updated Object must be fini
     # Do something with the response (e.g. check status if was successful)
     print(f'{upload_response}')
 
-    # Create tonic/ArunaAPI request to finish a single part upload staging object
-    finish_request = FinishObjectStagingRequest(
-        object_id=update_response.object_id,
-        upload_id=update_response.upload_id,
-        collection_id=update_response.collection_id,
-        hash=Hash(
-            alg=Hashalgorithm.Value("HASHALGORITHM_SHA256"),
-            hash="<updated-file-sha256-hashsum>"  # E.g. b53d51ea15b07422bb19d5f8671174e7d45b04f21cfed652127f845f5945bf38
-        ),
-        no_upload=False,
-        completed_parts=[],
-        auto_update=True
-    )
-
-    # Send the request to the AOS instance gRPC gateway
-    finish_response = client.object_client.FinishObjectStaging(request=finish_request)
-
-    # Do something with the response
-    print(f'{finish_response}')
+    # Request to finish a staging object only needed in case of no upload or multipart upload
     ```
 
 
@@ -1540,7 +1514,7 @@ A reference can be either _"read only"_, which means that the Object can not be 
 
 !!! Warning
 
-    **Updates on writeable references also update the Object in the source Collection.**
+    **Updates on writeable references also update the Object in all other Collections the Object is referenced in.**
 
 !!! Info
 
