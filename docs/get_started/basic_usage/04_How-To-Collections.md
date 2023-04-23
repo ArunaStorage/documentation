@@ -23,7 +23,7 @@ API example for creating a new Collection.
     # Native JSON request to create a new collection
     curl -d '
       {
-        "name": "cURL-API-Test-Collection",
+        "name": "curl-api-test-collection",
         "description": "This collection was created with a cURL request.",
         "projectId": "<project-id>",
         "labels": [
@@ -55,7 +55,7 @@ API example for creating a new Collection.
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a new collection
     let create_request = CreateNewCollectionRequest {
-        name: "Rust-API-Test-Collection".to_string(),
+        name: "rust-api-test-collection".to_string(),
         description: "This collection was created with the gRPC Rust API client.".to_string(),
         project_id: "<project-id>".to_string(),
         labels: vec![KeyValue {
@@ -87,7 +87,7 @@ API example for creating a new Collection.
     ```python linenums="1"
     # Create tonic/ArunaAPI request to create a new collection
     request = CreateNewCollectionRequest(
-        name="Python-API-Test-Collection",
+        name="python-api-test-collection",
         description="This collection was created with the gRPC Python API client.",
         project_id="<project-id>",
         labels=[KeyValue(
@@ -319,7 +319,7 @@ API example for updating a Collection.
     # Native JSON request to update a collections name and description
     curl -d '
       {
-        "name": "UpdatedDummyCollection",
+        "name": "curl-api-updated-collection",
         "description": "Updated description of a dummy collection.",
         "labels": [
           {
@@ -351,7 +351,7 @@ API example for updating a Collection.
     // Create tonic/ArunaAPI request to update a collections name and description
     let update_request = UpdateCollectionRequest {
         collection_id: "<collection-id>".to_string(),
-        name: "Rust-API-Updated-Collection".to_string(),
+        name: "rust-api-updated-collection".to_string(),
         description: "This collection was updated through the Rust API.".to_string(),
         labels: vec![KeyValue {
             key: "LabelKey".to_string(),
@@ -384,7 +384,7 @@ API example for updating a Collection.
     # Create tonic/ArunaAPI request to update a collections name and description
     request = UpdateCollectionRequest(
         collection_id="<collection-id>",
-        name="Python-API-Updated-Collection",
+        name="python-api-updated-collection",
         description="This collection was updated with the gRPC Python API client.",
         labels=[KeyValue(
             key="LabelKey",
