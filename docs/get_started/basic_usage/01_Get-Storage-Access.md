@@ -28,6 +28,7 @@ The presence of a client connection to the specific resource service is required
 
     ```rust linenums="1"
     use aruna_rust_api::api::aruna::api::storage::services::v1::{
+        storage_info_service_client,
         user_service_client,
         project_service_client,
         collection_service_client,
@@ -68,6 +69,7 @@ The presence of a client connection to the specific resource service is required
         let interceptor = ClientInterceptor { api_token: api_token.clone() };
     
         // Create the individual client services
+        let mut info_client         = storage_info_service_client::StorageInfoServiceClient::new(channel.clone());
         let mut user_client         = user_service_client::UserServiceClient::with_interceptor(channel.clone(), interceptor.clone());
         let mut project_client      = project_service_client::ProjectServiceClient::with_interceptor(channel.clone(), interceptor.clone());
         let mut collection_client   = collection_service_client::CollectionServiceClient::with_interceptor(channel.clone(), interceptor.clone());
@@ -98,6 +100,7 @@ The presence of a client connection to the specific resource service is required
     from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
     from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
     from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v1.info_service_pb2_grpc import StorageInfoServiceStub
     from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
     
     # Valid Aruna API token
@@ -150,6 +153,7 @@ The presence of a client connection to the specific resource service is required
             self.secure_channel = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
             self.intercept_channel = grpc.intercept_channel(self.secure_channel, _MyAuthInterceptor())
     
+            self.info_client = StorageInfoServiceStub(self.secure_channnel)
             self.user_client = UserServiceStub(self.intercept_channel)
             self.project_client = ProjectServiceStub(self.intercept_channel)
             self.collection_client = CollectionServiceStub(self.intercept_channel)
@@ -184,6 +188,7 @@ The presence of a client connection to the specific resource service is required
     from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
     from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
     from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v1.info_service_pb2_grpc import StorageInfoServiceStub
     from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
     
     # Valid Aruna API token
@@ -203,7 +208,8 @@ The presence of a client connection to the specific resource service is required
             # Read TLS credentials from local trusted certificates and instantiate a channel
             ssl_credentials = grpc.ssl_channel_credentials()
             self.channel    = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
-    
+
+            self.info_client = StorageInfoServiceStub(self.channnel)
             self.user_client = UserServiceStub(self.channel)
             self.project_client = ProjectServiceStub(self.channel)
             self.collection_client = CollectionServiceStub(self.channel)
@@ -224,13 +230,19 @@ The presence of a client connection to the specific resource service is required
 
 Users can register themselves with an individual display name in an AOS instance with their valid OIDC token received from the AAI login.
 
+The `email` and `project` parameters are optional. If you provide an e-mail address during registration, you will receive system-relevant 
+notifications to this address e.g. advance notifications of maintenance. The project parameter is a hint for the administrators to associate 
+the newly registered user with a project for identification purposes.
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # Native JSON request to register OIDC user
     curl -d '
       {
-        "display_name": "Forename Surname"
+        "display_name": "Forename Surname",
+        "email": "forename.surname@example.com", 
+        "project": "Random Project"
       }' \
          -H "Authorization: Bearer <OIDC_TOKEN>" \
          -H "Content-Type: application/json" \
@@ -242,7 +254,9 @@ Users can register themselves with an individual display name in an AOS instance
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to register OIDC user
     let register_request = RegisterUserRequest {
-        display_name: "John Doe".to_string(),
+        display_name: "Forename Surname".to_string(),
+        email: "forename.surname@example.com".to_string(),
+        project: "Random Project".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -260,7 +274,9 @@ Users can register themselves with an individual display name in an AOS instance
     ```python linenums="1"
     # Create tonic/ArunaAPI request to register OIDC user
     request = RegisterUserRequest(
-        display_name="John Doe"
+        display_name="Forename Surname",
+        email="forename.surname@example.com",
+        project="Random Project"
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -334,6 +350,17 @@ After registration users additionally have to be activated in a second step.
     ```
 
 === ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to fetch all not activated users
+    request = GetNotActivatedUsersRequest()
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetNotActivatedUsers(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
 
     ```python linenums="1"
     # Create tonic/ArunaAPI request for user activation
