@@ -8,6 +8,13 @@ The only actions that can be executed with your OIDC token are the user registra
 For every action afterwards inside the AOS the user needs a generated API token with sufficient permissions.
 Permissions can be granted either through scoped API tokens for projects or collections themselves or through user specific permissions which will be enforced by a global/personal token.
 
+!!! tip "S3 Secret Access Key / Access Key ID"
+
+    With the creation of an API token you will also receive credentials which can be used for the S3 compatible interface of the respective AOS instance DataProxy. 
+
+    These credentials consist of a randomly generated S3 Secret Key and the S3 Access Key ID, which is the same as the ID of the generated token.
+
+    The permissions/scope provided at the creation of the API token also apply to the S3 credentials.
 
 ## Generate API token
 
@@ -65,7 +72,8 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         "userPermission": {
           "userId": "<user-id>",
           "projectId": "<project-id>",
-          "permission": "PERMISSION_ADMIN"
+          "permission": "PERMISSION_ADMIN",
+          "serviceAccount": "false"
         }
       }' \
          -H 'Authorization: Bearer <API_TOKEN>' \
@@ -80,7 +88,25 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         "userPermission": {
           "userId": "<user-id>",
           "projectId": "<project-id>",
-          "permission": "PERMISSION_READ"
+          "permission": "PERMISSION_READ",
+          "serviceAccount": "false"
+        }
+      }
+    ' \
+         -H 'Authorization: Bearer <API_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v1/project/<project-id>/add_user
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to add service acount user with read only permissions to a project
+    curl -d '
+      {
+        "userPermission": {
+          "userId": "<user-id>",
+          "projectId": "<project-id>",
+          "permission": "PERMISSION_READ",
+          "serviceAccount": "true"
         }
       }
     ' \
@@ -97,9 +123,9 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         project_id: "<project-id>".to_string(),
         user_permission: Some(ProjectPermission {
             user_id: "<user-id>".to_string(),
-            display_name: "".to_string(),
             project_id: "<project-id>".to_string(),
             permission: Permission::Admin as i32,
+            service_account: false,
         }),
     };
     
@@ -119,9 +145,31 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         project_id: "<project-id>".to_string(),
         user_permission: Some(ProjectPermission {
             user_id: "<user-id>".to_string(),
-            display_name: "".to_string(),
             project_id: "<project-id>".to_string(),
             permission: Permission::Read as i32,
+            service_account: false,
+        }),
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = project_client.add_user_to_project(add_request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to service account user with read only permissions to a project
+    let add_request = AddUserToProjectRequest {
+        project_id: "<project-id>".to_string(),
+        user_permission: Some(ProjectPermission {
+            user_id: "<user-id>".to_string(),
+            project_id: "<project-id>".to_string(),
+            permission: Permission::Read as i32,
+            service_account: true,
         }),
     };
     
@@ -144,7 +192,8 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         user_permission=ProjectPermission(
             user_id="<user-id>",
             project_id="<project-id>",
-            permission=Permission.Value("PERMISSION_ADMIN")  # Needs int, therefore .Value()
+            permission=Permission.Value("PERMISSION_ADMIN"),  # Needs int, therefore .Value()
+            service_account=False # Parameter can also be omitted if False
         )
     )
     
@@ -162,7 +211,27 @@ It also makes it easy to restrict or extend a user's permissions for a project w
         user_permission=ProjectPermission(
             user_id="<user-id>",
             project_id="<project-id>",
-            permission=Permission.Value("PERMISSION_READ")   # Needs int, therefore .Value()
+            permission=Permission.Value("PERMISSION_READ"),  # Needs int, therefore .Value()
+            service_account=False # Parameter can also be omitted if False
+        )
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.AddUserToProject(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add service account user with read only permissions to a project
+    request = AddUserToProjectRequest(
+        project_id="<project-id>",
+        user_permission=ProjectPermission(
+            user_id="<user-id>",
+            project_id="<project-id>",
+            permission=Permission.Value("PERMISSION_READ"),  # Needs int, therefore .Value()
+            service_account=True
         )
     )
     
@@ -305,9 +374,9 @@ Here are some API examples on generating API tokens with individual scopes and p
 
 !!! Warning
 
-    **The token secret is only available once in the response and cannot be re-generated!**
+    **The token secret and S3 secret key is only available once in the response and cannot be re-generated!**
 
-    Store the received token secret in a secure location for further usage.
+    Store the received secret keys in a secure location for further usage.
     If a token secret is lost or compromised, delete the old token and generate a new one.
 
 === ":simple-curl: cURL"
@@ -321,8 +390,10 @@ Here are some API examples on generating API tokens with individual scopes and p
         "collectionId": "",
         "name": "MyPersonalToken",
         "expiresAt": {
-          "timestamp": "2023-01-01T00:00:00.000Z"
-        }
+          "timestamp": "2024-01-01T00:00:00.000Z"
+        },
+        "permission": "PERMISSION_NONE",
+        "isSession": "false"
       }' \
          -H 'Authorization: Bearer <OIDC-or-API_token' \
          -H 'Content-Type: application/json' \
@@ -337,9 +408,10 @@ Here are some API examples on generating API tokens with individual scopes and p
         "collectionId": "",
         "name": "Project-Modify-Token",
         "expiresAt": {
-          "timestamp": "2023-01-01T00:00:00.000Z"
+          "timestamp": "2024-01-01T00:00:00.000Z"
         },
-        "permission": "PERMISSION_MODIFY"
+        "permission": "PERMISSION_MODIFY",
+        "isSession": "false"
       }' \
          -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -354,9 +426,10 @@ Here are some API examples on generating API tokens with individual scopes and p
         "collectionId": "<collection-id>",
         "name": "Collection-ReadOnly-Token",
         "expiresAt": {
-          "timestamp": "2023-01-01T00:00:00.000Z"
+          "timestamp": "2024-01-01T00:00:00.000Z"
         },
-        "permission": "PERMISSION_READ"
+        "permission": "PERMISSION_READ",
+        "isSession": "false"
       }' \
          -H 'Authorization: Bearer <OIDC-Or-API_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -371,7 +444,7 @@ Here are some API examples on generating API tokens with individual scopes and p
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to create a global/personal API token with expiration date
-    let expires_at = NaiveDate::from_ymd(2023, 01, 01).and_hms(0, 0, 0);
+    let expires_at = NaiveDate::from_ymd(2024, 01, 01).and_hms(0, 0, 0);
     let create_request = CreateApiTokenRequest {
         project_id: "".to_string(), 
         collection_id: "".to_string(),
@@ -389,6 +462,73 @@ Here are some API examples on generating API tokens with individual scopes and p
             ),
         }),
         permission: Permission::None as i32,
+        is_session: false,
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = user_client.create_api_token(create_request)
+                              .await
+                              .unwrap()
+                              .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to create a project scoped token with MODIFY permissions
+    let expires_at = NaiveDate::from_ymd(2024, 01, 01).and_hms(0, 0, 0);
+    let create_request = CreateApiTokenRequest {
+        project_id: "<project-id>".to_string(), 
+        collection_id: "".to_string(),
+        name: "Project-Modify-Token".to_string(),
+        expires_at: Some(ExpiresAt {
+            timestamp: Some(
+                Timestamp::date_time(
+                    expires_at.date().year().into(),
+                    expires_at.date().month() as u8,
+                    expires_at.date().day() as u8,
+                    expires_at.time().hour() as u8,
+                    expires_at.time().minute() as u8,
+                    expires_at.time().second() as u8,
+                ).unwrap(), 
+            ),
+        }),
+        permission: Permission::Modify as i32,
+        is_session: false,
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = user_client.create_api_token(create_request)
+                              .await
+                              .unwrap()
+                              .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to create a collection scoped token with READ permissions
+    let expires_at = NaiveDate::from_ymd(2024, 01, 01).and_hms(0, 0, 0);
+    let create_request = CreateApiTokenRequest {
+        project_id: "".to_string(), 
+        collection_id: "<collection-id>".to_string(),
+        name: "Collection-ReadOnly-Token".to_string(),
+        expires_at: Some(ExpiresAt {
+            timestamp: Some(
+                Timestamp::date_time(
+                    expires_at.date().year().into(),
+                    expires_at.date().month() as u8,
+                    expires_at.date().day() as u8,
+                    expires_at.time().hour() as u8,
+                    expires_at.time().minute() as u8,
+                    expires_at.time().second() as u8,
+                ).unwrap(), 
+            ),
+        }),
+        permission: Permission::Read as i32,
+        is_session: false,
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -427,7 +567,7 @@ Here are some API examples on generating API tokens with individual scopes and p
     request = CreateAPITokenRequest(
         project_id="<project-id>",
         collection_id="",  # Parameter can also be omitted if empty
-        name="ProjectReadOnly",
+        name="Project-Modify-Token",
         expires_at=None,  # Parameter can also be omitted if None
         permission=Permission.Value("PERMISSION_MODIFY")
     )
@@ -440,13 +580,13 @@ Here are some API examples on generating API tokens with individual scopes and p
     ```
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to create a collection scoped API token with APPEND permission
+    # Create tonic/ArunaAPI request to create a collection scoped API token with READ permission
     request = CreateAPITokenRequest(
         project_id="",  # Parameter can also be omitted if empty
         collection_id="<collection-id>",  
-        name="ProjectReadOnly",
+        name="Collection-ReadOnly-Token",
         expires_at=None,  # Parameter can also be omitted if None
-        permission=Permission.Value("PERMISSION_APPEND")
+        permission=Permission.Value("PERMISSION_READ")
     )
     
     # Send the request to the AOS instance gRPC gateway
