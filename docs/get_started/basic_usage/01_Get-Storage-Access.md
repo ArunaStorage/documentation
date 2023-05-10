@@ -3,12 +3,11 @@
 
 ## Introduction
 
-For the general access a registered account within the official NFDI/FAIR-DS AAI is needed to obtain a valid OIDC token from one of those.
+The preparation for creating an account in the AOS is minimal. It is only required that you are already registered in an AAI that is supported by the GfBio SSO Service, i.e. DFN AAI, Life Science Login (ELIXIR AAI) or GfBio Accounts. These are also the current options that are offered if you want to register or login via the [official AOS demo website](https://aruna-storage.org/){:target="_blank"}. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
 
-After login, you can use your OIDC token to register yourself at an AOS instance. 
 To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.
 
-Please note that these following tutorials cover only the most basic operations. 
+Please note that these following tutorials cover only the most basic operations but we do our best to make the as extensive as possible. 
 For a complete list of the public API endpoints, their matching requests and responses, please refer to our [Aruna Object Storage REST API Swagger-UI](https://api.aruna.nfdi-dev.gi.denbi.de/swagger-ui/){:target="_blank"}.
 
 
