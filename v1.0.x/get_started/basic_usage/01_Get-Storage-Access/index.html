@@ -17,7 +17,7 @@
         <link rel="next" href="../02_How-To-Auth-Tokens/">
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.7">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.11">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.85bb2934.min.css">
       
       
 
@@ -118,10 +118,6 @@
         </div>
       </div>
     </div>
-    
-      <form class="md-header__option" data-md-component="palette">
-        
-      </form>
     
     
     
@@ -671,10 +667,9 @@
 
 <h1 id="get-storage-access">Get Storage Access</h1>
 <h2 id="introduction">Introduction</h2>
-<p>For the general access a registered account within the official NFDI/FAIR-DS AAI is needed to obtain a valid OIDC token from one of those.</p>
-<p>After login, you can use your OIDC token to register yourself at an AOS instance. 
-To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.</p>
-<p>Please note that these following tutorials cover only the most basic operations. 
+<p>The preparation for creating an account in the AOS is minimal. It is only required that you are already registered in an AAI that is supported by the GfBio SSO Service, i.e. DFN AAI, Life Science Login (ELIXIR AAI) or GfBio Accounts. These are also the current options that are offered if you want to register or login via the <a href="https://aruna-storage.org/" target="_blank">official AOS demo website</a>. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the <a href="#user-registration">user registration request header</a> for authorization.</p>
+<p>To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.</p>
+<p>Please note that these following tutorials cover only the most basic operations but we do our best to make the as extensive as possible. 
 For a complete list of the public API endpoints, their matching requests and responses, please refer to our <a href="https://api.aruna.nfdi-dev.gi.denbi.de/swagger-ui/" target="_blank">Aruna Object Storage REST API Swagger-UI</a>.</p>
 <h2 id="client-creation">Client Creation</h2>
 <p>If you plan to send your requests through gRPC the first step is to open a connection to the gRPC gateway of the server you want to send the requests to.</p>
@@ -1374,10 +1369,10 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Aut
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "navigation.tabs", "navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.tabs", "navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
