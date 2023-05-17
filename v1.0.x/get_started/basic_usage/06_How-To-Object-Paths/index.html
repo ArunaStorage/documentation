@@ -17,7 +17,7 @@
         <link rel="next" href="../07_How-To-ObjectGroups/">
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.11">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.13">
     
     
       
@@ -536,6 +536,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_How-To-S3-Interface/" class="md-nav__link">
+        S3 Interface
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -676,35 +690,33 @@
 <h2 id="introduction">Introduction</h2>
 <p>In order for the AOS to provide an S3 compatible interface, it is necessary that Objects can be accessed via one or more unique paths instead of their id.</p>
 <p>Currently, these paths comply with the standardized specifications of AWS S3 and are represented in the format<br />
-<code>&lt;collection-version&gt;.&lt;collection-name&gt;.&lt;project-name&gt;.&lt;aos-dataproxy-endpoint&gt;/&lt;custom-path&gt;/&lt;object-filename&gt;</code> which resembles the S3 path-style <code>s3://bucket.location/key</code> where:</p>
+<code>&lt;collection-version&gt;.&lt;collection-name&gt;.&lt;project-name&gt;/&lt;custom-path&gt;/&lt;object-filename&gt;</code> which resembles the S3 path-style <code>s3://bucket/key</code> where:</p>
 <ul>
-<li>bucket: <code>&lt;collection-version&gt;.&lt;collection-name&gt;.&lt;project-name&gt;.&lt;aos-dataproxy-endpoint&gt;</code></li>
+<li>bucket: <code>&lt;collection-version&gt;.&lt;collection-name&gt;.&lt;project-name&gt;</code></li>
 <li>key: <code>&lt;custom-path&gt;/&lt;object-filename&gt;</code></li>
 </ul>
 <p>When an object is initialized, a default path is automatically created if no custom path is specified. 
 This also applies when creating a reference to another collection. An object is thus always accessible via at least one path in each of its collections.</p>
-<details class="example">
-<summary>Example for a default object path</summary>
+<div class="admonition example">
+<p class="admonition-title">Example for a default object path</p>
 <ul>
 <li><strong>Project name:</strong> <code>dummy-project</code></li>
 <li><strong>Collection name:</strong> <code>sample-collection</code></li>
 <li><strong>Collection version:</strong> <code>None</code></li>
-<li><strong>DataProxy URL:</strong> <code>https://data.aos-endpoint.gi.de</code></li>
 <li><strong>Object filename:</strong> <code>example.file</code></li>
 </ul>
-<p>This would correspond to the path: <code>s3://latest.sample-collection.dummy-project.data.aos-endpoint.gi.de/example.file</code></p>
-</details>
+<p>This would correspond to the path: <code>s3://latest.sample-collection.dummy-project/example.file</code></p>
+</div>
 <details class="example">
 <summary>Example for a custom object path</summary>
 <ul>
 <li><strong>Project name:</strong> <code>dummy-project</code></li>
 <li><strong>Collection name:</strong> <code>sample-collection</code></li>
 <li><strong>Collection version:</strong> <code>1.2.3</code></li>
-<li><strong>DataProxy URL:</strong> <code>https://data.aos-endpoint.gi.de</code></li>
 <li><strong>Custom object path:</strong> <code>/my-subdir</code></li>
 <li><strong>Object filename:</strong> <code>example.file</code></li>
 </ul>
-<p>This would correspond to the path: <code>s3://1.2.3.sample-collection.dummy-project.data.aos-endpoint.gi.de/my-subdir/example.file</code></p>
+<p>This would correspond to the path: <code>s3://1.2.3.sample-collection.dummy-project/my-subdir/example.file</code></p>
 </details>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1178,7 +1190,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.tabs", "navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
