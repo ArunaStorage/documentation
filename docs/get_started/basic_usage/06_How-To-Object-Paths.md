@@ -6,9 +6,9 @@
 In order for the AOS to provide an S3 compatible interface, it is necessary that Objects can be accessed via one or more unique paths instead of their id.
 
 Currently, these paths comply with the standardized specifications of AWS S3 and are represented in the format  
-`<collection-version>.<collection-name>.<project-name>.<aos-dataproxy-endpoint>/<custom-path>/<object-filename>` which resembles the S3 path-style `s3://bucket.location/key` where:
+`<collection-version>.<collection-name>.<project-name>/<custom-path>/<object-filename>` which resembles the S3 path-style `s3://bucket/key` where:
 
-* bucket: `<collection-version>.<collection-name>.<project-name>.<aos-dataproxy-endpoint>`
+* bucket: `<collection-version>.<collection-name>.<project-name>`
 * key: `<custom-path>/<object-filename>`
 
 When an object is initialized, a default path is automatically created if no custom path is specified. 
@@ -19,21 +19,19 @@ This also applies when creating a reference to another collection. An object is 
     * **Project name:** `dummy-project`
     * **Collection name:** `sample-collection`
     * **Collection version:** `None`
-    * **DataProxy URL:** `https://data.aos-endpoint.gi.de`
     * **Object filename:** `example.file`
 
-    This would correspond to the path: `s3://latest.sample-collection.dummy-project.data.aos-endpoint.gi.de/example.file`
+    This would correspond to the path: `s3://latest.sample-collection.dummy-project/example.file`
 
 ??? Example "Example for a custom object path"
 
     * **Project name:** `dummy-project`
     * **Collection name:** `sample-collection`
     * **Collection version:** `1.2.3`
-    * **DataProxy URL:** `https://data.aos-endpoint.gi.de`
     * **Custom object path:** `/my-subdir`
     * **Object filename:** `example.file`
 
-    This would correspond to the path: `s3://1.2.3.sample-collection.dummy-project.data.aos-endpoint.gi.de/my-subdir/example.file`
+    This would correspond to the path: `s3://1.2.3.sample-collection.dummy-project/my-subdir/example.file`
 
 !!! Warning
 
