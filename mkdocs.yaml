@@ -18,6 +18,7 @@ nav:
       - 'Object Paths': get_started/basic_usage/06_How-To-Object-Paths.md
       - 'ObjectsGroups': get_started/basic_usage/07_How-To-ObjectGroups.md
       - 'Server Info': get_started/basic_usage/09_How-To-ServerInfo.md
+      - 'S3 Interface': get_started/basic_usage/10_How-To-S3-Interface.md
   - 'Data Structure':
       - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
       - 'Database ERD': internal_data_structure/database_erd.md

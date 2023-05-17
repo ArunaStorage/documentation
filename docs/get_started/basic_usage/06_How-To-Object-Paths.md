@@ -14,7 +14,7 @@ Currently, these paths comply with the standardized specifications of AWS S3 and
 When an object is initialized, a default path is automatically created if no custom path is specified. 
 This also applies when creating a reference to another collection. An object is thus always accessible via at least one path in each of its collections.
 
-??? Example "Example for a default object path"
+!!! Example "Example for a default object path"
 
     * **Project name:** `dummy-project`
     * **Collection name:** `sample-collection`
