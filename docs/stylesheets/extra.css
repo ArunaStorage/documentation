@@ -24,15 +24,19 @@ figcaption {
 }
 
 .flex-item {
-  flex: 1 1 0;
   text-align: center;
-  padding: 10px;
+  flex: 1 1 0;
+  padding: 10px 25px;
   margin: 5px;
   border: 1px dashed #ccc;
 }
 
 .flex-item > h2 {
   margin-top: 10px;
+}
+
+.flex-item > p {
+  text-align: justify;
 }
 
 .flex-item-headline {
