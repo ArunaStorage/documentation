@@ -394,19 +394,25 @@ This version is still in beta.
     Mandatory resources
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Mandatory resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#project" class="md-nav__link">
      Project
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#object" class="md-nav__link">
      Object
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -415,33 +421,39 @@ This version is still in beta.
     Optional resources
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Optional resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#collection" class="md-nav__link">
      Collection
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#dataset" class="md-nav__link">
      Dataset
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#label" class="md-nav__link">
      Label
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#hook" class="md-nav__link">
      Hook
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -497,7 +509,7 @@ This version is still in beta.
 <h2 id="mandatory-resources">Mandatory resources</h2>
 <div class="flex-container">
 <div class="flex-item">
-<h2 id="project"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h6l2 2h8M2 6v14h18v2H2a2 2 0 0 1-2-2V6h2m4 0v10h16V6H6Z"/></svg></span> Project</h2>
+<h3 id="project"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h6l2 2h8M2 6v14h18v2H2a2 2 0 0 1-2-2V6h2m4 0v10h16V6H6Z"/></svg></span> Project</h3>
 <p>A Project is the basic resource to organize general user access for stored data <!--and/or data to be stored--> (i.e. Objects). 
 It also acts as an umbrella container for all other resources which means that every hierarchy has a Project as root. 
 This directly implies that every project name has to be globally unique in the AOS universe.</p>
@@ -506,7 +518,7 @@ This feature is useful e.g. if the stored data shall be used for any kind of per
   </p>
 </div>
 <div class="flex-item">
-<h2 id="object"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6m0 2h7v5h5v11H6V4m2 8v2h8v-2H8m0 4v2h5v-2H8Z"/></svg></span> Object</h2>
+<h3 id="object"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6m0 2h7v5h5v11H6V4m2 8v2h8v-2H8m0 4v2h5v-2H8Z"/></svg></span> Object</h3>
 <p>An Object is the resource which fundamentally stores the data in the backend storage system. Depending on the context an Object can represent data or metadata. It must be owned by at least one Project which means that every Object needs at least one Project as root in its hierarchy. Nonetheless, it can be flexibly shared with all other resources by creating the corresponding relation.</p>
 <p>Additionally, an Object has revisions in contrast to the other resources. 
 Once uploaded, an Object is immutable. Updates create new Objects that reference the original Object, resulting in a history of changes.
@@ -516,13 +528,13 @@ Once uploaded, an Object is immutable. Updates create new Objects that reference
 <h2 id="optional-resources">Optional resources</h2>
 <div class="flex-container">
 <div class="flex-item">
-<h2 id="collection"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Z"/></svg></span> Collection</h2>
+<h3 id="collection"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Z"/></svg></span> Collection</h3>
 <p>A Collection is the basic resource to organize stored data (i.e. Objects) inside Projects. Collections should consist a loose collection of Objects and/or Datasets.</p>
 <p>Collections can also be snapshot with a version number following semantic versioning principles. On creation of a Collection snapshot, an immutable clone of the Collection and all its subresources gets created. The version number has to be provided manually by the user who initiates the Collection snapshot.
   </p>
 </div>
 <div class="flex-item">
-<h2 id="dataset"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 0H8C6.9 0 6 .9 6 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6m4 18H8V2h7v5h5v11M4 4v18h16v2H4c-1.1 0-2-.9-2-2V4h2m6 6v2h8v-2h-8m0 4v2h5v-2h-5Z"/></svg></span> Dataset</h2>
+<h3 id="dataset"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 0H8C6.9 0 6 .9 6 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6m4 18H8V2h7v5h5v11M4 4v18h16v2H4c-1.1 0-2-.9-2-2V4h2m6 6v2h8v-2h-8m0 4v2h5v-2h-5Z"/></svg></span> Dataset</h3>
 <p>Datasets are a secondary hierarchy resource to organize Objects either inside Collections and/or Projects directly. A Dataset should consist of closely related Objects and should be used to combine data and metadata for easier access and organization.</p>
 <p>Datasets can also be snapshot with a version number following semantic versioning principles. On creation of a Dataset snapshot, an immutable clone of the Dataset and all its subresources gets created. The version number has to be provided manually by the user who initiates the Dataset snapshot.
   </p>
@@ -531,13 +543,13 @@ Once uploaded, an Object is immutable. Updates create new Objects that reference
 <!-- ToDo -->
 <div class="flex-container">
 <div class="flex-item">
-<h2 id="label"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.4 11.6-9-9C12 2.2 11.5 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .5.2 1 .6 1.4l9 9c.4.4.9.6 1.4.6.5 0 1-.2 1.4-.6l7-7c.4-.4.6-.9.6-1.4 0-.5-.2-1-.6-1.4M13 20l-9-9V4h7l9 9M6.5 5C7.3 5 8 5.7 8 6.5S7.3 8 6.5 8 5 7.3 5 6.5 5.7 5 6.5 5m3.6 3.9 1.4-1.4L17 13l-1.4 1.4-5.5-5.5m-2.5 2.5L9 10l4 4-1.4 1.4-4-4Z"/></svg></span> Label</h2>
+<h3 id="label"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m21.4 11.6-9-9C12 2.2 11.5 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .5.2 1 .6 1.4l9 9c.4.4.9.6 1.4.6.5 0 1-.2 1.4-.6l7-7c.4-.4.6-.9.6-1.4 0-.5-.2-1-.6-1.4M13 20l-9-9V4h7l9 9M6.5 5C7.3 5 8 5.7 8 6.5S7.3 8 6.5 8 5 7.3 5 6.5 5.7 5 6.5 5m3.6 3.9 1.4-1.4L17 13l-1.4 1.4-5.5-5.5m-2.5 2.5L9 10l4 4-1.4 1.4-4-4Z"/></svg></span> Label</h3>
 <p>Simple resource representing a plaintext key-value pair which is directly associated with an individual Project, Collection, Dataset or Object.
 A Label can be used to describe short additional properties of a resource.
   </p>
 </div>
 <div class="flex-item">
-<h2 id="hook"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.7 20h-.4l-.4-2.6c-1.2-.2-2.2-.9-3-1.8l-2.4 1-.8-1.3 2.1-1.6c-.4-1.2-.4-2.4 0-3.6L4.7 8.7l.8-1.3 2.4 1c.8-.9 1.8-1.5 3-1.8l.3-2.6h1.5l.4 2.6c1.2.2 2.3.9 3 1.8l2.4-1 .8 1.3-2.1 1.5c.2.6.3 1.2.3 1.8h.5c.5 0 1 .1 1.5.2V12l-.1-1 2.1-1.6c.2-.2.2-.4.1-.6l-2-3.5c-.1-.3-.3-.3-.6-.3l-2.5 1c-.5-.4-1.1-.7-1.7-1l-.4-2.7c.1-.1-.2-.3-.4-.3h-4c-.2 0-.5.2-.5.4l-.4 2.7c-.6.2-1.1.6-1.7.9L5 5c-.3 0-.5 0-.7.3l-2 3.5c-.1.2 0 .4.2.6L4.6 11l-.1 1 .1 1-2.1 1.7c-.2.2-.2.4-.1.6l2 3.5c.1.2.3.2.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.7c0 .2.2.4.5.4h2.5c-.5-.7-.7-1.4-.9-2.1m4.3-7.7V12c0-2.2-1.8-4-4-4s-4 1.8-4 4 1.8 4 4 4c.7-1.7 2.2-3.1 4-3.7m-6-.3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m8 2.5V13l-2.2 2.2 2.2 2.2V16c1.4 0 2.5 1.1 2.5 2.5 0 .4-.1.8-.3 1.1l1.1 1.1c1.2-1.8.7-4.3-1.1-5.5-.6-.5-1.4-.7-2.2-.7m0 6.5c-1.4 0-2.5-1.1-2.5-2.5 0-.4.1-.8.3-1.1l-1.1-1.1c-1.2 1.8-.7 4.3 1.1 5.5.7.4 1.4.7 2.2.7V24l2.2-2.2-2.2-2.3V21Z"/></svg></span> Hook</h2>
+<h3 id="hook"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.7 20h-.4l-.4-2.6c-1.2-.2-2.2-.9-3-1.8l-2.4 1-.8-1.3 2.1-1.6c-.4-1.2-.4-2.4 0-3.6L4.7 8.7l.8-1.3 2.4 1c.8-.9 1.8-1.5 3-1.8l.3-2.6h1.5l.4 2.6c1.2.2 2.3.9 3 1.8l2.4-1 .8 1.3-2.1 1.5c.2.6.3 1.2.3 1.8h.5c.5 0 1 .1 1.5.2V12l-.1-1 2.1-1.6c.2-.2.2-.4.1-.6l-2-3.5c-.1-.3-.3-.3-.6-.3l-2.5 1c-.5-.4-1.1-.7-1.7-1l-.4-2.7c.1-.1-.2-.3-.4-.3h-4c-.2 0-.5.2-.5.4l-.4 2.7c-.6.2-1.1.6-1.7.9L5 5c-.3 0-.5 0-.7.3l-2 3.5c-.1.2 0 .4.2.6L4.6 11l-.1 1 .1 1-2.1 1.7c-.2.2-.2.4-.1.6l2 3.5c.1.2.3.2.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.7c0 .2.2.4.5.4h2.5c-.5-.7-.7-1.4-.9-2.1m4.3-7.7V12c0-2.2-1.8-4-4-4s-4 1.8-4 4 1.8 4 4 4c.7-1.7 2.2-3.1 4-3.7m-6-.3c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2m8 2.5V13l-2.2 2.2 2.2 2.2V16c1.4 0 2.5 1.1 2.5 2.5 0 .4-.1.8-.3 1.1l1.1 1.1c1.2-1.8.7-4.3-1.1-5.5-.6-.5-1.4-.7-2.2-.7m0 6.5c-1.4 0-2.5-1.1-2.5-2.5 0-.4.1-.8.3-1.1l-1.1-1.1c-1.2 1.8-.7 4.3 1.1 5.5.7.4 1.4.7 2.2.7V24l2.2-2.2-2.2-2.3V21Z"/></svg></span> Hook</h3>
 <p>Simple resource representing a plaintext value which is directly associated with an individual Project, Collection, Dataset or Object.
 A Hook can be used to reference (external) services which automatically process/validate/etc. the uploaded data upon registration.
   </p>
