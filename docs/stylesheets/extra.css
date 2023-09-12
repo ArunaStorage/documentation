@@ -8,6 +8,16 @@
   max-width: 75rem;
 }
 
+h2 {
+  clear: both;
+}
+
+figcaption {
+  max-width: 48rem !important;
+  clear: both;
+}
+
+
 /* On mobile use default mkdocs-material CSS */
 .pull-right {}
 
