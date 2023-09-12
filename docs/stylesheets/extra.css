@@ -31,7 +31,8 @@ figcaption {
   border: 1px dashed #ccc;
 }
 
-.flex-item > h2 {
+.flex-item > h3 {
+  font-size: 150%;
   margin-top: 10px;
 }
 
