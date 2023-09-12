@@ -17,6 +17,27 @@ figcaption {
   clear: both;
 }
 
+/* Flexbox grid thingy */
+.flex-container {
+  display: flex; /* or inline-flex */
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1 1 0;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  border: 1px dashed #ccc;
+}
+
+.flex-item > h2 {
+  margin-top: 10px;
+}
+
+.flex-item-headline {
+  font-size: larger;
+}
 
 /* On mobile use default mkdocs-material CSS */
 .pull-right {}
