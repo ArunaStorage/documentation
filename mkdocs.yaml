@@ -8,28 +8,28 @@ docs_dir: docs/
 
 nav:
   - 'Home': index.md
-  - 'Get Started':
-      - 'Overview': get_started/basic_usage/00_index.md
-      - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
-      - 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
-      - 'Projects': get_started/basic_usage/03_How-To-Project.md
-      - 'Collections': get_started/basic_usage/04_How-To-Collections.md
-      - 'Objects': get_started/basic_usage/05_How-To-Objects.md
-      - 'Object Paths': get_started/basic_usage/06_How-To-Object-Paths.md
-      - 'ObjectsGroups': get_started/basic_usage/07_How-To-ObjectGroups.md
-      - 'Server Info': get_started/basic_usage/09_How-To-ServerInfo.md
-      - 'S3 Interface': get_started/basic_usage/10_How-To-S3-Interface.md
+  #- 'Get Started':
+      #- 'Overview': get_started/basic_usage/00_index.md
+      #- 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
+      #- 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
+      #- 'Projects': get_started/basic_usage/03_How-To-Project.md
+      #- 'Collections': get_started/basic_usage/04_How-To-Collections.md
+      #- 'Objects': get_started/basic_usage/05_How-To-Objects.md
+      #- 'Object Paths': get_started/basic_usage/06_How-To-Object-Paths.md
+      #- 'ObjectsGroups': get_started/basic_usage/07_How-To-ObjectGroups.md
+      #- 'Server Info': get_started/basic_usage/09_How-To-ServerInfo.md
+      #- 'S3 Interface': get_started/basic_usage/10_How-To-S3-Interface.md
   - 'Data Structure':
       - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
-      - 'Database ERD': internal_data_structure/database_erd.md
-  - 'Generic Playbooks':
-      - 'Overview': generic_playbooks/index.md
+      #- 'Database ERD': internal_data_structure/database_erd.md
+  #- 'Generic Playbooks':
+      #- 'Overview': generic_playbooks/index.md
 
 theme:
   name: material
   logo: assets/logo-claim.png
   favicon: assets/logo-icon.png
-  #custom_dir: overrides
+  custom_dir: overrides
   features:
     - content.code.annotate
     - content.code.copy
