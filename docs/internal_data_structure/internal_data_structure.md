@@ -80,7 +80,7 @@ Following there is a list of predefined internal relations:
 
 * `BELONGS_TO` - Relation which describes resource hierarchy (`Project` > `Collection` > `Dataset` > `Object`)
 * `ORIGIN` - Relation to original resource of clone
-* `VERSION` - Relation to resource the version was created from
+* `VERSION` - Relation to resource the version/revision was created from
 * `METADATA` - Data :fontawesome-solid-arrow-right-arrow-left: Metadata relation
 * `POLICY` - Relation to custom policy associated with the resource (currently not supported)
 
