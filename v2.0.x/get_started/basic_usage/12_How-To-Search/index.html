@@ -1,0 +1,1605 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ArunaStorage.github.io/Documentation/v2.0.x/get_started/basic_usage/12_How-To-Search/">
+      
+      
+        <link rel="prev" href="../11_How-To-S3-Interface/">
+      
+      
+        <link rel="next" href="../13_How-To-Hooks/">
+      
+      
+      <link rel="icon" href="../../../assets/logo-icon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+    
+    
+      
+        <title>12 | Search - Aruna Object Storage Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.35e1ed30.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-use-the-search-api-searchserviceclient" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+This version is still in beta.
+<a href="../../../..">
+    <strong>Click here to go to the latest stable version.</strong>
+</a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Aruna Object Storage Documentation" class="md-header__button md-logo" aria-label="Aruna Object Storage Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/logo-claim.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aruna Object Storage Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12 | Search
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ArunaStorage/ArunaAPI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ArunaStorage/ArunaAPI
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
+          
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00_index/" class="md-tabs__link">
+          
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../internal_data_structure/internal_data_structure/" class="md-tabs__link">
+          
+  
+  Data Structure
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Aruna Object Storage Documentation" class="md-nav__button md-logo" aria-label="Aruna Object Storage Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/logo-claim.png" alt="logo">
+
+    </a>
+    Aruna Object Storage Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ArunaStorage/ArunaAPI" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ArunaStorage/ArunaAPI
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AOS overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_index/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Get-Storage-Access/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1 | Get Storage Access
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_How-To-Auth-Tokens/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2 | Authorization/Tokens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_How-To-Licenses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3 | Licenses
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_How-To-Project/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4 | Projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_How-To-Collections/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5 | Collections
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_How-To-Datasets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6 | Datasets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_How-To-Objects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7 | Objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_How-To-Relations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8 | Relations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_How-To-EventNotification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9 | Notifications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_How-To-ServerInfo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10 | Server Info
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_How-To-S3-Interface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11 | S3 Interface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    12 | Search
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    12 | Search
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-resources" class="md-nav__link">
+    Search resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-public-resources" class="md-nav__link">
+    Get public resource(s)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-access" class="md-nav__link">
+    Request access
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_How-To-Hooks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13 | Hooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14_How-To-ServiceAccount/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14 | Service Accounts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15_How-To-Workspace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15 | Workspaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Data Structure
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Data Structure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../internal_data_structure/internal_data_structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Data Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="how-to-use-the-search-api-searchserviceclient">How to use the Search API / SearchServiceClient</h1>
+<h2 id="introduction">Introduction</h2>
+<p>In the FAIR context, the discoverability of data plays one of the most important roles, as even the best data will simply lie unused without a way to be found. AOS provides a public search index in which specific metadata of all public objects can be searched. The user-defined scope of the search can be adjusted from fuzzy to detailed. A normal search query includes all fields but can be additionally filtered.</p>
+<p>Depending on the type of field, different operators are useful for filtering:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>name</em></td>
+<td>String</td>
+<td><code>name != genome.fasta</code></td>
+</tr>
+<tr>
+<td><em>description</em></td>
+<td>String</td>
+<td><code>description != ''</code></td>
+</tr>
+<tr>
+<td><em>type</em></td>
+<td>Enum</td>
+<td><code>type = OBJECT</code>, <code>type IN [PROJECT, COLLECTION]</code></td>
+</tr>
+<tr>
+<td><em>size</em></td>
+<td>Int</td>
+<td><code>size &gt; 123456</code>, <code>size 1234 TO 123456</code></td>
+</tr>
+<tr>
+<td><em>status</em></td>
+<td>Enum</td>
+<td><code>type = AVAILABLE</code>, <code>type NOT DELETED</code></td>
+</tr>
+<tr>
+<td><em>labels</em></td>
+<td>Struct</td>
+<td><code>labels.variant = LABEL AND labels.key = validated AND labels.value = true</code>, <code>labels.variant = HOOK AND labels.key = my_validator</code></td>
+</tr>
+<tr>
+<td><em>data_class</em></td>
+<td>Enum</td>
+<td><code>data_class = PUBLIC</code></td>
+</tr>
+<tr>
+<td><em>created_at</em></td>
+<td>Int</td>
+<td><code>created_at &gt; 1698238293</code>, <code>created_at 1696111200 TO 1698793200</code></td>
+</tr>
+<tr>
+<td><em>metadata_license</em></td>
+<td>String</td>
+<td><code>metadata_license = CC0</code>, <code>metadata_license IN [CC0, CC-BY-SA-4.0, MIT]</code></td>
+</tr>
+<tr>
+<td><em>data_license</em></td>
+<td>String</td>
+<td><code>data_license = CC0</code>, <code>data_license IN [CC0, CC-BY-SA-4.0, MIT]</code></td>
+</tr>
+</tbody>
+</table>
+<!--
+<div class="annotate" markdown>
+
+* **Name:** (String)  
+`name != genome.fasta`
+* **Description:** (String)  
+`description != ''`
+* **Type:** (Enum)  
+`type = OBJECT`, `type IN [PROJECT, COLLECTION]` (1)
+* **Size:** (Int)  
+`size > 123456`, `size 1234 TO 123456` (2)
+* **Status:** (Enum)  
+`type = AVAILABLE` (3)
+* **Key-values:** (Struct)  
+`labels.variant = LABEL AND labels.key = validated AND labels.value = true`, `labels.variant = HOOK and labels.key = my_validator` (4)
+* **Data class:** (Enum)  
+`data_class = PUBLIC` (5)
+* **Creation time:** (Int)  
+`created_at > 1698238293 `(6)
+* **Metadata license:** (String/Enum)  
+`metadata_license = CC0`, `metadata_license IN [CC0, CC-BY-SA-4.0, MIT]` (7)
+* **Data license:** (String/Enum)  
+`data_license = CC0`, `data_license IN [CC0, CC-BY-SA-4.0, MIT]`
+
+</div>
+
+1.  `Type` can be one of:
+    * PROJECT
+    * COLLECTION
+    * DATASET
+    * OBJECT  
+2.  * Size of an Object is displayed in bytes
+    * `TO` operator is equivalent to `>= AND <=`
+3.  `Status` can be one of:
+    * INITIALIZING
+    * VALIDATING
+    * AVAILABLE
+    * UNAVAILABLE
+    * ERROR
+    * DELETED
+4.  `Key-values` represent a struct with the following attributes:
+    * `key`: Key of the key-value pair
+    * `value`: Value of the key-value pair
+    * `variant`: Can be one of `LABEL`, `HOOK`, `STATIC_LABEL` or `HOOK_STATUS`
+5.  `Data_class` can be one of:
+    * PUBLIC
+    * PRIVATE
+6.  `created_at` timestamp is transformed to UNIX timestamp for easier filtering with the comparison operators `>, <, >=, <=, TO`
+7.  The predefined licenses can be found in the [:material-creative-commons: License](03_How-To-Licenses.md#introduction){target=_blank} section. These are always available, but this list is not exhaustive as it can be dynamically extended.
+-->
+
+<p>These filters can be combined with the <code>AND</code> and <code>OR</code> expressions and nested with brackets <code>(...)</code> for complex queries.<br />
+An in-depth documentation to the filter operator usage can be found in the Meilisearch <a href="https://www.meilisearch.com/docs/learn/fine_tuning_results/filtering#filter-expressions" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m6.505 18.998 4.434-11.345a4.168 4.168 0 0 1 3.882-2.651h2.674l-4.434 11.345a4.169 4.169 0 0 1-3.883 2.651H6.505Zm6.505 0 4.434-11.345a4.169 4.169 0 0 1 3.883-2.651H24l-4.434 11.345a4.168 4.168 0 0 1-3.882 2.651H13.01Zm-13.01 0L4.434 7.653a4.168 4.168 0 0 1 3.882-2.651h2.674L6.556 16.347a4.169 4.169 0 0 1-3.883 2.651H0Z"/></svg></span>Filter expressions</a> documentation.</p>
+<p>If a user finds an interesting resource but does not have enough access permissions, an access request with a personal message can be sent to the creator of the resource which will be delivered via a <a href="../09_How-To-EventNotification/#persistent-personal-notifications" target="_blank">personal notification</a>. This can be used to contact the user who created the Object on the first hand.</p>
+<h2 id="search-resources">Search resources</h2>
+<p>API examples to search resources.</p>
+<p>The <code>limit</code> and <code>offset</code> parameter can be used to paginate the settings. </p>
+<ul>
+<li><code>limit</code> defines how many hits are returned and must be between 1 and 100 (inclusive).</li>
+<li><code>offset</code> parameter defines how many hits are ignored before the next batch of hits are returned.</li>
+</ul>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>This request does not require any permissions or authentication.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label><label for="__tabbed_1_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.25.18.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span> Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fuzzy search for a keyword</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;query&quot;: &quot;fasta&quot;,</span>
+<span class="s1">    &quot;filter&quot;: &quot;&quot;,</span>
+<span class="s1">    &quot;limit&quot;: &quot;100&quot;,</span>
+<span class="s1">    &quot;offset&quot;: &quot;0&quot;</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/search
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to specifically search for a keyword</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;query&quot;: &quot;\&quot;genome.fasta\&quot;&quot;,</span>
+<span class="s1">    &quot;filter&quot;: &quot;&quot;,</span>
+<span class="s1">    &quot;limit&quot;: &quot;100&quot;,</span>
+<span class="s1">    &quot;offset&quot;: &quot;0&quot;</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/search
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fuzzy search for a keyword with additional filters</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;query&quot;: &quot;fasta&quot;,</span>
+<span class="s1">    &quot;filter&quot;: &quot;type = OBJECT&quot;,</span>
+<span class="s1">    &quot;limit&quot;: &quot;100&quot;,</span>
+<span class="s1">    &quot;offset&quot;: &quot;0&quot;</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/search
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to fuzzy search for a keyword</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SearchResourcesRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">query</span>: <span class="s">&quot;fasta&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">filter</span>: <span class="s">&quot;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">limit</span>: <span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="n">offset</span>: <span class="mi">0</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">search_resources</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to specifically search for a keyword</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SearchResourcesRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">query</span>: <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">genome.fasta</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">filter</span>: <span class="s">&quot;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">limit</span>: <span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="n">offset</span>: <span class="mi">0</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">search_resources</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to fuzzy search for a keyword with additional filters</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SearchResourcesRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">query</span>: <span class="s">&quot;fasta&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">filter</span>: <span class="s">&quot;type = OBJECT&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">limit</span>: <span class="mi">100</span><span class="p">,</span>
+<span class="w">    </span><span class="n">offset</span>: <span class="mi">0</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">search_resources</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to fuzzy search for a keyword</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">SearchResourcesRequest</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;fasta&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">offset</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">SearchResources</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to specifically search for a keyword</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">SearchResourcesRequest</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">genome.fasta</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">offset</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">SearchResources</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to fuzzy search for a keyword with additional filters</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">SearchResourcesRequest</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">&quot;fasta&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;type = OBJECT&quot;</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">offset</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">SearchResources</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
+<h2 id="get-public-resources">Get public resource(s)</h2>
+<p>API examples to fetch Object information of public resources.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>This request does not require any permissions or authentication but the Object information will be returned redacted.</p>
+<p>If an authentication token is provided this request requires at least READ permissions on the specific resources.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label><label for="__tabbed_2_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.25.18.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span> Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of a public Object</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/resource/<span class="o">{</span>resource-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of multiple public Objects</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/resources?resourceIds=resource-id-01&amp;resourceIds=resource-id-02&#39;</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to fetch information of a public Object</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetResourceRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">resource_id</span>: <span class="s">&quot;&lt;resource-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">get_resource</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"> </span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to fetch information of multiple public Objects</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetResourcesRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">resource_ids</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span>
+<span class="w">      </span><span class="s">&quot;&lt;resource-id-01&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">      </span><span class="s">&quot;&lt;resource-id-02&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">      </span><span class="s">&quot;&lt;...&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">get_resources</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"> </span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to fetch information of a public Object</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">GetResourceRequest</span><span class="p">(</span>
+    <span class="n">resource_id</span><span class="o">=</span><span class="s2">&quot;&lt;resource-id&gt;&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">GetResource</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to fetch information of multiple public Objects</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">GetResourceRequest</span><span class="p">(</span>
+    <span class="n">resource_ids</span><span class="o">=</span><span class="p">[</span>
+      <span class="s2">&quot;&lt;resource-id-01&gt;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&lt;resource-id-02&gt;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&lt;...&gt;&quot;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">GetResource</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
+<h2 id="request-access">Request access</h2>
+<p>API examples to request Access for resources owned by other users.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>To request access to a resource you only have to be a registered AOS user.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label><label for="__tabbed_3_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.25.18.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span> Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to request access to an Object of another user</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/resource/resource-id/access?message=Would%20you%20please%20give%20me%20access%20to%20this%20dataset%3F&#39;</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to request access to an Object of another user</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RequestResourceAccessRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">resource_id</span>: <span class="s">&quot;&lt;resource-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">message</span>: <span class="s">&quot;Would you please give me access to this dataset?&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">search_client</span><span class="p">.</span><span class="n">request_resource_access</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"> </span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create Create tonic/ArunaAPI request to request access to an Object of another user</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">RequestResourceAccessRequest</span><span class="p">(</span>
+    <span class="n">resource_id</span><span class="o">=</span><span class="s2">&quot;&lt;resource-id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Would you please give me access to this dataset?&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_client</span><span class="o">.</span><span class="n">RequestResourceAccess</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../11_How-To-S3-Interface/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 11 | S3 Interface">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                11 | S3 Interface
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../13_How-To-Hooks/" class="md-footer__link md-footer__link--next" aria-label="Next: 13 | Hooks">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                13 | Hooks
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
