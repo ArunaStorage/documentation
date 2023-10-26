@@ -1,11 +1,11 @@
 
-# How to use the StorageInfoService API
+# How to use the StorageStatusService API / StorageStatusClient
 
 ## Introduction
 
-To get general information about an AOS instance and its running components you can use the StorageInfoService API.
+To get general information about an AOS instance and its running components you can use the StorageStatusService API.
 
-Mainly, this can be either interesting for developers to know which versions they're dealing with or, for example, to 
+For example, this can be either interesting for developers to know which versions they're dealing with or maybe to 
 introduce a service health monitor with the current status of the instance.
 
 
@@ -13,17 +13,17 @@ introduce a service health monitor with the current status of the instance.
 
 API example for fetching the versions of all components running in the specific AOS instance.
 
-!!! Info
+??? Abstract "Required permissions"
 
-    This request does not need any specific permissions.
+    This request does not require any permissions.
 
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # Native JSON request to get AOS stoarge instance component versions 
-    curl -H 'Authorization: Bearer <API_TOKEN>' \
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/info/version
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/version
     ```
 
 === ":simple-rust: Rust"
@@ -60,15 +60,17 @@ API example for fetching the versions of all components running in the specific 
 
 API example for fetching current status of the AOS instance.
 
-The possible 
+??? Abstract "Required permissions"
+
+    This request does not require any permissions.
 
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # Native JSON request to get AOS stoarge instance status
-    curl -H 'Authorization: Bearer <API_TOKEN>' \
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/info/status
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/status
     ```
 
 === ":simple-rust: Rust"
@@ -99,3 +101,56 @@ The possible
     # Do something with the response
     print(f'{response}')
     ```
+
+## Get available public keys 
+
+API example for fetching a list of the available public keys associated with the ArunaServer and DataProxy instances.
+
+These can be used to validate signatures of tokens and/or presigned URLs.
+
+??? Abstract "Required permissions"
+
+    This request does not require any permissions.
+
+=== ":simple-curl: cURL"
+
+    ```bash linenums="1"
+    # Native JSON request to get the list of available public keys
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/pubkeys
+    ```
+
+=== ":simple-rust: Rust"
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to get the list of available public keys
+    let get_request = GetPubkeysRequest {};
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = info_client.get_pubkeys(get_request)
+                              .await
+                              .unwrap()
+                              .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to get the list of available public keys
+    request = GetPubkeysRequest()
+
+    # Send the request to the AOS instance gRPC gateway
+    response = client.info_client.GetPubkeys(request=request)
+
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+
+## Get/Set public announcements 
+
+> _Coming soon ..._
