@@ -1,20 +1,20 @@
 # Documentation
 
-!!! Info "Release Info"
+**Welcome to the general documentation of the Aruna Object Storage (AOS).**
 
-    <span style="font-size: 150%;">**AOS version 2.0.x is still in beta phase but will be released soon. More information on [https://aruna-storage.org](https://aruna-storage.org){target="_blank"}.**</span>
+This documentation includes a basic usage guide with lots and lots of API examples, information about the internal data structure and much more in the future such as theoretical concepts, the database entity-relationship model and some generic user story playbooks.
 
-Welcome to the general documentation for the Aruna Object Storage (AOS).
-
-This documentation includes theoretical concepts, the internal data structure, the entity-relationship model, a basic usage guide, some generic user story playbooks, and much more in the future.
-
-Deeper technical documentation can be found in the implementation repositories for the [API](#aos-api), [Server](#aos-server), [Server](#aos-dataproxy).
-Details on the individual structures can be found in the API documentation and/or the [Data Structure](internal_data_structure/internal_data_structure.md) part of this documentation.
+Deeper technical documentation can be found in the implementation repositories for the [API](#api), [Server](#server), [DataProxy](#dataproxy).
+Details on the individual structures can be found in the API documentation and/or the [Internal Data Structure](internal_data_structure/internal_data_structure.md) section of this documentation.
 
 
-## AOS Concept
+## Concept
 
-The Aruna Object Storage (AOS) is implemented in Rust and provides multiple access methods for end users, such as a gRPC and JSON-over-REST API, as well as pre-built client libraries for multiple programming languages. The system uses an underlying distributed NewSQL database to manage detailed information about its [resources](#aruna-resources).  The database can be deployed across multiple data centers and scaled horizontally to keep pace with the growth of the data stored. Data submitted by users is stored using data proxies, which provide an S3-compatible API with additional functionality to abstract from existing storage infrastructures. This allows a variety of different academic computing and storage providers to be integrated into the system, enabling easy and automated offsite backups and site-local caches, while allowing participants to retain full data sovereignty.
+Aruna Object Storage (AOS) is a cloud-native, geo-redundant, scalable, and domain-agnostic object storage based data mesh system that manages scientific data and a rich set of associated metadata according to FAIR principles. 
+
+AOS is implemented in Rust and provides multiple access methods for end users, such as a gRPC and JSON-over-REST API, as well as pre-built client libraries for multiple programming languages. The system uses an underlying distributed NewSQL database to manage detailed information about its [resources](#aruna-resources). The database can be deployed across multiple data centers and scaled horizontally to keep pace with the growth of the data stored. Data submitted by users is stored using data proxies, which provide an S3-compatible API with additional functionality to abstract from existing storage infrastructures. This allows a variety of different academic computing and storage providers to be integrated into the system, enabling easy and automated offsite backups and site-local caches, while allowing participants to retain full data sovereignty.
+
+All data uploaded and stored by users is stored as an Object, represented as a sequence of bytes without any semantic information. Once uploaded, these Objects are immutable. Updates create new Objects that reference the original Object, resulting in a history of changes. Objects are organized into Project with optional Collections and Datasets. A Dataset consists of closely related Objects and is used to combine data and metadata for easier access and organization. Collections and Projects, on the other hand, contain a set of Objects and Datasets that represent a scoped view of the data. Collections, Datasets and Projects can also be snapshotted, capturing the current state and providing a persistent, versioned identifier. This allows other researchers to accurately reproduce results based on a specific version, while allowing for continuous modification of the current data. All resources and their relationships form a directed acyclic graph (DAG) with Projects as roots and Objects as leaves.
 
 <figure id="aruna-components" markdown>
   ![Schematic overview of centralised and decentralised AOS components.](internal_data_structure/aruna_components.png){ align=center }
@@ -22,14 +22,14 @@ The Aruna Object Storage (AOS) is implemented in Rust and provides multiple acce
 .</figcaption>
 </figure>
 
-## AOS Components
+## Components
 
 <figure id="aruna-resources" markdown>
   ![Resource relations concept of the Aruna Object Storage data structure](internal_data_structure/aruna_resources.png){ align=center }
-  <figcaption markdown>chematic of a hierarchical structure of AOS resources. A more detailed description of the individual parts can be found [here](internal_data_structure/internal_data_structure.md).</figcaption>
+  <figcaption markdown>Schematic of a hierarchical structure of AOS resources. A more detailed description of the individual parts can be found in the [**:material-graph:Data Structure**](internal_data_structure/internal_data_structure.md){target="_blank"} section.</figcaption>
 </figure>
 
-### **AOS API**
+### **API**
 
 [:material-source-repository: **Github repo**](https://github.com/ArunaStorage/ArunaAPI){:target="_blank"}
 
@@ -41,9 +41,9 @@ The Aruna Object Storage (AOS) is implemented in Rust and provides multiple acce
 * Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api){:target="_blank"} or [crates.io](https://crates.io/crates/aruna-rust-api){:target="_blank"}
 * Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api){:target="_blank"}
 * Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api){:target="_blank"} or [PyPI](https://pypi.org/project/Aruna-Python-API){:target="_blank"}
-* Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api){:target="_blank"}
+* Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api){:target="_blank"} or [GitHub Packages](https://github.com/ArunaStorage/java-api/packages/){:target="_blank"}
 
-### **AOS Server**
+### **Server**
 
 [:material-source-repository: **Github repo**](https://github.com/ArunaStorage/ArunaServer){:target="_blank"}
 
@@ -51,7 +51,7 @@ The implementation of the API that handles the incoming requests.
 
 > Aruna Object Storage is a geo-redundant data lake storage system that manages scientific data and a rich set of associated metadata according to FAIR principles.
 
->It supports multiple data storage backends (e.g. S3, File ...) via a DataProxy that exposes a S3-compatible interface.
+> It supports multiple data storage backends (e.g. S3, File ...) via a DataProxy that exposes a S3-compatible interface.
 
 > * FAIR, geo-redundant, data storage for multiple scientific domains
 > * Organize your data objects in projects, collections and datasets
@@ -62,13 +62,15 @@ The implementation of the API that handles the incoming requests.
 > * REST-API and dedicated client libraries for Python, Rust, Go and Java
 > * (planned) integrated scheduling of external workflows for data validation and transformation
 
-### **AOS DataProxy**
+### **DataProxy**
 
 [:material-source-repository: **Github repo**](https://github.com/ArunaStorage/DataProxy){:target="_blank"}
 
 > This is the internal server implementation handling the communication between the data storage backend used for the specific AOS instance.
 
-> DataProxy is a subcomponent of Aruna Object Storage that provides a partially compatible S3 API for data storage with advanced features like encryption at REST, deduplication, and storage according to FAIR principles. Features
+> DataProxy is a subcomponent of Aruna Object Storage that provides a partially compatible S3 API for data storage with advanced features like encryption at REST, deduplication, and storage according to FAIR principles. 
+
+> **Features**
 
 > * Partial S3 API compatibility: DataProxy implements a subset of the S3 API, making it easy to integrate with existing S3 clients and libraries.
 > * Encryption at rest: all data stored in DataProxy is encrypted at rest, ensuring the confidentiality and integrity of your data.
@@ -88,11 +90,10 @@ The implementation of the API that handles the incoming requests.
 
 ## Implementation Design Trivia
 
-- An RDBMS will be used as database backend for the AOS Server
-- The AOS Server, Dataproxy nd CLI will be implemented in [Rust](https://www.rust-lang.org/){:target="_blank"}
-- The base API interface will be defined using [Protocol Buffers](https://developers.google.com/protocol-buffers){:target="_blank"}
-- All endpoints work with JSON over HTTP just as they do with requests made via gRPC from individual clients
-- [Clients stubs](#aos-api) will be generated for major programming languages on every API release
-- A [basic CLI client](https://github.com/ArunaStorage/ArunaCLI){:target="_blank"} will be offered to simplify the usage entry barrier
-- A [web UI](https://web.aruna.nfdi-dev.gi.denbi.de/ui/){:target="_blank"} is available for demonstration purposes
-
+- A distributed NewSQL RDBMS will be used as database backend for the AOS Server
+- The AOS Server, Data Proxy and CLI are implemented in [Rust](https://www.rust-lang.org/)
+- The base API interface is defined using [Protocol Buffers](https://developers.google.com/protocol-buffers)
+- All endpoints work with JSON over HTTP just as they would do with requests made via gRPC from individual clients
+- [Client stubs](#aos-api) will be generated for major programming languages on every API release ([listed here](#aos-api))
+- A [basic CLI client](https://github.com/ArunaStorage/ArunaCLI) will be offered to simplify the usage entry barrier
+- A [web UI](https://aruna-storage.org) is available for demonstration purposes
