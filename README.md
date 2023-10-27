@@ -17,10 +17,16 @@ AOS is implemented in Rust and provides multiple access methods for end users, s
 
 All data uploaded and stored by users is stored as an Object, represented as a sequence of bytes without any semantic information. Once uploaded, these Objects are immutable. Updates create new Objects that reference the original Object, resulting in a history of changes. Objects are organized into Project with optional Collections and Datasets. A Dataset consists of closely related Objects and is used to combine data and metadata for easier access and organization. Collections and Projects, on the other hand, contain a set of Objects and Datasets that represent a scoped view of the data. Collections, Datasets and Projects can also be snapshotted, capturing the current state and providing a persistent, versioned identifier. This allows other researchers to accurately reproduce results based on a specific version, while allowing for continuous modification of the current data. All resources and their relationships form a directed acyclic graph (DAG) with Projects as roots and Objects as leaves.
 
+<figure id="aruna-components">
+  <img src="./docs/internal_data_structure/aruna_components.png" align="middle" />
+  <figcaption>Schematic overview of centralised and decentralised AOS components. The centralised AOS components handle authentication and authorisation by integrating existing IAM providers in combination with user-specific attributes (ABAC). The central components also provide a registry with meta-descriptions and locality information making records discoverable. The decentralised components consist of data proxy applications that expose existing data structures via a common S3 interface and enable data exchange and caching in a peer to peer network within and between participants.</figcaption>
+</figure>
+
+<!--
 ![Schematic overview of centralised and decentralised AOS components.](./docs/internal_data_structure/aruna_components.png)
 
 Schematic overview of centralised and decentralised AOS components. The centralised AOS components handle authentication and authorisation by integrating existing IAM providers in combination with user-specific attributes (ABAC). The central components also provide a registry with meta-descriptions and locality information making records discoverable. The decentralised components consist of data proxy applications that expose existing data structures via a common S3 interface and enable data exchange and caching in a peer to peer network within and between participants.
-
+-->
 
 ## Components
 
@@ -78,6 +84,6 @@ The implementation of the API that handles the incoming requests.
 - The AOS Server, DataProxy and CLI are implemented in [Rust](https://www.rust-lang.org/)
 - The base API interface is defined using [Protocol Buffers](https://developers.google.com/protocol-buffers)
 - All endpoints work with JSON over HTTP just as they would do with requests made via gRPC from individual clients
-- [Client stubs](#aos-api) will be generated for major programming languages on every API release ([listed here](#aos-api))
+- [Client stubs](#aos-api) will be generated for major programming languages on every API release ([listed here](#api))
 - A [basic CLI client](https://github.com/ArunaStorage/ArunaCLI) will be offered to simplify the usage entry barrier
 - A [web UI](https://aruna-storage.org) is available for demonstration purposes
