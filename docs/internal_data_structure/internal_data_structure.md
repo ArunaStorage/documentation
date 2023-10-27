@@ -1,35 +1,98 @@
 
 # Internal Data Structure
 
-<figure class="pull-right" markdown>
-  ![UML diagram of the Aruna Object Storage data structure](internal_data_structure.png){ align=right }
-  <figcaption markdown>UML diagram of the Aruna Object Storage data structure.</figcaption>
-</figure>
 
 ## Mandatory resources
 
-### Project
+<div class="flex-container" markdown>
+  <div class="flex-item" markdown>
+### :material-folder-multiple-outline: Project
 
-Basic resource to organize general user access for all collections registered in the project.
-A project also acts as an umbrella container for one or multiple collections and has to be available before collection creation is possible.
+A Project is the basic resource to organize general user access for stored data <!--and/or data to be stored--> (i.e. Objects). 
+It also acts as an umbrella container for all other resources which means that every hierarchy has a Project as root. 
+This directly implies that every project name has to be globally unique in the AOS universe.
 
-### Collection
+You can also archive Projects which makes the Project and all its subresources immutable. 
+This feature is useful e.g. if the stored data shall be used for any kind of permanent publication.
+  </div>
 
-Basic resource to organize stored data i.e. Objects.
-Collections can be described with more detailed metadata by registering one or multiple Object/s marked as _"specification"_ of the Collection.
+  <div class="flex-item" markdown>
+### :material-file-document-outline: Object
 
-Collections can also be versioned on-demand with a version number following semantic versioning principles.
-On creation of a collection version the collection a shallow cloned and immutable copy of the collection is created.
-The version number is defined manually by the user who pinpoints the Collection.
+An Object is the resource which fundamentally stores the data in the backend storage system. Depending on the context an Object can represent data or metadata. It must be owned by at least one Project which means that every Object needs at least one Project as root in its hierarchy. Nonetheless, it can be flexibly shared with all other resources by creating the corresponding relation.
 
-### Object
+Additionally, an Object has revisions in contrast to the other resources. 
+Once uploaded, an Object is immutable. Updates create new Objects that reference the original Object, resulting in a history of changes.
+  </div>
+</div>
 
-Resource which fundamentally stores the data in the backend storage system.
-An Object can only be owned by one collection at a time but references can be created for multiple collections.
-Depending on the context an Object can represent data or metadata.
-Additionally, an Object has revisions
+## Optional resources
 
-#### State system
+<div class="flex-container" markdown>
+  <div class="flex-item" markdown>
+### :material-folder-outline: Collection
+
+A Collection is the basic resource to organize stored data (i.e. Objects) inside Projects. Collections should consist a loose collection of Objects and/or Datasets.
+
+Collections can also be snapshot with a version number following semantic versioning principles. On creation of a Collection snapshot, an immutable clone of the Collection and all its subresources gets created. The version number has to be provided manually by the user who initiates the Collection snapshot.
+  </div>
+  <div class="flex-item" markdown>
+### :material-file-document-multiple-outline: Dataset
+
+Datasets are a secondary hierarchy resource to organize Objects either inside Collections and/or Projects directly. A Dataset should consist of closely related Objects and should be used to combine data and metadata for easier access and organization.
+
+Datasets can also be snapshot with a version number following semantic versioning principles. On creation of a Dataset snapshot, an immutable clone of the Dataset and all its subresources gets created. The version number has to be provided manually by the user who initiates the Dataset snapshot.
+  </div>
+</div>
+
+
+<!-- ToDo -->
+<div class="flex-container" markdown>
+  <div class="flex-item" markdown>
+### :material-tag-text-outline: Label
+
+Simple resource representing a plaintext key-value pair which is directly associated with an individual Project, Collection, Dataset or Object.
+A Label can be used to describe short additional properties of a resource.
+  </div>
+  <div class="flex-item" markdown>
+### :material-cog-sync-outline: Hook
+
+Simple resource representing a plaintext value which is directly associated with an individual Project, Collection, Dataset or Object.
+A Hook can be used to reference (external) services which automatically process/validate/etc. the uploaded data upon registration.
+  </div>
+</div>
+
+
+## Resource relations concept
+
+All resources and their relationships form a directed acyclic graph (DAG) with Projects as roots and Objects as leaves. 
+Collections and Datasets can exist directly beneath Projects but only a Dataset and/or Objects can be created inside a Collection. 
+This gives us the following possibilities to create a hierarchy for uploaded data:
+
+* `Project` > `Collection` > `Dataset` > `Object`
+* `Project` > `Collection` > `Object`
+* `Project` > `Dataset` > `Object`
+* `Project` > `Object`
+
+In our model, we also distinguish __internal relations__ between AOS resources and __external relations__  which point to resources outside of AOS e.g. a DOI. 
+
+Following there is a list of predefined internal relations:
+
+* `BELONGS_TO` - Relation which describes resource hierarchy (`Project` > `Collection` > `Dataset` > `Object`)
+* `ORIGIN` - Relation to original resource of clone
+* `VERSION` - Relation to resource the version/revision was created from
+* `METADATA` - Data :fontawesome-solid-arrow-right-arrow-left: Metadata relation
+* `POLICY` - Relation to custom policy associated with the resource (currently not supported)
+
+But you also have the possibility to create further, user-defined relations which are not limited in direction and/or meaning.
+
+<figure markdown>
+  ![Basic concept of the Aruna Object Storage data structure resource relations](aruna_resources_ext.png){ align=center }
+  <figcaption markdown>Hierarchical structure of AOS resources. Resources form a directed acyclic graph of __**belongs to**__ relationships (blue) with Projects as roots and Objects as leaves. Resources can also describe horizontal **__version__** relationships (orange), __**data/metadata**__ relationships (yellow) or even custom user-defined relationships (green).</figcaption>
+</figure>
+
+
+## State system
 
 Objects in the storage have states.
 These are used to indicate the status of an Object during its lifecycle.
@@ -38,38 +101,22 @@ These are used to indicate the status of an Object during its lifecycle.
 
 : After Object creation/initialization but before Object finishing.
 
+**VALIDATING**
+
+: After Object finish while data validation is still running.
+
 **AVAILABLE**
 
-: After Object finishing if everything succeeded.
+: After Object finishing/validation if everything succeeded.
 
 **UNAVAILABLE**
 
-: E.g. while an Object is being updated or generally in the staging area.
+: E.g. while all Dataproxy endpoints are unavailable which hold the Objects' data.
 
 **ERROR**
 
-: If something went wrong e.g. data proxy endpoints are down.
+: If something went wrong e.g. incomplete upload of data.
 
-**TRASH**
+**DELETED**
 
-: Object was deleted and waits to be removed by the garbage collector.
-
-
-## Optional resources
-
-### Label/Hook
-
-Simple resource which represents a key-value pair which is directly associated with a Collection, Object or ObjectGroup.
-
-**Labels**
-
-: Used to describe short properties of the resource with which it is associated.
-
-**Hooks**
-
-: Used to reference (external) services which automatically process/validate/... the data upon registration.
-
-
-### ObjectGroup
-
-ObjectGroups are a secondary resource to organize Objects inside Collections and describe the group with additional metadata.
+: Object was deleted and remains only as data tombstone.

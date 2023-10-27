@@ -3,36 +3,53 @@
 
 ## Introduction
 
-For the general access a registered account within the official NFDI/NFDI4Biodiversity/GFBio AAI is needed to obtain a valid OIDC token from one of those.
+The preparation for creating an account in the AOS is minimal. It is only required that you are already registered in a supported AAI. Currently that is: 
 
-After login, you can use your OIDC token to register yourself at an AOS instance. 
-To create/modify resources within the given scope/permissions you have to generate API token(s) after you have been activated by an AOS instance administrator.
+* **GWDG SSO Service**, i.e. DFN AAI, Life Science Login (ELIXIR AAI) or GfBio Accounts
 
-Please note that these following tutorials cover only the most basic operations. 
-For a complete list of the public API endpoints, their matching requests and responses, please refer to our [Aruna Object Storage REST API Swagger-UI](https://api.aruna.nfdi-dev.gi.denbi.de/swagger-ui/){:target="_blank"}.
+These are also the current options that are offered if you want to register or login via the [official AOS demo website](https://aruna-storage.org/){:target="_blank"}. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
+
+From here on you have two possibilities to authenticate/authorize all of your actions inside the AOS system:
+
+1. You can use your OIDC token which consumes the granted permissions you have on resources.
+2. You create API tokens which can either 
+    * Consume the permissions you have on resources
+    * Have scoped permissions which are directly associated with the token
 
 
-## Client Creation
+## Client creation
 
-If you plan to send your requests through gRPC the first step is to open a connection to the gRPC gateway of the server you want to send the requests to.
+If you plan to send your requests via gRPC the first step is to establish a connection to the gRPC gateway of the server you want to send the requests to.
 
 The presence of a client connection to the specific resource service is required for all further requests in this tutorial if the requests are send via gRPC.
 
 !!! Danger
 
-    These are minimal reproducible examples only for demonstration purposes which should not be used 'as-is' in a production environment!
+    These are minimal reproducible examples only for demonstration purposes which should not be used _'as-is'_ in a production environment!
 
 === ":simple-rust: Rust"
 
     To use the Rust API library you have to set it as dependency `aruna-rust-api = "<Aruna-Rust-API-Version>"` in the `cargo.toml` of your project.
 
+    You can find the latest version of the Aruna Rust API package on [crates.io](https://crates.io/crates/aruna-rust-api){:target="_blank"}.
+
+    !!! note
+    
+        This example additionally implements an interceptor which adds the authorization token automatically to each request send by the service clients.
+
+        It is a little more complicated and extra work up front but offers the advantage of having to worry less about the correct API token request metadata later.
+
+        **All Rust examples in this documentation assume that the client services have been initialized with an interceptor.**
+
     ```rust linenums="1"
-    use aruna_rust_api::api::aruna::api::storage::services::v1::{
-        user_service_client,
-        project_service_client,
-        collection_service_client,
-        object_service_client,
-        object_group_service_client,
+    use aruna_rust_api::api::storage::services::v2::{
+        authorization_service_client::AuthorizationServiceClient,
+        collection_service_client::CollectionServiceClient,
+        dataset_service_client::DatasetServiceClient,
+        object_service_client::ObjectServiceClient,
+        project_service_client::ProjectServiceClient,
+        storage_status_service_client::StorageStatusServiceClient,
+        user_service_client::UserServiceClient,
     }
     use std::sync::Arc;
     use tonic::codegen::InterceptedService;
@@ -51,7 +68,7 @@ The presence of a client connection to the specific resource service is required
             let mut mut_req: tonic::Request<()> = request;
             let metadata = mut_req.metadata_mut();
             metadata.append(
-                AsciiMetadataKey::from_bytes("authorization".as_bytes()).unwrap(),
+                AsciiMetadataKey::from_bytes("Authorization".as_bytes()).unwrap(),
                 AsciiMetadataValue::try_from(format!("Bearer {}", self.api_token.as_str())).unwrap(),
             );
     
@@ -68,11 +85,14 @@ The presence of a client connection to the specific resource service is required
         let interceptor = ClientInterceptor { api_token: api_token.clone() };
     
         // Create the individual client services
-        let mut user_client         = user_service_client::UserServiceClient::with_interceptor(channel.clone(), interceptor.clone());
-        let mut project_client      = project_service_client::ProjectServiceClient::with_interceptor(channel.clone(), interceptor.clone());
-        let mut collection_client   = collection_service_client::CollectionServiceClient::with_interceptor(channel.clone(), interceptor.clone());
-        let mut object_client       = object_service_client::ObjectServiceClient::with_interceptor(channel.clone(), interceptor.clone());
-        let mut object_group_client = object_group_service_client::ObjectGroupServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut info_client       = StorageStatusServiceClient::new(channel.clone());
+        let mut auth_client       = AuthorizationServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut user_client       = UserServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut project_client    = ProjectServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut collection_client = CollectionServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut dataset_client    = DatasetServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        let mut object_client     = ObjectServiceClient::with_interceptor(channel.clone(), interceptor.clone());
+        // let mut other_client = ...
         
         // Do something with the client services ...
     }
@@ -80,7 +100,7 @@ The presence of a client connection to the specific resource service is required
 
 === ":simple-python: Python"
 
-    To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
+    To use the Python API library in your Python project you have to install the [PyPI package](https://pypi.org/project/Aruna-Python-API/){:target="_blank"}: `pip install Aruna-Python-API`.
 
     !!! note
     
@@ -93,12 +113,14 @@ The presence of a client connection to the specific resource service is required
     ```python linenums="1"
     import collections
     import grpc
-    
-    from aruna.api.storage.services.v1.collection_service_pb2_grpc import CollectionServiceStub
-    from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
-    from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
-    from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
-    from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
+
+    from aruna.api.storage.services.v2.info_service_pb2_grpc import StorageStatusServiceStub
+    from aruna.api.storage.services.v2.authorization_service_pb2_grpc import AuthorizationServiceStub
+    from aruna.api.storage.services.v2.user_service_pb2_grpc import UserServiceStub
+    from aruna.api.storage.services.v2.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v2.collection_service_pb2_grpc import CollectionServiceStub
+    from aruna.api.storage.services.v2.dataset_service_pb2_grpc import DatasetServiceStub
+    from aruna.api.storage.services.v2.object_service_pb2_grpc import ObjectServiceStub
     
     # Valid Aruna API token
     #   In a production environment this should be stored in a more secure location ...
@@ -150,13 +172,16 @@ The presence of a client connection to the specific resource service is required
             self.secure_channel = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
             self.intercept_channel = grpc.intercept_channel(self.secure_channel, _MyAuthInterceptor())
     
+            self.info_client = StorageStatusServiceStub(self.intercept_channel)
+            self.auth_client = AuthorizationServiceStub(self.intercept_channel)
             self.user_client = UserServiceStub(self.intercept_channel)
             self.project_client = ProjectServiceStub(self.intercept_channel)
             self.collection_client = CollectionServiceStub(self.intercept_channel)
+            self.dataset_client = DatasetServiceStub(self.intercept_channel)
             self.object_client = ObjectServiceStub(self.intercept_channel)
-            self.object_group_client = ObjectGroupServiceStub(self.intercept_channel)
-    
-    
+            # self.other_client = ...
+
+
     # Entry point of the script
     if __name__ == '__main__':
         # Instantiate AosClient
@@ -167,7 +192,7 @@ The presence of a client connection to the specific resource service is required
 
 === ":simple-python: Python (simple)"
 
-    To use the Python API library in your Python project you have to install the PyPI package: `pip install Aruna-Python-API`.
+    To use the Python API library in your Python project you have to install the [PyPI package](https://pypi.org/project/Aruna-Python-API/){:target="_blank"}: `pip install Aruna-Python-API`.
 
     !!! note
     
@@ -180,11 +205,13 @@ The presence of a client connection to the specific resource service is required
     ```python linenums="1"
     import grpc
 
-    from aruna.api.storage.services.v1.collection_service_pb2_grpc import CollectionServiceStub
-    from aruna.api.storage.services.v1.object_service_pb2_grpc import ObjectServiceStub
-    from aruna.api.storage.services.v1.objectgroup_service_pb2_grpc import ObjectGroupServiceStub
-    from aruna.api.storage.services.v1.project_service_pb2_grpc import ProjectServiceStub
-    from aruna.api.storage.services.v1.user_service_pb2_grpc import UserServiceStub
+    from aruna.api.storage.services.v2.info_service_pb2_grpc import StorageStatusServiceStub
+    from aruna.api.storage.services.v2.authorization_service_pb2_grpc import AuthorizationServiceStub
+    from aruna.api.storage.services.v2.user_service_pb2_grpc import UserServiceStub
+    from aruna.api.storage.services.v2.project_service_pb2_grpc import ProjectServiceStub
+    from aruna.api.storage.services.v2.collection_service_pb2_grpc import CollectionServiceStub
+    from aruna.api.storage.services.v2.dataset_service_pb2_grpc import DatasetServiceStub
+    from aruna.api.storage.services.v2.object_service_pb2_grpc import ObjectServiceStub
     
     # Valid Aruna API token
     #   In a production environment this should be stored in a more secure location ...
@@ -203,13 +230,16 @@ The presence of a client connection to the specific resource service is required
             # Read TLS credentials from local trusted certificates and instantiate a channel
             ssl_credentials = grpc.ssl_channel_credentials()
             self.channel    = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
-    
-            self.user_client = UserServiceStub(self.channel)
-            self.project_client = ProjectServiceStub(self.channel)
-            self.collection_client = CollectionServiceStub(self.channel)
-            self.object_client = ObjectServiceStub(self.channel)
-            self.object_group_client = ObjectGroupServiceStub(self.channel)
-    
+
+            self.info_client = StorageStatusServiceStub(self.intercept_channel)
+            self.auth_client = AuthorizationServiceStub(self.intercept_channel)
+            self.user_client = UserServiceStub(self.intercept_channel)
+            self.project_client = ProjectServiceStub(self.intercept_channel)
+            self.collection_client = CollectionServiceStub(self.intercept_channel)
+            self.dataset_client = DatasetServiceStub(self.intercept_channel)
+            self.object_client = ObjectServiceStub(self.intercept_channel)
+            # self.xyz_client = ...
+
 
     # Entry point of the Python script
     if __name__ == '__main__':
@@ -222,7 +252,10 @@ The presence of a client connection to the specific resource service is required
 
 ## User registration
 
-Users can register themselves with an individual display name in an AOS instance with their valid OIDC token received from the AAI login.
+Users can register themselves with an individual display name in an AOS instance. 
+You only need the valid OIDC token received from one of the supported AAI logins.
+
+Currently, the `display_name`, `email` and `project` parameters are optional. If you provide an e-mail address during registration, you will receive system-relevant notifications to this address e.g. advance notifications of maintenance. The project parameter is a hint for the administrators to associate the newly registered user with a project for identification purposes.
 
 === ":simple-curl: cURL"
 
@@ -230,23 +263,27 @@ Users can register themselves with an individual display name in an AOS instance
     # Native JSON request to register OIDC user
     curl -d '
       {
-        "display_name": "Forename Surname"
-      }' \
-         -H "Authorization: Bearer <OIDC_TOKEN>" \
-         -H "Content-Type: application/json" \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v1/auth/register
+        "display_name": "Forename Surname",
+        "email": "forename.surname@example.com", 
+        "project": "My little science project"
+      }' \ 
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \ 
+         -H 'Content-Type: application/json' \ 
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/auth/register
     ```
 
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to register OIDC user
-    let register_request = RegisterUserRequest {
-        display_name: "John Doe".to_string(),
+    let request = RegisterUserRequest {
+        display_name: "Forename Surname".to_string(),
+        email: "forename.surname@example.com".to_string(),
+        project: "My little science project".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
-    let response = user_client.register_user(register_request)
+    let response = user_client.register_user(request)
                               .await
                               .unwrap()
                               .into_inner();
@@ -260,13 +297,14 @@ Users can register themselves with an individual display name in an AOS instance
     ```python linenums="1"
     # Create tonic/ArunaAPI request to register OIDC user
     request = RegisterUserRequest(
-        display_name="John Doe"
+        display_name="Forename Surname",
+        email="forename.surname@example.com",
+        project="My little science project"
     )
     
     # Send the request to the AOS instance gRPC gateway
     response = client.user_client.RegisterUser(
-        request=request,
-        metadata=(('authorization', f'Bearer {OIDC_TOKEN}'),)
+        request=request
     )
     
     # Do something with the response
@@ -276,26 +314,26 @@ Users can register themselves with an individual display name in an AOS instance
 
 ## User activation
 
-!!! Note
+After registration users additionally have to be activated once in a second step to prevent misuse of the system.
 
-    Users can only be activated by AOS instance administrators.
+??? Abstract "Required permissions"
 
-After registration users additionally have to be activated in a second step.
+    Users can only be activated by AOS global administrators.
 
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # For convenience, administrators can request info on all unactivated users at once
-    curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
-         -H "Content-Type: application/json" \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user/not_activated
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \ 
+         -H 'Content-Type: application/json' \ 
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user/not_activated
     ```
 
     ```bash linenums="1"
     # Native JSON request to activate registered user
-    curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
-         -H "Content-Type: application/json" \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v1/user/<user-id>/activate
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/user/{user-id}/activate
     ```
 
 
@@ -303,7 +341,7 @@ After registration users additionally have to be activated in a second step.
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch all not activated users
-    let get_request = GetNotActivatedUsersRequest {};
+    let request = GetNotActivatedUsersRequest {};
     
     // Send the request to the AOS instance gRPC gateway
     let unactivated = user_client.get_not_activated_users(request)
@@ -316,29 +354,38 @@ After registration users additionally have to be activated in a second step.
     ```
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request for user activation
-    let user_id = uuid::Uuid::parse("12345678-1234-1234-1234-123456789999").unwrap();
-    
-    let activate_request = ActivateUserRequest {
-        user_id: user_id.to_string()
+    // Create tonic/ArunaAPI request for user activation    
+    let request = ActivateUserRequest {
+        user_id: "<user-id>".to_string() // Has to be a valid ULID of a registered user
     };
     
     // Send the request to the AOS instance gRPC gateway
-    let activate_response = user_client.activate_user(activate_request)
+    let response = user_client.activate_user(request)
                                        .await
                                        .unwrap()
                                        .into_inner();
     
     // Do something with the response
-    println!("Activated user: {:#?}", activate_response.user_id)
+    println!("Activated user: {:#?}", response.user_id)
     ```
 
 === ":simple-python: Python"
 
     ```python linenums="1"
+    # Create tonic/ArunaAPI request to fetch all not activated users
+    request = GetNotActivatedUsersRequest()
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetNotActivatedUsers(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
     # Create tonic/ArunaAPI request for user activation
     request = ActivateUserRequest(
-        user_id="<user-id>"  # Has to be a valid UUID v4 of a registered user
+        user_id="<user-id>"  # Has to be a valid ULID of a registered user
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -349,50 +396,48 @@ After registration users additionally have to be activated in a second step.
     ```
 
 
-## Who Am I / What Am I
+## Who am I / What am I
 
 To check which user a token is associated with or get information about the current users permissions, you can use the UserService API.
 
-!!! Note
+??? Abstract "Required permissions"
 
-    Only AOS instance administrators can request user information of other users.
+    Registered users do not need special permissions to fetch information about their user account.
+
+    Only AOS global administrators can request user information of other users i.e. set the `user_id` parameter of the request to the id of another user.
 
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
     # Native JSON request to fetch user information associated with authorization token
-    curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
-         -H "Content-Type: application/json" \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user
     ```
-    
+
     ```bash linenums="1"
     # Native JSON request to fetch user information associated with the provided user id
-    curl -H "Authorization: Bearer <API-Or-OIDC_TOKEN>" \
-         -H "Content-Type: application/json" \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v1/user?userId=<user-id>
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/user?userId=<user-id>'
     ```
 
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch user info of current user
-    let get_request = GetUserRequest {
+    let request = GetUserRequest {
         user_id: "".to_string()
     };
     
     // Send the request to the AOS instance gRPC gateway
-    let response = user_client.get_user(get_request)
+    let response = user_client.get_user(request)
                               .await
                               .unwrap()
                               .into_inner();
     
     // Do something with the response
-    println!("Received permission info for user: {:#?}", response.user);
-    println!("Received project permissions:");
-    for permission in response.project_permissions {
-        println!("{:#?}", permission);
-    }
+    println!("{:#?}", response);
     ```
 
 === ":simple-python: Python"

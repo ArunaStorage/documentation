@@ -8,6 +8,61 @@
   max-width: 75rem;
 }
 
+.md-typeset table:not([class]) td {
+  padding: .5em 1em !important;
+}
+
+h2 {
+  clear: both;
+}
+
+figcaption {
+  max-width: 48rem !important;
+  clear: both;
+}
+
+/* Flexbox grid thingy */
+.flex-container {
+  display: flex; /* or inline-flex */
+  justify-content: space-between;
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 1220px) {
+  .flex-container {
+    flex-direction: column;
+  }
+}
+
+.flex-item {
+  text-align: center;
+  flex: 1 1 0;
+  padding: 10px 25px;
+  margin: 5px;
+  border: 1px dashed #ccc;
+}
+
+.flex-item > h3 {
+  font-size: 150%;
+  margin-top: 10px;
+}
+
+.flex-item > p {
+  text-align: justify;
+}
+
+#iconbox > p {
+  text-align: center;
+}
+
+#iconbox > strong {
+  font-size: 150% !important;
+}
+
+.flex-item-headline {
+  font-size: larger;
+}
+
 /* On mobile use default mkdocs-material CSS */
 .pull-right {}
 

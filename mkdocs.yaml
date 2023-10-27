@@ -7,30 +7,54 @@ repo_url: 'https://github.com/ArunaStorage/ArunaAPI'
 docs_dir: docs/
 
 nav:
-  - 'Home': index.md
-  - 'Get Started':
-      - 'Overview': get_started/basic_usage/00_index.md
-      - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
-      - 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
-      - 'Projects': get_started/basic_usage/03_How-To-Project.md
-      - 'Collections': get_started/basic_usage/04_How-To-Collections.md
-      - 'Objects': get_started/basic_usage/05_How-To-Objects.md
-      - 'ObjectsGroups': get_started/basic_usage/06_How-To-ObjectGroups.md
+  - 'Home':
+    - 'AOS overview': index.md
+    - 'Getting Started': get_started/basic_usage/00_index.md
+  - 'Getting Started': 
+    - 'Overview': get_started/basic_usage/00_index.md
+    - '1 | Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
+    - '2 | Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
+    - '3 | Licenses': get_started/basic_usage/03_How-To-Licenses.md 
+    - '4 | Projects': get_started/basic_usage/04_How-To-Project.md
+    - '5 | Collections': get_started/basic_usage/05_How-To-Collections.md
+    - '6 | Datasets': get_started/basic_usage/06_How-To-Datasets.md
+    - '7 | Objects': get_started/basic_usage/07_How-To-Objects.md
+    - '8 | Relations': get_started/basic_usage/08_How-To-Relations.md
+    - '9 | Notifications': get_started/basic_usage/09_How-To-EventNotification.md
+    - '10 | Server Info': get_started/basic_usage/10_How-To-ServerInfo.md
+    - '11 | S3 Interface': get_started/basic_usage/11_How-To-S3-Interface.md
+    - '12 | Search': get_started/basic_usage/12_How-To-Search.md
+    - '13 | Hooks': get_started/basic_usage/13_How-To-Hooks.md
+    - '14 | Service Accounts': get_started/basic_usage/14_How-To-ServiceAccount.md
+    - '15 | Workspaces': get_started/basic_usage/15_How-To-Workspace.md
   - 'Data Structure':
-      - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
-      - 'Database ERD': internal_data_structure/database_erd.md
-  - 'Generic Playbooks':
-      - 'Overview': generic_playbooks/index.md
+    - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
+    #- 'Database ERD': internal_data_structure/database_erd.md
+  #- 'Generic Playbooks':
+    #- 'Overview': generic_playbooks/index.md
+  #- 'Deployment Recipes'
+    #- 'ArunaServer': deployment/server.md
 
 theme:
+  icon:
+    repo: fontawesome/brands/github
   name: material
   logo: assets/logo-claim.png
   favicon: assets/logo-icon.png
-  #custom_dir: overrides
+  custom_dir: overrides
   features:
     - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.prune
+    - navigation.sections
     - navigation.tabs
-    - navigation.sections  # Sections are included in the navigation on the left.
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
     - toc.integrate
 
 extra_css:
@@ -41,6 +65,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - admonition
+  - tables
   - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
@@ -50,8 +75,8 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 plugins:
   - glightbox
