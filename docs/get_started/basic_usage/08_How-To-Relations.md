@@ -205,7 +205,7 @@ With freely defined relationship types, resources can be linked to each other as
 
 ## Get resource hierarchy
 
-API examples to fetch all downstream hierarchies of a specific resource.
+API examples of how to fetch all downstream hierarchies of a specific resource.
 
 === ":simple-curl: cURL"
 

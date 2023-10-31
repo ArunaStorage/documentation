@@ -19,7 +19,7 @@ This should be the first step after gaining access to the storage (and maybe cre
 
 ## Create Project
 
-API examples for creating a new Project.
+API examples of how to create a new Project.
 The project creator is automatically granted ADMIN permissions on the created Project.
 
 ??? Abstract "Required permissions"
@@ -151,7 +151,7 @@ API example for fetching info of an existing Project.
 
 ## Get multiple Projects
 
-API examples for fetching multiples Projects in a single request.
+API examples of how to fetch multiple Projects in a single request.
 
 ??? Abstract "Required permissions"
 
@@ -206,7 +206,7 @@ API examples for fetching multiples Projects in a single request.
 
 ## Update Project
 
-API examples for updating individual metadata of an existing Project.
+API examples of how to update individual metadata of an existing Project.
 
 !!! Warning "Update operations that trigger the creation of a new revision"
 
@@ -510,7 +510,7 @@ A Project can be archived which sets it and all the downstream relations to an i
 
 ## Delete Project
 
-API examples for deleting a Project. 
+API examples of how to delete a Project.
 
 !!! Info
 

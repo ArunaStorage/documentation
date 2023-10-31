@@ -141,7 +141,7 @@ Licenses can be easily fetched via their tag name.
 
 ## List all available licenses
 
-API examples to fetch all available license for an overview if a fitting license already exists.
+API examples of how to fetch all available license for an overview if a fitting license already exists.
 
 ??? Abstract "Required permissions"
 

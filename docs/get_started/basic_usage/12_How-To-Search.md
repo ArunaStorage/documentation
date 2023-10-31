@@ -79,9 +79,9 @@ If a user finds an interesting resource but does not have enough access permissi
 
 ## Search resources
 
-API examples to search resources.
+API examples of how to search resources.
 
-The `limit` and `offset` parameter can be used to paginate the settings. 
+The `limit` and `offset` parameter can be used to paginate the requests. 
 
 * `limit` defines how many hits are returned and must be between 1 and 100 (inclusive).
 * `offset` parameter defines how many hits are ignored before the next batch of hits are returned.
@@ -246,7 +246,7 @@ The `limit` and `offset` parameter can be used to paginate the settings.
 
 ## Get public resource(s)
 
-API examples to fetch Object information of public resources.
+API examples of how to fetch Object information of public resources.
 
 ??? Abstract "Required permissions"
 
@@ -343,7 +343,7 @@ API examples to fetch Object information of public resources.
 
 ## Request access
 
-API examples to request Access for resources owned by other users.
+API examples of how to request access for resources owned by other users.
 
 ??? Abstract "Required permissions"
 
