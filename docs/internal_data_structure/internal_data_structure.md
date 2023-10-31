@@ -2,7 +2,7 @@
 # Internal Data Structure
 
 
-## Mandatory resources
+## Mandatory hierarchical resources
 
 <div class="flex-container" markdown>
   <div class="flex-item" markdown>
@@ -26,7 +26,7 @@ Once uploaded, an Object is immutable. Updates create new Objects that reference
   </div>
 </div>
 
-## Optional resources
+## Optional hierarchical resources
 
 <div class="flex-container" markdown>
   <div class="flex-item" markdown>
@@ -46,7 +46,8 @@ Datasets can also be snapshot with a version number following semantic versionin
 </div>
 
 
-<!-- ToDo -->
+## Other resources
+
 <div class="flex-container" markdown>
   <div class="flex-item" markdown>
 ### :material-tag-text-outline: Label
