@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35e1ed30.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
       
 
@@ -956,42 +956,72 @@ This version is still in beta.
 
 <h1 id="how-to-use-the-serviceaccount-api-serviceaccountserviceclient">How to use the ServiceAccount API / ServiceAccountServiceClient</h1>
 <h2 id="introduction">Introduction</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>AOS offers the possibility to create ServiceAccounts that can be used impersonally, 
+e.g. by several users at the same time or by a service that communicates with the AOS via the API.</p>
+<p>In order for a service account to be used against the API, it must be assigned a permission for a specific resource. 
+For security reasons, a service account can only have this one permission at the same time, which can, however, be adjusted afterwards. </p>
+<p>The service account also must create at least a personal token for communication with the API, 
+which takes over the specific permission of the service account in the authorisation process. 
+If the service account is also to be entrusted with the upload and download of data, S3 credentials must be requested once from each DataProxy where data is to be stored or read. </p>
+<div class="admonition warning">
+<p class="admonition-title">Service Account Limitations</p>
+<p>Service accounts behave like normal user accounts with the following limitations:</p>
+<ul>
+<li>Only one permission can be assigned at the same time</li>
+<li>If a permission is provided on token creation it also overwrites the existing permission</li>
+<li>License and data class updates of resources are not allowed</li>
+<li>Service accounts are not allowed to send requests against the following services:<ul>
+<li>EndpointService</li>
+<li>AuthorizationService</li>
+<li>UserService</li>
+<li>LicenseService</li>
+</ul>
+</li>
+</ul>
+</div>
 <h2 id="create-service-account">Create service account</h2>
+<p>API examples on how to create a service account.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="get-service-account">Get service account</h2>
+<p>API examples on how to fetch information of a service account.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="set-service-account-permissions">Set service account permissions</h2>
+<p>API examples on how to set the specific permission of a service account.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="create-service-account-token">Create service account token</h2>
+<p>API examples on how to generate a personal service account token.</p>
+<p>If a permission is provided with this request it also overwrites the currently assigned permission.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="get-service-account-tokens">Get service account token(s)</h2>
+<p>API examples on how to fetch information of one or multiple service account tokens.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="delete-service-account-tokens">Delete service account token(s)</h2>
+<p>API examples on how to delete one or multiple service account tokens.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="get-service-account-s3-credentials">Get service account S3 credentials</h2>
+<p>API examples on how to get S3 credentials for a service account from a specific DataProxy.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="get-service-account-dataproxy-token">Get service account DataProxy token</h2>
+<p>API examples on how to generate a service account token for direct communication with a specific DataProxy.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>
 <h2 id="delete-service-account">Delete service account</h2>
+<p>API examples on how to delete a service account.</p>
 <blockquote>
 <p><em>Coming soon ...</em></p>
 </blockquote>

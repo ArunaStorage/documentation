@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35e1ed30.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
       
 
@@ -759,8 +759,8 @@ This version is still in beta.
 </li>
       
         <li class="md-nav__item">
-  <a href="#add-hook-to-project" class="md-nav__link">
-    Add Hook to Project
+  <a href="#add-projects-to-hook" class="md-nav__link">
+    Add Projects to Hook
   </a>
   
 </li>
@@ -935,30 +935,586 @@ This version is still in beta.
 
 <h1 id="how-to-use-the-hooks-api-hooksserviceclient">How to use the Hooks API / HooksServiceClient</h1>
 <h2 id="introduction">Introduction</h2>
+<p>Hooks are the way to automate internal processes in the AOS and/or to integrate external services to extend functionality. 
+Once created, they're available globally in the AOS, and Projects must be associated with them to be included in their trigger cycle. 
+The action that triggers the specific hook is defined by its trigger type.</p>
+<p>The individual trigger types currently include:</p>
+<ul>
+<li><strong>HookAdded:</strong> Triggers, when a Hook key-value gets added to a resource. Can be limited to specific values.</li>
+<li><strong>LabelAdded:</strong> Triggers, when a Label key-value gets added to a resource. Can be limited to specific values.</li>
+<li><strong>ObjectCreated:</strong> Triggers, for Project, Collection and Dataset on creation and for Objects on finish.</li>
+</ul>
+<!--
+* **StaticLabelAdded:** Triggers, when an immutable Label key-value gets added to a resource. Can be limited to specific values.
+* **HookStatusChanged:** Triggers, if a hook status change occurs on a reseource.
+-->
+
+<p>A distinction is also made between external hooks and internal hooks, which have slightly different rules. 
+External hooks are only valid for Objects, as they are primarily concerned with validating or processing the uploaded data of the Object. 
+Internal hooks are also valid for Projects, Collections and Datasets, as they are primarily responsible for automatically binding specific labels/hooks to resources or creating certain relations.</p>
+<p>The information sent to the external service can be customized by overwriting with the <code>custom_template</code> parameter.
+The format of the additional information is absolutely free as long as it contains the mandatory placeholder from the following list:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Necessity</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>{{secret}}</em></td>
+<td>mandatory</td>
+<td>Token secret that contains WRITE permissions on the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{object_id}}</em></td>
+<td>mandatory</td>
+<td>Id of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{hook_id}}</em></td>
+<td>mandatory</td>
+<td>Id of the Hook that triggered the external service.</td>
+</tr>
+<tr>
+<td><em>{{pubkey_serial}}</em></td>
+<td>mandatory</td>
+<td>Id of the public key that shall be used to verify the token signature.</td>
+</tr>
+<tr>
+<td><em>{{name}}</em></td>
+<td>optional</td>
+<td>Name of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{description}}</em></td>
+<td>optional</td>
+<td>Description of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{size}}</em></td>
+<td>optional</td>
+<td>Size in bytes of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{key_values}}</em></td>
+<td>optional</td>
+<td>Key-value pairs of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{status}}</em></td>
+<td>optional</td>
+<td>Status of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{class}}</em></td>
+<td>optional</td>
+<td>Data class of the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{endpoints}}</em></td>
+<td>optional</td>
+<td>Endpoints associated with the resource that triggered the Hook.</td>
+</tr>
+<tr>
+<td><em>{{download_url}}</em></td>
+<td>optional</td>
+<td>Presigned URL that can used to download the data uploaded to the Object.</td>
+</tr>
+<tr>
+<td><em>{{access_key}}</em></td>
+<td>optional</td>
+<td>Access Key Id part of the S3 credentials that can be used to upload data.</td>
+</tr>
+<tr>
+<td><em>{{secret_key}}</em></td>
+<td>optional</td>
+<td>Secret Key part of the S3 credentials that can be used to upload data.</td>
+</tr>
+</tbody>
+</table>
+<p>The default template that gets send if no custom template is defined as JSON:</p>
+<div class="annotate">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;hook_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{hook_id}}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;resource_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{object_id}}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;persistent_resource_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="err">/</span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="c1">// (1)</span>
+<span class="w">    </span><span class="nt">&quot;checksum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;resource-checksum&gt;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resource_variant&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1-4</span><span class="w"> </span><span class="c1">// (2)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{secret}}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;download&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{download_url}}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pubkey_serial&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{{</span><span class="err">pubkey_serial</span><span class="p">}},</span>
+<span class="w">  </span><span class="nt">&quot;access_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{access_key}}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;secret_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{secret_key}}&quot;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<ol>
+<li>Depending if the resource is already archived/snapshot.</li>
+<li><strong>Available resource variants:</strong><br />
+    Project = 1<br />
+    Collection = 2<br />
+    Dataset = 3<br />
+    Object = 4</li>
+</ol>
 <h2 id="create-hook">Create Hook</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
-<h2 id="add-hook-to-project">Add Hook to Project</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>API examples for global Hook creation which can be referenced by any Project.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>To create a new Hook you only have to be a registered AOS user.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new external Hook which triggers on object creation</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;name&quot;: &quot;Fasta-Validation&quot;,</span>
+<span class="s1">    &quot;trigger&quot;: {</span>
+<span class="s1">      &quot;triggerType&quot;: &quot;TRIGGER_TYPE_OBJECT_CREATED&quot;,</span>
+<span class="s1">      &quot;key&quot;: &quot;fasta-validation&quot;,</span>
+<span class="s1">      &quot;value&quot;: &quot;&quot;</span>
+<span class="s1">    },</span>
+<span class="s1">    &quot;hook&quot;: {</span>
+<span class="s1">      &quot;externalHook&quot;: {</span>
+<span class="s1">      &quot;url&quot;: &quot;https://validation-demonstrator.org/fasta&quot;,</span>
+<span class="s1">      &quot;credentials&quot;: {</span>
+<span class="s1">        &quot;token&quot;: &quot;SecretHookAuthToken&quot;</span>
+<span class="s1">      },</span>
+<span class="s1">      &quot;customTemplate&quot;: &quot;&quot;,</span>
+<span class="s1">      &quot;method&quot;: &quot;METHOD_POST&quot;</span>
+<span class="s1">      },</span>
+<span class="s1">      &quot;internalHook&quot;: {}</span>
+<span class="s1">    },</span>
+<span class="s1">    &quot;timeout&quot;: &quot;&quot;,</span>
+<span class="s1">    &quot;projectIds&quot;: [],</span>
+<span class="s1">    &quot;description&quot;: &quot;Fasta file format validation demonstrator.&quot;</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to create a new external Hook which triggers on object creation</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateHookRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">name</span>: <span class="s">&quot;Fasta-Validation&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">trigger</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Trigger</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">trigger_type</span>: <span class="nc">TriggerType</span>::<span class="n">ObjectCreated</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<span class="w">        </span><span class="n">key</span>: <span class="s">&quot;fasta-validation&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">value</span>: <span class="s">&quot;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">}),</span>
+<span class="w">    </span><span class="n">hook</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Hook</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">hook_type</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">HookType</span>::<span class="n">ExternalHook</span><span class="p">(</span><span class="n">ExternalHook</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">url</span>: <span class="s">&quot;https://validation-demonstrator.org/fasta&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">credentials</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Credentials</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">token</span>: <span class="s">&quot;SecretHookAuthToken&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">            </span><span class="p">}),</span>
+<span class="w">            </span><span class="n">custom_template</span>: <span class="nb">None</span><span class="p">,</span>
+<span class="w">            </span><span class="n">method</span>: <span class="nc">Method</span>::<span class="n">Post</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<span class="w">        </span><span class="p">})),</span>
+<span class="w">    </span><span class="p">}),</span>
+<span class="w">    </span><span class="n">timeout</span>: <span class="mi">604800</span><span class="p">,</span><span class="w"> </span><span class="c1">// One week in seconds</span>
+<span class="w">    </span><span class="n">project_ids</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
+<span class="w">    </span><span class="n">description</span>: <span class="s">&quot;Fasta file format validation demonstrator.&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">create_hook</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
+<h2 id="add-projects-to-hook">Add Projects to Hook</h2>
+<p>Projects have to be added to the globally available hooks to be included in their trigger cycle.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>To add a Hook to a Project you require ADMIN permissions on the Project.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to add Projects to a Hook</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;projectIds&quot;: [</span>
+<span class="s1">        &quot;&lt;project-id-01&gt;&quot;,</span>
+<span class="s1">        &quot;&lt;project-id-02&gt;&quot;,</span>
+<span class="s1">        &quot;&lt;...&gt;&quot;,</span>
+<span class="s1">    ]</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook/<span class="o">{</span>hook-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to add Projects to a Hook</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AddProjectsToHookRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">hook_id</span>: <span class="s">&quot;&lt;hook-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">project_ids</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span>
+<span class="w">        </span><span class="s">&quot;&lt;project-id-01&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="s">&quot;&lt;project-id-02&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="s">&quot;&lt;...&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">add_projects_to_hook</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
 <h2 id="get-hooks-of-project">Get Hooks of Project</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>API examples to list all Hooks the specific Project is associated with.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>This request requires at least ADMIN permissions on the specific Project.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new external Hook which triggers on object creation</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hooks/project/<span class="o">{</span>project-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to list all active Hooks of a Project</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ListProjectHooksRequest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="n">project_id</span>: <span class="s">&quot;&lt;project-id-01&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">list_hooks_of_project</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
 <h2 id="get-hooks-of-creator">Get Hooks of creator</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>API examples to list all Hooks created by a specific user.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>To list your created Hooks you only have to be a registered AOS user.</p>
+<p>Global AOS administrators can list the created Hooks of other users.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_4_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new external Hook which triggers on object creation</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hooks/owner/<span class="o">{</span>user-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to list all Hooks created by a specific user</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ListOwnedHooksRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">user_id</span>: <span class="s">&quot;&lt;user-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">list_hooks_of_project</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
 <h2 id="hook-callback">Hook callback</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>This is the API endpoint which has to be used from an external Hook service to return its execution result. 
+The result can be either an error message or on success optionally trigger the addition and/or removal of 
+key-value pairs to a specific Object.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>This request does not require specific permissions as they're handled with the provided token secret.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_5_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fuzzy search for a keyword</span>
+curl<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;secret&quot;: &quot;SecretHookAuthToken&quot;</span>
+<span class="s1">    &quot;hookId&quot;: &quot;&lt;hook-id&gt;&quot;,</span>
+<span class="s1">    &quot;objectId&quot;: &quot;&lt;object-id&gt;&quot;,</span>
+<span class="s1">    &quot;pubkeySerial&quot;: 1337,</span>
+<span class="s1">    &quot;error&quot;: &quot;&lt;error-message&gt;&quot;,</span>
+<span class="s1">    &quot;addKeyValues&quot;: [],</span>
+<span class="s1">    &quot;removeKeyValues&quot;: []</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook/callback
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to return a successful external Hook service result</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HookCallbackRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">secret</span>: <span class="s">&quot;SecretHookAuthToken&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">hook_id</span>: <span class="s">&quot;&lt;hook-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">object_id</span>: <span class="s">&quot;&lt;object-id&gt;&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">pubkey_serial</span>: <span class="mi">1337</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Status</span>::<span class="n">Finished</span><span class="p">(</span><span class="n">Finished</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">add_key_values</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="n">KeyValue</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">key</span>: <span class="s">&quot;fasta-validated&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">value</span>: <span class="s">&quot;true&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">variant</span>: <span class="nc">KeyValueVariant</span>::<span class="n">Label</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<span class="w">        </span><span class="p">}],</span>
+<span class="w">        </span><span class="n">remove_key_values</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
+<span class="w">    </span><span class="p">})),</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">hook_callback</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
 <h2 id="delete-hook">Delete Hook</h2>
-<blockquote>
-<p><em>Coming soon ...</em></p>
-</blockquote>
+<p>API examples for deleting a Hook.</p>
+<details class="abstract">
+<summary>Required permissions</summary>
+<p>This request requires ADMIN permissions on all Projects associted with the Hook.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.803 14.817a.966.966 0 1 1 1.933 0 .966.966 0 0 1-1.933 0m2.736 0c0-.196-.053-.376-.112-.553-.234-.702-.876-1.216-1.657-1.216-.125 0-.235.046-.353.07C.615 13.286 0 13.965 0 14.817a1.77 1.77 0 0 0 3.539 0m-1.77-7.149a.967.967 0 1 1 0 1.934.967.967 0 0 1 0-1.934m0 2.736a1.77 1.77 0 0 0 1.77-1.77c0-.195-.053-.376-.112-.552-.234-.702-.877-1.217-1.657-1.217-.125 0-.235.047-.353.072C.615 7.104 0 7.782 0 8.634c0 .977.792 1.77 1.77 1.77M14.99 4.71a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.967.967 0 0 1 0-1.933.966.966 0 0 1 .966.967.966.966 0 0 1-.966.966m9.6-19.249c-.978 0-1.77.792-1.77 1.77 0 .208.053.402.119.588L5.039 18.558c-.803.168-1.418.846-1.418 1.699a1.77 1.77 0 0 0 3.539 0 1.74 1.74 0 0 0-.111-.553l8.343-14.273c.778-.186 1.368-.853 1.368-1.688a1.77 1.77 0 0 0-1.77-1.769m7.24 2.736a.966.966 0 0 1-.966-.967.966.966 0 0 1 .967-.966.966.966 0 1 1 0 1.933m-9.6 16.513a.966.966 0 0 1-.966-.967.966.966 0 0 1 .966-.966.966.966 0 0 1 0 1.933m9.6-19.249a1.77 1.77 0 0 0-1.77 1.77c0 .208.053.402.119.588l-8.301 14.226c-.802.168-1.417.846-1.417 1.699a1.77 1.77 0 0 0 3.538 0c0-.197-.053-.376-.111-.553l8.343-14.273C23.409 5.245 24 4.578 24 3.743a1.77 1.77 0 0 0-1.77-1.769"/></svg></span> cURL</label><label for="__tabbed_6_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.835 11.703-1.008-.623a13.727 13.727 0 0 0-.028-.294l.866-.807a.348.348 0 0 0-.116-.578l-1.106-.414a8.496 8.496 0 0 0-.087-.285l.69-.96a.346.346 0 0 0-.226-.544l-1.166-.19a9.357 9.357 0 0 0-.14-.261l.49-1.076a.344.344 0 0 0-.028-.336.349.349 0 0 0-.3-.154l-1.185.041a6.744 6.744 0 0 0-.188-.227l.273-1.153a.347.347 0 0 0-.417-.417l-1.153.273a14.018 14.018 0 0 0-.228-.188l.041-1.184a.344.344 0 0 0-.49-.328l-1.076.49-.262-.14-.19-1.167a.348.348 0 0 0-.545-.226l-.96.69a8.487 8.487 0 0 0-.285-.086L14.597.453a.348.348 0 0 0-.578-.116l-.807.867a9.294 9.294 0 0 0-.294-.028L12.295.168a.346.346 0 0 0-.59 0l-.623 1.008a13.738 13.738 0 0 0-.294.028L9.98.337a.346.346 0 0 0-.578.116l-.414 1.106-.285.086-.959-.69a.348.348 0 0 0-.545.226l-.19 1.167a9.357 9.357 0 0 0-.262.14l-1.076-.49a.346.346 0 0 0-.49.328l.041 1.184a7.983 7.983 0 0 0-.228.187l-1.153-.272a.347.347 0 0 0-.417.417l.271 1.153-.186.227-1.184-.042a.346.346 0 0 0-.328.49l.49 1.077a9.167 9.167 0 0 0-.14.262l-1.166.19a.348.348 0 0 0-.226.544l.69.958a13.303 13.303 0 0 0-.087.286l-1.106.414a.348.348 0 0 0-.116.578l.866.807a9.294 9.294 0 0 0-.028.294l-1.008.623a.344.344 0 0 0 0 .59l1.008.623c.008.098.018.196.028.294l-.866.807a.346.346 0 0 0 .116.578l1.106.415c.028.096.057.191.087.285l-.69.959a.345.345 0 0 0 .227.544l1.166.19c.046.088.092.175.14.262l-.49 1.076a.346.346 0 0 0 .328.49l1.183-.041c.062.077.124.152.187.227l-.27 1.154a.346.346 0 0 0 .416.417l1.153-.272c.075.064.151.126.228.187l-.041 1.184a.344.344 0 0 0 .49.327l1.076-.49c.087.049.174.095.262.14l.19 1.167a.348.348 0 0 0 .545.227l.959-.69a9.299 9.299 0 0 0 .285.086l.414 1.107a.345.345 0 0 0 .578.115l.808-.865.294.03.623 1.006a.347.347 0 0 0 .59 0l.623-1.007c.098-.009.197-.018.294-.03l.807.866a.348.348 0 0 0 .578-.115l.414-1.107a8.463 8.463 0 0 0 .285-.087l.959.69a.345.345 0 0 0 .545-.226l.19-1.166.262-.14 1.076.49a.347.347 0 0 0 .49-.328l-.041-1.184a6.727 6.727 0 0 0 .227-.187l1.153.272a.347.347 0 0 0 .417-.416l-.272-1.155c.063-.075.126-.15.187-.227l1.184.041a.344.344 0 0 0 .328-.49l-.49-1.076c.048-.087.095-.174.141-.262l1.166-.19a.348.348 0 0 0 .226-.544l-.69-.959.087-.285 1.106-.414a.346.346 0 0 0 .116-.579l-.866-.807c.01-.098.02-.196.028-.294l1.008-.624a.344.344 0 0 0 0-.589zm-6.742 8.355a.714.714 0 0 1 .299-1.396.714.714 0 1 1-.3 1.396zm-.342-2.314a.649.649 0 0 0-.771.5l-.358 1.669a8.73 8.73 0 0 1-3.619.78 8.737 8.737 0 0 1-3.695-.815L7.95 18.21a.648.648 0 0 0-.772-.5l-1.473.317a8.722 8.722 0 0 1-.761-.898h7.167c.081 0 .136-.014.136-.088v-2.536c0-.074-.054-.088-.136-.088h-2.096v-1.608h2.268c.206 0 1.106.059 1.393 1.209.09.353.288 1.504.424 1.873.134.413.683 1.238 1.268 1.238h3.572a.75.75 0 0 0 .13-.013 8.787 8.787 0 0 1-.813.952zm-9.914 2.28a.714.714 0 1 1-.3-1.396.714.714 0 0 1 .3 1.396zM4.117 8.997a.714.714 0 1 1-1.303.58.714.714 0 0 1 1.304-.58zm-.834 1.981 1.534-.682a.65.65 0 0 0 .33-.858l-.316-.715h1.244v5.602H3.567a8.775 8.775 0 0 1-.284-3.348zm6.734-.543V8.784h2.96c.153 0 1.08.177 1.08.87 0 .574-.712.78-1.296.78zm10.757 1.486c0 .219-.008.436-.024.651h-.9c-.09 0-.127.059-.127.148v.413c0 .973-.548 1.184-1.03 1.238-.457.052-.964-.191-1.027-.472-.27-1.518-.72-1.843-1.43-2.403.882-.56 1.799-1.386 1.799-2.492 0-1.193-.82-1.945-1.377-2.315-.783-.516-1.65-.62-1.883-.62H5.468a8.765 8.765 0 0 1 4.907-2.77l1.098 1.152a.648.648 0 0 0 .918.02l1.227-1.173a8.775 8.775 0 0 1 6.004 4.276l-.84 1.898a.652.652 0 0 0 .33.859l1.618.718c.028.288.042.577.042.872zm-9.3-9.6a.713.713 0 1 1 .984 1.032.714.714 0 0 1-.984-1.031zm8.339 6.71a.71.71 0 0 1 .939-.362.714.714 0 1 1-.94.364z"/></svg></span> Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to delete a Hook</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook/<span class="o">{</span>hook-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to delete a Hook</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeleteHookRequest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="n">hook_id</span>: <span class="s">&quot;&lt;hook-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hook_client</span><span class="p">.</span><span class="n">delete_hook</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                          </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+</div>
+</div>
 
 
 
