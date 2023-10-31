@@ -92,7 +92,7 @@ API example for creating a new Dataset.
 
 ## Get Dataset(s)
 
-API examples for fetching information of one or multiple existing Dataset(s).
+API examples of how to fetch information for one or multiple existing Dataset(s).
 
 ??? Abstract "Required permissions"
 
@@ -186,7 +186,7 @@ API examples for fetching information of one or multiple existing Dataset(s).
 
 ## Update Dataset
 
-API examples for updating individual metadata of an existing Dataset.
+API examples of how to update individual metadata of an existing Dataset.
 
 !!! Warning "Update operations that trigger the creation of a new revision"
 
@@ -438,7 +438,7 @@ API examples for updating individual metadata of an existing Dataset.
 
 ## Snapshot Dataset
 
-API examples to snapshot a Dataset, i.e. create an immutable clone of the Dataset and its underlying resources.
+API examples of how to snapshot a Dataset, i.e. create an immutable clone of the Dataset and its underlying resources.
 
 ??? Abstract "Required permissions"
 
@@ -489,7 +489,7 @@ API examples to snapshot a Dataset, i.e. create an immutable clone of the Datase
 
 ## Delete Dataset
 
-API examples for deleting a Dataset.
+API examples of how to delete a Dataset.
 
 !!! Info
 

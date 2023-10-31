@@ -74,7 +74,7 @@ The default template that gets send if no custom template is defined as JSON:
 
 ## Create Hook
 
-API examples for global Hook creation which can be referenced by any Project.
+API examples of how to create a global Hook which can be referenced by any Project.
 
 ??? Abstract "Required permissions"
 
@@ -200,7 +200,7 @@ Projects have to be added to the globally available hooks to be included in thei
 
 ## Get Hooks of Project
 
-API examples to list all Hooks the specific Project is associated with.
+API examples of how to list all Hooks a specific Project is associated with.
 
 ??? Abstract "Required permissions"
 
@@ -236,7 +236,7 @@ API examples to list all Hooks the specific Project is associated with.
 
 ## Get Hooks of creator
 
-API examples to list all Hooks created by a specific user.
+API examples of how to list all Hooks created by a specific user.
 
 ??? Abstract "Required permissions"
 
@@ -332,7 +332,7 @@ key-value pairs to a specific Object.
 
 ## Delete Hook
 
-API examples for deleting a Hook.
+API examples of how to delete a Hook.
 
 ??? Abstract "Required permissions"
 

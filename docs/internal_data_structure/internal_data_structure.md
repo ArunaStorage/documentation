@@ -88,7 +88,8 @@ Following there is a list of predefined internal relations:
 But you also have the possibility to create further, user-defined relations which are not limited in direction and/or meaning.
 
 <figure markdown>
-  ![Basic concept of the Aruna Object Storage data structure resource relations](aruna_resources_ext.png){ align=center }
+  ![Basic concept of the Aruna Object Storage data structure resource relations](aruna_resources.png#only-light){ align=center }
+  ![Basic concept of the Aruna Object Storage data structure resource relations](aruna_resources.dark.png#only-dark){ align=center }
   <figcaption markdown>Hierarchical structure of AOS resources. Resources form a directed acyclic graph of __**belongs to**__ relationships (blue) with Projects as roots and Objects as leaves. Resources can also describe horizontal **__version__** relationships (orange), __**data/metadata**__ relationships (yellow) or even custom user-defined relationships (green).</figcaption>
 </figure>
 

@@ -25,7 +25,7 @@ However, as soon as the data is claimed by a user and it is available with the d
 
 ## Create Workspace
 
-API examples on how to create a new Workspace.
+API examples of how to create a new Workspace.
 
 ??? Abstract "Required permissions"
 
@@ -66,7 +66,7 @@ API examples on how to create a new Workspace.
 
 ## Create Workspace template
 
-API examples on how to create a new Workspace.
+API examples of how to create a new Workspace.
 
 ??? Abstract "Required permissions"
 
@@ -132,7 +132,7 @@ API examples on how to create a new Workspace.
 
 ## Get Workspace template
 
-API examples on how to get a Workspace template.
+API examples of how to get a Workspace template.
 
 ??? Abstract "Required permissions"
 
@@ -170,7 +170,7 @@ API examples on how to get a Workspace template.
 
 ## List owned Workspace templates
 
-API examples on how to get all Workspace templates owned by yourself.
+API examples of how to get all Workspace templates owned by yourself.
 
 ??? Abstract "Required permissions"
 
@@ -204,7 +204,7 @@ API examples on how to get all Workspace templates owned by yourself.
 
 ## Claim Workspace
 
-API examples on how to claim an anonymous Workspace for your user.
+API examples of how to claim an anonymous Workspace for your user.
 
 ??? Abstract "Required permissions"
 
@@ -245,7 +245,7 @@ API examples on how to claim an anonymous Workspace for your user.
 
 ## Delete Workspace template
 
-API examples on how to delete a Workspace template.
+API examples of how to delete a Workspace template.
 
 ??? Abstract "Required permissions"
 
@@ -280,7 +280,7 @@ API examples on how to delete a Workspace template.
 
 ## Delete Workspace
 
-API examples on how to delete a Workspace.
+API examples of how to delete a Workspace.
 
 ??? Abstract "Required permissions"
 

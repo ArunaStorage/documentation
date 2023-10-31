@@ -17,7 +17,8 @@ AOS is implemented in Rust and provides multiple access methods for end users, s
 All data uploaded and stored by users is stored as an Object, represented as a sequence of bytes without any semantic information. Once uploaded, these Objects are immutable. Updates create new Objects that reference the original Object, resulting in a history of changes. Objects are organized into Project with optional Collections and Datasets. A Dataset consists of closely related Objects and is used to combine data and metadata for easier access and organization. Collections and Projects, on the other hand, contain a set of Objects and Datasets that represent a scoped view of the data. Collections, Datasets and Projects can also be snapshotted, capturing the current state and providing a persistent, versioned identifier. This allows other researchers to accurately reproduce results based on a specific version, while allowing for continuous modification of the current data. All resources and their relationships form a directed acyclic graph (DAG) with Projects as roots and Objects as leaves.
 
 <figure id="aruna-components" markdown>
-  ![Schematic overview of centralised and decentralised AOS components.](internal_data_structure/aruna_components.png){ align=center }
+  ![Schematic overview of centralised and decentralised AOS components.](internal_data_structure/aruna_components.png#only-light){ align=center }
+  ![Schematic overview of centralised and decentralised AOS components.](internal_data_structure/aruna_components.dark.png#only-dark){ align=center }
   <figcaption>Schematic overview of centralised and decentralised AOS components. The centralised AOS components handle authentication and authorisation by integrating existing IAM providers in combination with user-specific attributes (ABAC). The central components also provide a registry with meta-descriptions and locality information making records discoverable. The decentralised components consist of data proxy applications that expose existing data structures via a common S3 interface and enable data exchange and caching in a peer to peer network within and between participants.
 .</figcaption>
 </figure>
@@ -25,7 +26,8 @@ All data uploaded and stored by users is stored as an Object, represented as a s
 ## Components
 
 <figure id="aruna-resources" markdown>
-  ![Resource relations concept of the Aruna Object Storage data structure](internal_data_structure/aruna_resources.png){ align=center }
+  ![Resource relations concept of the Aruna Object Storage data structure](internal_data_structure/aruna_resources.png#only-light){ align=center }
+  ![Resource relations concept of the Aruna Object Storage data structure](internal_data_structure/aruna_resources.dark.png#only-dark){ align=center }
   <figcaption markdown>Schematic of a hierarchical structure of AOS resources. A more detailed description of the individual parts can be found in the [**:material-graph:Data Structure**](internal_data_structure/internal_data_structure.md){target="_blank"} section.</figcaption>
 </figure>
 

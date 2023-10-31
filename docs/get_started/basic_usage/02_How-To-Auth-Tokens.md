@@ -327,7 +327,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
 
 ### Revoke token(s)
 
-API examples to revoke/delete a specific API token or all tokens of the current user.
+API examples of how to revoke/delete a specific API token or all tokens of the current user.
 
 !!! Note
 

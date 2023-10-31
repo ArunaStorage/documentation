@@ -86,7 +86,7 @@ API example for creating a new Collection.
 
 ## Get Collection(s)
 
-API examples for fetching information of one or multiple existing Collections.
+API examples of how to fetch information for one or multiple existing Collections.
 
 ??? Abstract "Required permissions"
 
@@ -180,7 +180,7 @@ API examples for fetching information of one or multiple existing Collections.
 
 ## Update Collection
 
-API examples for updating individual metadata of an existing Collection.
+API examples of how to update individual metadata of an existing Collection.
 
 !!! Warning "Update operations that trigger the creation of a new revision"
 
@@ -437,7 +437,7 @@ API examples for updating individual metadata of an existing Collection.
 
 ## Snapshot Collection
 
-API examples to snapshot a Collection, i.e. create an immutable clone of the Collection and its underlying resources.
+API examples of how to snapshot a Collection, i.e. create an immutable clone of the Collection and its underlying resources.
 
 ??? Abstract "Required permissions"
 
@@ -488,7 +488,7 @@ API examples to snapshot a Collection, i.e. create an immutable clone of the Col
 
 ## Delete Collection
 
-API examples for deleting a Collection.
+API examples of how to delete a Collection.
 
 !!! Info
 

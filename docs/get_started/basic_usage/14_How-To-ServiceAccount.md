@@ -29,28 +29,28 @@ If the service account is also to be entrusted with the upload and download of d
 
 ## Create service account
 
-API examples on how to create a service account.
+API examples of how to create a service account.
 
 > _Coming soon ..._
 
 
 ## Get service account
 
-API examples on how to fetch information of a service account.
+API examples of how to fetch information of a service account.
 
 > _Coming soon ..._
 
 
 ## Set service account permissions 
 
-API examples on how to set the specific permission of a service account.
+API examples of how to set the specific permission of a service account.
 
 > _Coming soon ..._
 
 
 ## Create service account token
 
-API examples on how to generate a personal service account token.
+API examples of how to generate a personal service account token.
 
 If a permission is provided with this request it also overwrites the currently assigned permission.
 
@@ -59,34 +59,34 @@ If a permission is provided with this request it also overwrites the currently a
 
 ## Get service account token(s)
 
-API examples on how to fetch information of one or multiple service account tokens.
+API examples of how to fetch information of one or multiple service account tokens.
 
 > _Coming soon ..._
 
 
 ## Delete service account token(s)
 
-API examples on how to delete one or multiple service account tokens.
+API examples of how to delete one or multiple service account tokens.
 
 > _Coming soon ..._
 
 
 ## Get service account S3 credentials
 
-API examples on how to get S3 credentials for a service account from a specific DataProxy.
+API examples of how to get S3 credentials for a service account from a specific DataProxy.
 
 > _Coming soon ..._
 
 
 ## Get service account DataProxy token
 
-API examples on how to generate a service account token for direct communication with a specific DataProxy.
+API examples of how to generate a service account token for direct communication with a specific DataProxy.
 
 > _Coming soon ..._
 
 
 ## Delete service account
 
-API examples on how to delete a service account.
+API examples of how to delete a service account.
 
 > _Coming soon ..._

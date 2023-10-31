@@ -14,7 +14,7 @@ The exact concept of how many notifications are retained over what period of tim
 
 ### Create event notification consumer
 
-API examples for event notification cosnumer creation.
+API examples of how to create an event notification consumer.
 
 ??? Abstract "Required permissions"
 
@@ -71,7 +71,7 @@ API examples for event notification cosnumer creation.
 
 ### Fetch messages via batch
 
-API examples for event notification batch fetching.
+API examples of how to fetch an event notification message batch.
 
 ??? Abstract "Required permissions"
 
@@ -115,7 +115,7 @@ API examples for event notification batch fetching.
 
 ### Fetch messages via stream
 
-API examples for event notification fetching via stream.
+API examples of how to fetch event notification messages via stream.
 
 ??? Abstract "Required permissions"
 
@@ -207,7 +207,7 @@ Event notification messages have to be acknowledged in order that they won't be 
 
 ### Delete event notification consumer
 
-API examples for event notification consumer deletion.
+API examples of how to delete an event notification consumer.
 
 ??? Abstract "Required permissions"
 
@@ -256,7 +256,7 @@ Examples for personal notifications would be permission changes on resources or 
 
 ### Get personal notifications
 
-API examples on how to fetch persistent personal notifications.
+API examples of how to fetch persistent personal notifications.
 
 ??? Abstract "Required permissions"
 
@@ -293,7 +293,7 @@ API examples on how to fetch persistent personal notifications.
 
 ### Acknowledge personal notifications
 
-API examples on how to acknowledge persistent personal notifications.
+API examples of how to acknowledge persistent personal notifications.
 
 ??? Abstract "Required permissions"
 
