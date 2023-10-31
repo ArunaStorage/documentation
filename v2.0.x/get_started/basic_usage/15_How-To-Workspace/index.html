@@ -28,6 +28,9 @@
     
       <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+      
       
 
 
@@ -68,7 +71,14 @@
             </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     
@@ -137,6 +147,32 @@ This version is still in beta.
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
     
@@ -958,7 +994,7 @@ The following attributes can be defined by a template:</p>
 <p>As long as data is located within an anonymous Workspace, it is not included in the search index. 
 However, as soon as the data is claimed by a user and it is available with the data class Public/Private, it is also subsequently entered in the search index.</p>
 <h2 id="create-workspace">Create Workspace</h2>
-<p>API examples on how to create a new Workspace.</p>
+<p>API examples of how to create a new Workspace.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To create a new Workspace you only have to be a registered AOS user.</p>
@@ -1018,7 +1054,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 </div>
 </div>
 <h2 id="create-workspace-template">Create Workspace template</h2>
-<p>API examples on how to create a new Workspace.</p>
+<p>API examples of how to create a new Workspace.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To create a new Workspace template you do not need special permissions but have to use a personal token.</p>
@@ -1126,7 +1162,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 </div>
 </div>
 <h2 id="get-workspace-template">Get Workspace template</h2>
-<p>API examples on how to get a Workspace template.</p>
+<p>API examples of how to get a Workspace template.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To fetch a Workspace template you do not need special permissions but have to use a personal token.</p>
@@ -1175,7 +1211,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 </div>
 </div>
 <h2 id="list-owned-workspace-templates">List owned Workspace templates</h2>
-<p>API examples on how to get all Workspace templates owned by yourself.</p>
+<p>API examples of how to get all Workspace templates owned by yourself.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To fetch all your Workspace templates you do not need special permissions but have to use a personal token.</p>
@@ -1219,7 +1255,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 </div>
 </div>
 <h2 id="claim-workspace">Claim Workspace</h2>
-<p>API examples on how to claim an anonymous Workspace for your user.</p>
+<p>API examples of how to claim an anonymous Workspace for your user.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To claim a workspace you do not need special permissions but you have to use the specific Workspace token.</p>
@@ -1277,7 +1313,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 </div>
 </div>
 <h2 id="delete-workspace-template">Delete Workspace template</h2>
-<p>API examples on how to delete a Workspace template.</p>
+<p>API examples of how to delete a Workspace template.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To delete a Workspace template you do not need special permissions but have to use a personal token.</p>
@@ -1325,7 +1361,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 </div>
 </div>
 <h2 id="delete-workspace">Delete Workspace</h2>
-<p>API examples on how to delete a Workspace.</p>
+<p>API examples of how to delete a Workspace.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least APPEND permissions on the specific Workspace.</p>

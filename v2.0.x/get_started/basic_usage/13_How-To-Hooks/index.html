@@ -28,6 +28,9 @@
     
       <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+      
       
 
 
@@ -68,7 +71,14 @@
             </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     
@@ -137,6 +147,32 @@ This version is still in beta.
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
     
@@ -1075,7 +1111,7 @@ The format of the additional information is absolutely free as long as it contai
     Object = 4</li>
 </ol>
 <h2 id="create-hook">Create Hook</h2>
-<p>API examples for global Hook creation which can be referenced by any Project.</p>
+<p>API examples of how to create a global Hook which can be referenced by any Project.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To create a new Hook you only have to be a registered AOS user.</p>
@@ -1279,7 +1315,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 </div>
 </div>
 <h2 id="get-hooks-of-project">Get Hooks of Project</h2>
-<p>API examples to list all Hooks the specific Project is associated with.</p>
+<p>API examples of how to list all Hooks a specific Project is associated with.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least ADMIN permissions on the specific Project.</p>
@@ -1327,7 +1363,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 </div>
 </div>
 <h2 id="get-hooks-of-creator">Get Hooks of creator</h2>
-<p>API examples to list all Hooks created by a specific user.</p>
+<p>API examples of how to list all Hooks created by a specific user.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>To list your created Hooks you only have to be a registered AOS user.</p>
@@ -1468,7 +1504,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 </div>
 </div>
 <h2 id="delete-hook">Delete Hook</h2>
-<p>API examples for deleting a Hook.</p>
+<p>API examples of how to delete a Hook.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires ADMIN permissions on all Projects associted with the Hook.</p>

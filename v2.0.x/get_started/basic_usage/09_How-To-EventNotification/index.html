@@ -28,6 +28,9 @@
     
       <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
       
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+      
       
 
 
@@ -68,7 +71,14 @@
             </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     
@@ -137,6 +147,32 @@ This version is still in beta.
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
     
@@ -967,7 +1003,7 @@ This means that the created event notification consumer can be used to fetch not
 <p>These notifications have a shelf life, so they are not persistent forever. 
 The exact concept of how many notifications are retained over what period of time is not yet final. </p>
 <h3 id="create-event-notification-consumer">Create event notification consumer</h3>
-<p>API examples for event notification cosnumer creation.</p>
+<p>API examples of how to create an event notification consumer.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least READ permissions on all resources in the scope of the consumer.</p>
@@ -1057,7 +1093,7 @@ The exact concept of how many notifications are retained over what period of tim
 </div>
 </div>
 <h3 id="fetch-messages-via-batch">Fetch messages via batch</h3>
-<p>API examples for event notification batch fetching.</p>
+<p>API examples of how to fetch an event notification message batch.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least READ permissions on all resources in the scope of the consumer.</p>
@@ -1121,7 +1157,7 @@ The exact concept of how many notifications are retained over what period of tim
 </div>
 </div>
 <h3 id="fetch-messages-via-stream">Fetch messages via stream</h3>
-<p>API examples for event notification fetching via stream.</p>
+<p>API examples of how to fetch event notification messages via stream.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least READ permissions on all resources in the scope of the consumer.</p>
@@ -1257,7 +1293,7 @@ The exact concept of how many notifications are retained over what period of tim
 </div>
 </div>
 <h3 id="delete-event-notification-consumer">Delete event notification consumer</h3>
-<p>API examples for event notification consumer deletion.</p>
+<p>API examples of how to delete an event notification consumer.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request requires at least WRITE permissions.</p>
@@ -1321,7 +1357,7 @@ The exact concept of how many notifications are retained over what period of tim
 These notifications have to be persistent and therefore are retained separately from the event notification system until explicitly acknowledged.</p>
 <p>Examples for personal notifications would be permission changes on resources or access requests on resources from other users.</p>
 <h3 id="get-personal-notifications">Get personal notifications</h3>
-<p>API examples on how to fetch persistent personal notifications.</p>
+<p>API examples of how to fetch persistent personal notifications.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request only requires a personal token which authenticates and provides the user id.</p>
@@ -1373,7 +1409,7 @@ These notifications have to be persistent and therefore are retained separately 
 </div>
 </div>
 <h3 id="acknowledge-personal-notifications">Acknowledge personal notifications</h3>
-<p>API examples on how to acknowledge persistent personal notifications.</p>
+<p>API examples of how to acknowledge persistent personal notifications.</p>
 <details class="abstract">
 <summary>Required permissions</summary>
 <p>This request only requires a personal token which authenticates the user.</p>
