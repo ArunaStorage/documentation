@@ -23,7 +23,8 @@ All data uploaded and stored by users is stored as an Object, represented as a s
     <source media="(prefers-color-scheme: light)" srcset="./docs/internal_data_structure/aruna_components.png">
     <img src="./docs/internal_data_structure/aruna_components.png" align="middle" />
   </picture>
-  <figcaption>Schematic overview of centralised and decentralised AOS components. The centralised AOS components handle authentication and authorisation by integrating existing IAM providers in combination with user-specific attributes (ABAC). The central components also provide a registry with meta-descriptions and locality information making records discoverable. The decentralised components consist of data proxy applications that expose existing data structures via a common S3 interface and enable data exchange and caching in a peer to peer network within and between participants. 
+  <figcaption align="center">
+    <p align="center"><em>Schematic overview of centralised and decentralised AOS components. The centralised AOS components handle authentication and authorisation by integrating existing IAM providers in combination with user-specific attributes (ABAC). The central components also provide a registry with meta-descriptions and locality information making records discoverable. The decentralised components consist of data proxy applications that expose existing data structures via a common S3 interface and enable data exchange and caching in a peer to peer network within and between participants.</em></p>
   </figcaption>
 </figure>
 
