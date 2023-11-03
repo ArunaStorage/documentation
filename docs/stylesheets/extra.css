@@ -1,13 +1,14 @@
 :root > * {
   --md-primary-fg-color: #165a97;
   --md-accent-fg-color: #165a97;
-  --md-tooltip-width: 600px;
+  --md-tooltip-width: fit-content;
 }
 
 .md-grid {
   max-width: 75rem;
 }
 
+/* Make table rows smaller by removing some padding */
 .md-typeset table:not([class]) td {
   padding: .5em 1em !important;
 }
@@ -23,7 +24,7 @@ figcaption {
 
 /* Flexbox grid thingy */
 .flex-container {
-  display: flex; /* or inline-flex */
+  display: flex;
   justify-content: space-between;
 }
 
@@ -62,16 +63,4 @@ figcaption {
 
 .flex-item-headline {
   font-size: larger;
-}
-
-/* On mobile use default mkdocs-material CSS */
-.pull-right {}
-
-/* With enough width set to the right */
-@media only screen and (min-width: 1280px) {
-  .pull-right {
-    max-width: 30% !important;
-    margin: 18px 40px !important;
-    float: right;
-  }
 }
