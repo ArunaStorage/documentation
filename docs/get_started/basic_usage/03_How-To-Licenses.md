@@ -7,7 +7,7 @@ Licences play a major role in the implementation of/compliance with the FAIR pri
 
 For this purpose, a predefined set of the most common licences is provided in the AOS:
 
-* All Rights Reserved: `All_Rights_Reserved`
+* All Rights Reserved: `AllRightsReserved`
 * All Creative Commons 4.0: `CC0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `CC-BY-NC-4.0`, `CC-BY-NC-SA-4.0`, `CC-BY-ND-4.0`, `CC-BY-ND-SA-4.0`
 * MIT license: `MIT`
 * Apache 2.0: `Apache-2.0`
