@@ -11,6 +11,8 @@
         <link rel="canonical" href="https://ArunaStorage.github.io/Documentation/v2.0.x/internal_data_structure/database_erd/">
       
       
+        <link rel="prev" href="../internal_data_structure/">
+      
       
       
       <link rel="icon" href="../../assets/logo-icon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Database erd - Aruna Object Storage Documentation</title>
+        <title>Database ERD - Aruna Object Storage Documentation</title>
       
     
     
@@ -132,7 +134,7 @@ This version is still in beta.
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Database erd
+              Database ERD
             
           </span>
         </div>
@@ -264,10 +266,12 @@ This version is still in beta.
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../internal_data_structure/" class="md-tabs__link">
           
   
@@ -787,6 +791,8 @@ This version is still in beta.
       
   
   
+    
+  
   
     
     
@@ -796,12 +802,12 @@ This version is still in beta.
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -815,7 +821,7 @@ This version is still in beta.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Data Structure
@@ -837,6 +843,34 @@ This version is still in beta.
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Database ERD
+  </span>
+  
+
+      </a>
+      
     </li>
   
 
@@ -867,13 +901,159 @@ This version is still in beta.
   
 
 
-  <h1>Database erd</h1>
+  <h1>Database ERD</h1>
 
-<figure>
-<p><a class="glightbox" href="../database-erd.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Image title" loading="lazy" src="../database-erd.png" /></a>
-  </p>
-<figcaption>Aruna Object Storage (AOS) database entity-relationship diagram. Click for zoom.</figcaption>
-</figure>
+<p>This section provides a simplified overview of the ArunaServer database schema through an entity-relationship diagram. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 161.6 161.6" style="enable-background:new 0 0 161.6 161.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#F08705;}
+	.st1{fill:#DF6C0C;}
+	.st2{fill:#FFFFFF;}
+	.st3{fill:#333333;}
+</style>
+<g>
+	<path class="st0" d="M161.6,154.7c0,3.9-3.2,6.9-6.9,6.9H6.9c-3.9,0-6.9-3.2-6.9-6.9V6.9C0,3,3.2,0,6.9,0h147.8   c3.9,0,6.9,3.2,6.9,6.9L161.6,154.7L161.6,154.7z"/>
+	<g>
+		<path class="st1" d="M161.6,154.7c0,3.9-3.2,6.9-6.9,6.9H55.3l-32.2-32.7l20-32.7l59.4-73.8l58.9,60.7L161.6,154.7z"/>
+	</g>
+	<path class="st2" d="M132.7,90.3h-17l-18-30.6c4-0.8,7-4.4,7-8.6V28c0-4.9-3.9-8.8-8.8-8.8h-30c-4.9,0-8.8,3.9-8.8,8.8v23.1   c0,4.3,3,7.8,6.9,8.6L46,90.4H29c-4.9,0-8.8,3.9-8.8,8.8v23.1c0,4.9,3.9,8.8,8.8,8.8h30c4.9,0,8.8-3.9,8.8-8.8V99.2   c0-4.9-3.9-8.8-8.8-8.8h-2.9L73.9,60h13.9l17.9,30.4h-3c-4.9,0-8.8,3.9-8.8,8.8v23.1c0,4.9,3.9,8.8,8.8,8.8h30   c4.9,0,8.8-3.9,8.8-8.8V99.2C141.5,94.3,137.6,90.3,132.7,90.3z"/>
+</g>
+</svg></span> draw.io</label><label for="__tabbed_1_2"><span class="twemoji"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 491 491" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M490.16,84.61C490.16,37.912 452.248,0 405.55,0L84.61,0C37.912,0 0,37.912 0,84.61L0,405.55C0,452.248 37.912,490.16 84.61,490.16L405.55,490.16C452.248,490.16 490.16,452.248 490.16,405.55L490.16,84.61Z" style="fill:rgb(255,54,112);"/>
+    <path d="M407.48,111.18C335.587,108.103 269.573,152.338 245.08,220C220.587,152.338 154.573,108.103 82.68,111.18C80.285,168.229 107.577,222.632 154.74,254.82C178.908,271.419 193.35,298.951 193.27,328.27L193.27,379.13L296.9,379.13L296.9,328.27C296.816,298.953 311.255,271.42 335.42,254.82C382.596,222.644 409.892,168.233 407.48,111.18Z" style="fill:white;fill-rule:nonzero;"/>
+</svg>
+</span> Mermaid.js</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><figure markdown>
+  <a class="glightbox" href="../database-erd.light.png#only-light" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Image title" loading="lazy" src="../database-erd.light.png#only-light" /></a>
+  <a class="glightbox" href="../database-erd.dark.png#only-dark" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Image title" loading="lazy" src="../database-erd.dark.png#only-dark" /></a>
+  <figcaption>Aruna Object Storage (AOS) database entity-relationship diagram. Click for zoom.</figcaption>
+</figure></p>
+</div>
+<div class="tabbed-block">
+<pre class="mermaid"><code>erDiagram
+
+  users ||--o{ objects : "creates / owns"
+  users ||--o{ stream_consumers : "creates / owns"
+  users ||--o{ persistent_notifications : "receives / acknowledges"
+  users ||--o{ hooks : "is owner"
+  users ||--o{ workspaces : "is owner"
+  users {
+    UUID id PK
+    TEXT display_name
+    VARCHAR(511) email
+    VARCHAR(511) external_id
+    JSON attributes
+    Boolean active
+  }
+
+  endpoints {
+    UUID id PK
+    TEXT name
+    JSON host_config
+    EndpointVariant endpoint_variant
+    UUID documentation_object FK
+    Boolean is_public
+    EndpointStatus status
+  }
+
+  pub_keys ||--|| endpoints : "provides public key"
+  pub_keys {
+    SMALLSERIAL id PK
+    UUID proxy FK
+    TEXT pubkey "UNIQUE"
+  }
+
+  licenses ||--|| objects : "Metadata license"
+  licenses ||--|| objects : "Data license"
+  licenses {
+    VARCHAR(511) tag PK
+    VARCHAR(511) name
+    VARCHAR(1023) description
+    VARCHAR(511) url
+  }
+
+  objects ||--o{ endpoints : "describes"
+  objects ||--|{ internal_relations : "is target"
+  objects ||--|{ internal_relations : "is origin"
+  objects {
+    UUID id PK,UK
+    Int revision_number
+    VARCHAR(511) name
+    VARCHAR(1023) description
+    Timestamp created_at
+    UUID created_by FK
+    Int64 content_len
+    Int count
+    JSON key_values
+    ObjectStatus object_status
+    DataClass data_class
+    ObjectType object_type UK 
+    JSON external_relations
+    JSON hashes
+    Boolean dynamic
+    JSON endpoints
+    VARCHAR(511) metadata_license FK
+    VARCHAR(511) data_license FK
+  }
+
+  relation_types ||--o{ internal_relations : "provides relation name"
+  relation_types {
+    VARCHAR(511) relation_name PK
+  }
+
+  internal_relations {
+    UUID id PK
+    UUID origin_pid FK,UK
+    ObjectType origin_type FK
+    VARCHAR(511) relation_name FK,UK
+    UUID target_pid FK,UK
+    ObjectType target_type FK
+    VARCHAR(511) target_name
+  }
+
+  stream_consumers {
+    UUID id PK
+    UUID user_id FK
+    JSON config
+  }
+
+  persistent_notifications {
+    UUID id PK
+    UUID user_id FK
+    PersistentNotificationVariant notification_variant
+    TEXT message
+    JSON refs
+  }
+
+  hooks {
+    UUID id PK
+    VARCHAR(511) name
+    VARCHAR(1023) description
+    UUID[] project_ids
+    UUID owner FK
+    JSON trigger
+    TIMESTAMP timeout
+    JSON hook
+  }
+
+  workspaces {
+    UUID id PK
+    VARCHAR(511) name
+    VARCHAR(1023) description
+    UUID owner FK
+    VARCHAR(511) prefix
+    JSON hook_ids
+    JSON endpoint_ids
+  }</code></pre>
+</div>
+</div>
+</div>
 
 
 
@@ -898,6 +1078,28 @@ This version is still in beta.
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../internal_data_structure/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Internal Data Structure">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Internal Data Structure
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
