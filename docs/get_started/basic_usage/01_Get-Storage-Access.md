@@ -252,10 +252,12 @@ The presence of a client connection to the specific resource service is required
 
 ## User registration
 
-Users can register themselves with an individual display name in an AOS instance. 
+Users can register themselves with an email address and an individual display name in an AOS instance. 
 You only need the valid OIDC token received from one of the supported AAI logins.
 
-Currently, the `display_name`, `email` and `project` parameters are optional. If you provide an e-mail address during registration, you will receive system-relevant notifications to this address e.g. advance notifications of maintenance. The project parameter is a hint for the administrators to associate the newly registered user with a project for identification purposes.
+The `display_name` and `email` parameters are mandatory while `project` is optional. 
+The provided email will only be used for system-relevant notifications e.g. advance notifications of maintenance.
+The project parameter is a hint for the administrators to associate the newly registered user with a project for identification purposes.
 
 === ":simple-curl: cURL"
 
