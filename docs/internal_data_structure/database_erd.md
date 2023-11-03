@@ -2,7 +2,7 @@
 This section provides a simplified overview of the ArunaServer database schema through an entity-relationship diagram. 
 
 
-=== ":simple-diagramsdotnet: draw.io"
+=== ":diagramsdotnet-diagramsdotnet: draw.io"
 
     <figure markdown>
       ![Image title](database-erd.light.png#only-light){ loading=lazy }
