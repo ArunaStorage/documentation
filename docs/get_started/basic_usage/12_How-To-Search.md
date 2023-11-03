@@ -7,13 +7,13 @@ In the FAIR context, the discoverability of data plays one of the most important
 
 Depending on the type of field, different operators are useful for filtering:
 
-| Field               | Type   | Examples |
-|---------------------|--------|----------|
+| Field               | Type   | Examples               |
+|---------------------|--------|------------------------|
 | *name*              | String | `name != genome.fasta` |
-| *description*       | String | `description != ''` |
-| *type*              | Enum   | `type = OBJECT`, `type IN [PROJECT, COLLECTION]` |
+| *description*       | String | `description != ''`    |
+| *object_type*       | Enum   | `object_type = OBJECT`, `object_type IN [PROJECT, COLLECTION]` |
 | *size*              | Int    | `size > 123456`, `size 1234 TO 123456` |
-| *status*            | Enum   | `type = AVAILABLE`, `type NOT DELETED` |
+| *status*            | Enum   | `status = AVAILABLE`, `status NOT DELETED` |
 | *labels*            | Struct | `labels.variant = LABEL AND labels.key = validated AND labels.value = true`, `labels.variant = HOOK AND labels.key = my_validator` |
 | *data_class*        | Enum   | `data_class = PUBLIC` |
 | *created_at*        | Int    | `created_at > 1698238293`, `created_at 1696111200 TO 1698793200` |
