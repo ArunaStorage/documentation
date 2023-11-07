@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -993,8 +993,8 @@ This version is still in beta.
 </tr>
 <tr>
 <td><em>object_type</em></td>
-<td>Enum</td>
-<td><code>object_type = OBJECT</code>, <code>object_type IN [PROJECT, COLLECTION]</code></td>
+<td>Int</td>
+<td><code>object_type = 1</code>, <code>object_type IN [2,3]</code></td>
 </tr>
 <tr>
 <td><em>size</em></td>
@@ -1009,7 +1009,7 @@ This version is still in beta.
 <tr>
 <td><em>labels</em></td>
 <td>Struct</td>
-<td><code>labels.variant = LABEL AND labels.key = validated AND labels.value = true</code>, <code>labels.variant = HOOK AND labels.key = my_validator</code></td>
+<td><code>labels.variant = LABEL AND labels.key = validated AND labels.value = true</code>,<br/><code>labels.variant = HOOK AND labels.key = my_validator</code></td>
 </tr>
 <tr>
 <td><em>data_class</em></td>
@@ -1033,6 +1033,10 @@ This version is still in beta.
 </tr>
 </tbody>
 </table>
+<!--
+  | *object_type*       | Enum   | `object_type = OBJECT`, `object_type IN [PROJECT, COLLECTION]` |
+-->
+
 <!--
 <div class="annotate" markdown>
 
@@ -1654,7 +1658,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

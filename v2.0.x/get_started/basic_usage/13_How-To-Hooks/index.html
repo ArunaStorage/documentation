@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -997,8 +997,9 @@ The action that triggers the specific hook is defined by its trigger type.</p>
 <p>The individual trigger types currently include:</p>
 <ul>
 <li><strong>HookAdded:</strong> Triggers, when a Hook key-value gets added to a resource. Can be limited to specific values.</li>
+<li><strong>ResourceCreated:</strong> Triggers for all hierarchical resources on creation.</li>
 <li><strong>LabelAdded:</strong> Triggers, when a Label key-value gets added to a resource. Can be limited to specific values.</li>
-<li><strong>ObjectCreated:</strong> Triggers, for Project, Collection and Dataset on creation and for Objects on finish.</li>
+<li><strong>ObjectFinished:</strong> Triggers only for Objects on finish.</li>
 </ul>
 <!--
 * **StaticLabelAdded:** Triggers, when an immutable Label key-value gets added to a resource. Can be limited to specific values.
@@ -1165,12 +1166,32 @@ The format of the additional information is absolutely free as long as it contai
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
-<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new external Hook which triggers on object creation</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new external Hook which triggers </span>
+<span class="c1">#    - on object finish</span>
+<span class="c1">#    - if the object is tagged with the hook key &#39;fasta-validation&#39;</span>
 curl<span class="w"> </span><span class="s1">&#39;</span>
 <span class="s1">  {</span>
 <span class="s1">    &quot;name&quot;: &quot;Fasta-Validation&quot;,</span>
 <span class="s1">    &quot;trigger&quot;: {</span>
-<span class="s1">      &quot;triggerType&quot;: &quot;TRIGGER_TYPE_OBJECT_CREATED&quot;,</span>
+<span class="s1">      &quot;triggerType&quot;: &quot;TRIGGER_TYPE_OBJECT_FINISHED&quot;,</span>
+<span class="s1">      &quot;filters&quot;: [</span>
+<span class="s1">        {</span>
+<span class="s1">          &quot;filterVariant&quot;: FILTER_VARIANT_KEY_VALUE,</span>
+<span class="s1">          &quot;key&quot;: &quot;fasta-validation&quot;,</span>
+<span class="s1">          &quot;value&quot;: &quot;&quot;,</span>
+<span class="s1">          &quot;variant&quot;: &quot;KEY_VALUE_VARIANT_HOOK&quot;</span>
+<span class="s1">        }</span>
+<span class="s1">      ]</span>
 <span class="s1">      &quot;key&quot;: &quot;fasta-validation&quot;,</span>
 <span class="s1">      &quot;value&quot;: &quot;&quot;</span>
 <span class="s1">    },</span>
@@ -1225,13 +1246,27 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to create a new external Hook which triggers on object creation</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to create a new external Hook which triggers </span>
+<span class="c1">//    - on object finish</span>
+<span class="c1">//    - if the object is tagged with the hook key &#39;fasta-validation&#39;</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateHookRequest</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">name</span>: <span class="s">&quot;Fasta-Validation&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">trigger</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Trigger</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">trigger_type</span>: <span class="nc">TriggerType</span>::<span class="n">ObjectCreated</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
-<span class="w">        </span><span class="n">key</span>: <span class="s">&quot;fasta-validation&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
-<span class="w">        </span><span class="n">value</span>: <span class="s">&quot;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">trigger_type</span>: <span class="nc">TriggerType</span>::<span class="n">ObjectFinished</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<span class="w">        </span><span class="n">filters</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">filter_variant</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">FilterVariant</span>::<span class="n">KeyValue</span><span class="p">(</span><span class="n">KeyValue</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">key</span>: <span class="s">&quot;fasta-validation&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">value</span>: <span class="s">&quot;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">variant</span>: <span class="nc">KeyValueVariant</span>::<span class="n">Hook</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
+<span class="w">            </span><span class="p">})),</span>
+<span class="w">        </span><span class="p">}],</span>
 <span class="w">    </span><span class="p">}),</span>
 <span class="w">    </span><span class="n">hook</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Hook</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">hook_type</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">HookType</span>::<span class="n">ExternalHook</span><span class="p">(</span><span class="n">ExternalHook</span><span class="w"> </span><span class="p">{</span>
@@ -1468,7 +1503,7 @@ curl<span class="w"> </span><span class="s1">&#39;</span>
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook/callback
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/hook/callback
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1662,7 +1697,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
