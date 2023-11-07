@@ -28,8 +28,8 @@ API example for creating a new Collection.
         "relations": [],
         "data_class": "DATA_CLASS_PUBLIC",
         "projectId": "<project-id>",
-        "metadataLicenseTag": "CC-BY",
-        "defaultDataLicenseTag": "CC-BY"
+        "metadataLicenseTag": "CC-BY-4.0",
+        "defaultDataLicenseTag": "CC-BY-4.0"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -46,8 +46,8 @@ API example for creating a new Collection.
         key_values: vec![],
         relations: vec![],
         data_class: DataClass::Public as i32,
-        metadata_license_tag: "CC-BY".to_string(),
-        default_data_license_tag: "CC-BY".to_string(),
+        metadata_license_tag: Some("CC-BY-4.0".to_string()),
+        default_data_license_tag: Some("CC-BY-4.0".to_string()),
         parent: Some(Parent::ProjectId("<project-id>".to_string())),
     };
     
@@ -72,8 +72,8 @@ API example for creating a new Collection.
         relations=[], 
         data_class=DataClass.DATA_CLASS_PUBLIC,
         project_id="<project-id>",
-        metadata_license_tag="CC-BY",
-        default_data_license_tag="CC-BY"
+        metadata_license_tag="CC-BY-4.0",
+        default_data_license_tag="CC-BY-4.0"
     )
 
     # Send the request to the AOS instance gRPC gateway

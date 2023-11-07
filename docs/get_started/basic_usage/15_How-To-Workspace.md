@@ -112,7 +112,7 @@ API examples of how to create a new Workspace.
             "<...>".to_string()
         ],
         description: "<template-description>".to_string(),
-        endpoint_id: vec![
+        endpoint_ids: vec![
             "<endpoint-id-01>".to_string(),
             "<endpoint-id-02>".to_string(),
             "<...>".to_string()

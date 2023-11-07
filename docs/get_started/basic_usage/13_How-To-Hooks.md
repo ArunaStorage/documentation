@@ -10,8 +10,10 @@ The action that triggers the specific hook is defined by its trigger type.
 The individual trigger types currently include:
 
 * **HookAdded:** Triggers, when a Hook key-value gets added to a resource. Can be limited to specific values.
+* **ResourceCreated:** Triggers for all hierarchical resources on creation.
 * **LabelAdded:** Triggers, when a Label key-value gets added to a resource. Can be limited to specific values.
-* **ObjectCreated:** Triggers, for Project, Collection and Dataset on creation and for Objects on finish.
+* **ObjectFinished:** Triggers only for Objects on finish.
+
 <!--
 * **StaticLabelAdded:** Triggers, when an immutable Label key-value gets added to a resource. Can be limited to specific values.
 * **HookStatusChanged:** Triggers, if a hook status change occurs on a reseource.
@@ -83,12 +85,22 @@ API examples of how to create a global Hook which can be referenced by any Proje
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to create a new external Hook which triggers on object creation
+    # Native JSON request to create a new external Hook which triggers 
+    #    - on object finish
+    #    - if the object is tagged with the hook key 'fasta-validation'
     curl '
       {
         "name": "Fasta-Validation",
         "trigger": {
-          "triggerType": "TRIGGER_TYPE_OBJECT_CREATED",
+          "triggerType": "TRIGGER_TYPE_OBJECT_FINISHED",
+          "filters": [
+            {
+              "filterVariant": FILTER_VARIANT_KEY_VALUE,
+              "key": "fasta-validation",
+              "value": "",
+              "variant": "KEY_VALUE_VARIANT_HOOK"
+            }
+          ]
           "key": "fasta-validation",
           "value": ""
         },
@@ -115,13 +127,20 @@ API examples of how to create a global Hook which can be referenced by any Proje
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to create a new external Hook which triggers on object creation
+    // Create tonic/ArunaAPI request to create a new external Hook which triggers 
+    //    - on object finish
+    //    - if the object is tagged with the hook key 'fasta-validation'
     let request = CreateHookRequest {
         name: "Fasta-Validation".to_string(),
         trigger: Some(Trigger {
-            trigger_type: TriggerType::ObjectCreated as i32,
-            key: "fasta-validation".to_string(),
-            value: "".to_string(),
+            trigger_type: TriggerType::ObjectFinished as i32,
+            filters: vec![Filter {
+                filter_variant: Some(FilterVariant::KeyValue(KeyValue {
+                    key: "fasta-validation".to_string(),
+                    value: "".to_string(),
+                    variant: KeyValueVariant::Hook as i32,
+                })),
+            }],
         }),
         hook: Some(Hook {
             hook_type: Some(HookType::ExternalHook(ExternalHook {
@@ -298,7 +317,7 @@ key-value pairs to a specific Object.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/hook/callback
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/hook/callback
     ```
 
 === ":simple-rust: Rust"

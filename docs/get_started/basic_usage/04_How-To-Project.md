@@ -40,8 +40,8 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         "relations": [],
         "data_class": "DATA_CLASS_PUBLIC",
         "preferredEndpoint": "",
-        "metadataLicenseTag": "CC-BY",
-        "defaultDataLicenseTag": "CC-BY"
+        "metadataLicenseTag": "CC-BY-4.0",
+        "defaultDataLicenseTag": "CC-BY-4.0"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -61,8 +61,8 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         relations: vec![],
         data_class: DataClass::Public as i32,
         preferred_endpoint: "".to_string(), // Can be set to specific endpoint
-        metadata_license_tag: "CC-BY".to_string(),
-        default_data_license_tag: "CC-BY".to_string(),
+        metadata_license_tag: "CC-BY-4.0".to_string(),
+        default_data_license_tag: "CC-BY-4.0".to_string(),
     };
     
     // Send the request to the AOS instance gRPC gateway
@@ -86,8 +86,8 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         relations=[], 
         data_class=DataClass.DATA_CLASS_PUBLIC,
         preferred_endpoint="",
-        metadata_license_tag="CC-BY",
-        default_data_license_tag="CC-BY"
+        metadata_license_tag="CC-BY-4.0",
+        default_data_license_tag="CC-BY-4.0"
     )
     
     # Send the request to the AOS instance gRPC gateway

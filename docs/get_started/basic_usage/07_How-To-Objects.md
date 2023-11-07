@@ -45,8 +45,8 @@ As long as an Object is in the staging area data can be uploaded to it.
             "hash": "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
             }
         ],
-        "metadataLicenseTag": "CC-BY",
-        "dataLicenseTag": "CC-BY"
+        "metadataLicenseTag": "CC-BY-4.0",
+        "dataLicenseTag": "CC-BY-4.0"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -67,8 +67,8 @@ As long as an Object is in the staging area data can be uploaded to it.
             alg: Hashalgorithm::Sha256 as i32,
             hash: "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33".to_string(),
         }],
-        metadata_license_tag: "CC-BY".to_string(),
-        data_license_tag: "CC-BY".to_string(),
+        metadata_license_tag: "CC-BY-4.0".to_string(),
+        data_license_tag: "CC-BY-4.0".to_string(),
         parent: Some(Parent::ProjectId("<project-id>".to_string())),
     };
     
@@ -99,8 +99,8 @@ As long as an Object is in the staging area data can be uploaded to it.
             alg=Hashalgorithm.HASHALGORITHM_SHA256,
             hash="5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
         )],
-        metadata_license_tag="CC-BY",
-        data_license_tag="CC-BY"
+        metadata_license_tag="CC-BY-4.0",
+        data_license_tag="CC-BY-4.0"
     )
 
     # Send the request to the AOS instance gRPC gateway
@@ -306,7 +306,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
     let mut file = tokio::fs::File::open("/path/to/local/file").await.unwrap();     // File handle
     let mut remaining_bytes: usize = file.metadata().await.unwrap().len() as usize; // File size in bytes
     let mut upload_part_counter: i64 = 0; 
-    let mut completed_parts: Vec<CompletedParts> = Vec::new();
+    let mut completed_parts: Vec<CompletedPart> = Vec::new();
     
     const UPLOAD_BUFFER_SIZE: usize = 1024 * 1024 * 50; // 50MiB chunks
     let mut buffer_size = UPLOAD_BUFFER_SIZE;           // Variable buffer size for loop
@@ -328,7 +328,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
             Ok(bytes) => bytes,
             Err(_) => file.read_to_end(&mut data_buf).await.unwrap(),
         };
-    
+
         // Create tonic/ArunaAPI request to request an upload url for multipart upload part
         let upload_url = object_client
             .get_upload_url(GetUploadUrlRequest {
@@ -340,7 +340,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
             .unwrap()
             .into_inner()
             .url;
-    
+
         // Upload buffer content to upload url and parse ETag from response header
         let client   = reqwest::Client::new();
         let response = client.put(upload_url).body(data_buf).send().await.unwrap();
@@ -348,7 +348,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
         let etag     = std::str::from_utf8(etag_raw).unwrap().to_string();
     
         // Collect ETag with corresponding part number
-        completed_parts.push(CompletedParts {
+        completed_parts.push(CompletedPart {
             etag: etag,
             part: upload_part_counter,
         });
@@ -397,7 +397,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
 
             # Collect ETag with corresponding part number
             completed_parts.append(
-                CompletedParts(
+                CompletedPart(
                     etag=etag,
                     part=i+1
                 )

@@ -53,7 +53,7 @@ API examples of how to create an event notification consumer.
             resource_variant=ResourceVariant.RESOURCE_VARIANT_PROJECT
         ),
         user="<user-id>",
-        anouncements=False,
+        announcements=False,
         all=False,
         include_subresources=True,
         stream_all=StreamAll(),
