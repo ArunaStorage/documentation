@@ -11,7 +11,8 @@ Depending on the type of field, different operators are useful for filtering:
 |---------------------|--------|------------------------|
 | *name*              | String | `name != genome.fasta` |
 | *description*       | String | `description != ''`    |
-| *object_type*       | Int    | `object_type = 1`, `object_type IN [2,3]` |
+| *object_type*       | Enum   | `object_type = PROJECT`, `object_type IN [COLLECTION, DATASET]` |
+| *object_type_id*    | Int    | `object_type_id = 1`, `object_type_id IN [2,3]` |
 | *size*              | Int    | `size > 123456`, `size 1234 TO 123456` |
 | *status*            | Enum   | `status = AVAILABLE`, `status NOT DELETED` |
 | *labels*            | Struct | `labels.variant = LABEL AND labels.key = validated AND labels.value = true`,<br/>`labels.variant = HOOK AND labels.key = my_validator` |
@@ -19,10 +20,6 @@ Depending on the type of field, different operators are useful for filtering:
 | *created_at*        | Int    | `created_at > 1698238293`, `created_at 1696111200 TO 1698793200` |
 | *metadata_license*  | String | `metadata_license = CC0`, `metadata_license IN [CC0, CC-BY-SA-4.0, MIT]` |
 | *data_license*      | String | `data_license = CC0`, `data_license IN [CC0, CC-BY-SA-4.0, MIT]` |
-
-<!--
-  | *object_type*       | Enum   | `object_type = OBJECT`, `object_type IN [PROJECT, COLLECTION]` |
--->
 
 <!--
 <div class="annotate" markdown>
