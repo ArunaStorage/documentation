@@ -13,15 +13,14 @@ The individual trigger types currently include:
 * **ResourceCreated:** Triggers for all hierarchical resources on creation.
 * **LabelAdded:** Triggers, when a Label key-value gets added to a resource. Can be limited to specific values.
 * **ObjectFinished:** Triggers only for Objects on finish.
-
-<!--
 * **StaticLabelAdded:** Triggers, when an immutable Label key-value gets added to a resource. Can be limited to specific values.
 * **HookStatusChanged:** Triggers, if a hook status change occurs on a reseource.
--->
 
-A distinction is also made between external hooks and internal hooks, which have slightly different rules. 
-External hooks are only valid for Objects, as they are primarily concerned with validating or processing the uploaded data of the Object. 
-Internal hooks are also valid for Projects, Collections and Datasets, as they are primarily responsible for automatically binding specific labels/hooks to resources or creating certain relations.
+A distinction is made between external hooks and internal hooks, which have slightly different use cases. 
+External hooks address an external service that can use the transferred information to perform its formatting/validation/processing/... and return a result and/or upload the result data itself. 
+The transferred information contains the metadata of a resource, which can also contain a link to the uploaded data of an Object in order to make it available to the service.
+Internal hooks are responsible for the automatic binding of specific labels/hooks on resources and/or the creation of relationships. 
+In other words, internal hooks can be used to automate certain AOS internal processes.
 
 The information sent to the external service can be customized by overwriting with the `custom_template` parameter.
 The format of the additional information is absolutely free as long as it contains the mandatory placeholder from the following list:
