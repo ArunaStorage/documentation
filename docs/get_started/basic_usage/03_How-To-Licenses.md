@@ -160,10 +160,10 @@ API examples of how to fetch all available license for an overview if a fitting 
 
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to fetch all available licenses
-    let request = GetLicensesRequest {};
+    let request = ListLicensesRequest {};
     
     // Send the request to the AOS instance gRPC gateway
-    let response = license_client.get_licenses(request)
+    let response = license_client.list_licenses(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
