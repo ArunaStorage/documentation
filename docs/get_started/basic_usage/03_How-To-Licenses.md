@@ -17,7 +17,7 @@ Each object in the AOS can be assigned different licences for the metadata and "
 
 !!! Warning "Default license"
 
-    If no licences are specified when a Project is created, the default licence `All_Rights_Reserved` is used. 
+    If no licences are specified when a Project is created, the default licence `AllRightsReserved` is used. 
     This is the only licence that can be replaced on a resource without creating a new revision.
 
     Other licences of an object cannot be modified "in-place" afterwards, but are applied to a new revision of a resource. 

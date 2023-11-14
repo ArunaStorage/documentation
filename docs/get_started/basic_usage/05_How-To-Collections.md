@@ -186,7 +186,7 @@ API examples of how to update individual metadata of an existing Collection.
 
     * Name update
     * Removal of KeyValues
-    * License update except from `All_Rights_Reserved`
+    * License update except from the default `AllRightsReserved`
 
 ??? Abstract "Required permissions"
 

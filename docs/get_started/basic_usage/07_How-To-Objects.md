@@ -766,7 +766,7 @@ Operations which are updated "in-place":
 * Key-value adding
 * Dataclass relaxing 
 * Parent modification
-* `All_Rights_Reserved` license update 
+* `AllRightsReserved` license update 
 
 Operations which always trigger the creation of a new revision:
 
@@ -774,7 +774,7 @@ Operations which always trigger the creation of a new revision:
 * Name update
 * Key-value removal
 * Object hashes modification
-* License update with the exception of `All_Rights_Reserved`
+* License update with the exception of `AllRightsReserved`
 
 A new revision Object always has the status _Initializing_ analog to the initial creation of an Object. 
 In the same way, the Object must be finished either through a single part data upload or a manual finish request to set its status to _Available_.
