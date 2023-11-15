@@ -982,7 +982,7 @@ This version is still in beta.
 <p>Each object in the AOS can be assigned different licences for the metadata and "physical" data, so that a granular definition of the rights of use can be specified. The specification of licences is only mandatory when a project is created. The reason for this is that all other sub-resources can inherit the licences of their parent if no licence is specified when they are created.</p>
 <div class="admonition warning">
 <p class="admonition-title">Default license</p>
-<p>If no licences are specified when a Project is created, the default licence <code>All_Rights_Reserved</code> is used. 
+<p>If no licences are specified when a Project is created, the default licence <code>AllRightsReserved</code> is used. 
 This is the only licence that can be replaced on a resource without creating a new revision.</p>
 <p>Other licences of an object cannot be modified "in-place" afterwards, but are applied to a new revision of a resource. 
 Some thought should be given in advance as to which licence is appropriate for the data.</p>
@@ -1184,10 +1184,10 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="normal"> 9</span>
 <span class="normal">10</span>
 <span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to fetch all available licenses</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetLicensesRequest</span><span class="w"> </span><span class="p">{};</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ListLicensesRequest</span><span class="w"> </span><span class="p">{};</span>
 
 <span class="c1">// Send the request to the AOS instance gRPC gateway</span>
-<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">license_client</span><span class="p">.</span><span class="n">get_licenses</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">license_client</span><span class="p">.</span><span class="n">list_licenses</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                             </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
 <span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
