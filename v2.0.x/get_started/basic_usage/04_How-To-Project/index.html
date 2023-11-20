@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -602,49 +602,63 @@ This version is still in beta.
       
         <li class="md-nav__item">
   <a href="#introduction" class="md-nav__link">
-    Introduction
+    <span class="md-ellipsis">
+      Introduction
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#create-project" class="md-nav__link">
-    Create Project
+    <span class="md-ellipsis">
+      Create Project
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#get-project" class="md-nav__link">
-    Get Project
+    <span class="md-ellipsis">
+      Get Project
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#get-multiple-projects" class="md-nav__link">
-    Get multiple Projects
+    <span class="md-ellipsis">
+      Get multiple Projects
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#update-project" class="md-nav__link">
-    Update Project
+    <span class="md-ellipsis">
+      Update Project
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#archive-project" class="md-nav__link">
-    Archive Project
+    <span class="md-ellipsis">
+      Archive Project
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#delete-project" class="md-nav__link">
-    Delete Project
+    <span class="md-ellipsis">
+      Delete Project
+    </span>
   </a>
   
 </li>
@@ -1273,14 +1287,6 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 </div>
 <h2 id="update-project">Update Project</h2>
 <p>API examples of how to update individual metadata of an existing Project.</p>
-<div class="admonition warning">
-<p class="admonition-title">Update operations that trigger the creation of a new revision</p>
-<ul>
-<li>Name update</li>
-<li>Removal of KeyValues</li>
-<li>License update except from the default <code>AllRightsReserved</code></li>
-</ul>
-</div>
 <details class="abstract">
 <summary>Required permissions</summary>
 <ul>
@@ -1346,7 +1352,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 </code></pre></div></td></tr></table></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Dataclass can only be relaxed: <code>Confidential</code> &gt; <code>Private</code> &gt; <code>Public</code></p>
+<p>Dataclass can only be relaxed: <code>Confidential</code> &gt; <code>Workspace</code> &gt; <code>Private</code> &gt; <code>Public</code></p>
 </div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1890,7 +1896,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

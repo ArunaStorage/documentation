@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
@@ -742,7 +742,9 @@ This version is still in beta.
       
         <li class="md-nav__item">
   <a href="#introduction" class="md-nav__link">
-    Introduction
+    <span class="md-ellipsis">
+      Introduction
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Introduction">
@@ -750,7 +752,9 @@ This version is still in beta.
         
           <li class="md-nav__item">
   <a href="#object-paths-in-aos" class="md-nav__link">
-    Object paths in AOS
+    <span class="md-ellipsis">
+      Object paths in AOS
+    </span>
   </a>
   
 </li>
@@ -762,42 +766,54 @@ This version is still in beta.
       
         <li class="md-nav__item">
   <a href="#create-bucket" class="md-nav__link">
-    Create bucket
+    <span class="md-ellipsis">
+      Create bucket
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#put-object" class="md-nav__link">
-    Put Object
+    <span class="md-ellipsis">
+      Put Object
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#multipart-upload" class="md-nav__link">
-    Multipart Upload
+    <span class="md-ellipsis">
+      Multipart Upload
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#head-object" class="md-nav__link">
-    Head Object
+    <span class="md-ellipsis">
+      Head Object
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#get-object" class="md-nav__link">
-    Get Object
+    <span class="md-ellipsis">
+      Get Object
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#list-bucket-objects" class="md-nav__link">
-    List bucket objects
+    <span class="md-ellipsis">
+      List bucket objects
+    </span>
   </a>
   
 </li>
@@ -1014,10 +1030,10 @@ retrieving and managing data in Amazon S3 and other cloud storage service provid
 <p class="admonition-title">S3cmd configuration</p>
 <p>The examples assume only a minimalist configuration file containing the Access Key ID, Secret Access Key and AOS DataProxy host. The remaining parameters can be set with the default values.</p>
 <div class="highlight"><span class="filename">.s3cfg</span><pre><span></span><code><span class="k">[default]</span>
-<span class="n">access_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;</span><span class="n">access-key-id</span><span class="err">&gt;</span>
-<span class="n">secret_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;</span><span class="n">access-secret</span><span class="err">&gt;</span>
-<span class="n">host_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;</span><span class="n">aos-dataproxy-endpoint</span><span class="err">&gt;</span>
-<span class="n">host_bucket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">%</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span><span class="n">s</span><span class="p">.</span><span class="err">&lt;</span><span class="n">aos-dataproxy-endpoint</span><span class="err">&gt;</span>
+<span class="n">access_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;access-key-id&gt;</span>
+<span class="n">secret_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;access-secret&gt;</span>
+<span class="n">host_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&lt;aos-dataproxy-endpoint&gt;</span>
+<span class="n">host_bucket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">%(bucket)s.&lt;aos-dataproxy-endpoint&gt;</span>
 <span class="w">  </span><span class="p">...</span>
 </code></pre></div>
 <p>An alternative to the configuration file would be to use the CLI options of S3cmd: </p>
@@ -1287,7 +1303,7 @@ s3cmd<span class="w"> </span>get<span class="w"> </span>s3://mybucket/example.fi
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
