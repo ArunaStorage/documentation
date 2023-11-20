@@ -208,12 +208,6 @@ API examples of how to fetch multiple Projects in a single request.
 
 API examples of how to update individual metadata of an existing Project.
 
-!!! Warning "Update operations that trigger the creation of a new revision"
-
-    * Name update
-    * Removal of KeyValues
-    * License update except from the default `AllRightsReserved`
-
 ??? Abstract "Required permissions"
 
     * Name update needs at least ADMIN permissions on the specific Project
@@ -260,7 +254,7 @@ API examples of how to update individual metadata of an existing Project.
 
     !!! Info
 
-        Dataclass can only be relaxed: `Confidential` > `Private` > `Public`
+        Dataclass can only be relaxed: `Confidential` > `Workspace` > `Private` > `Public`
 
     ```bash linenums="1"
     # Native JSON request to update the dataclass of a Project

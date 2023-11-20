@@ -182,12 +182,6 @@ API examples of how to fetch information for one or multiple existing Collection
 
 API examples of how to update individual metadata of an existing Collection.
 
-!!! Warning "Update operations that trigger the creation of a new revision"
-
-    * Name update
-    * Removal of KeyValues
-    * License update except from the default `AllRightsReserved`
-
 ??? Abstract "Required permissions"
 
     * Name update needs at least WRITE permissions on the specific Collection or a parent Project
@@ -234,7 +228,7 @@ API examples of how to update individual metadata of an existing Collection.
 
     !!! Info
 
-        Dataclass can only be relaxed: `Confidential` > `Private` > `Public`
+        Dataclass can only be relaxed: `Confidential` > `Workspace` > `Private` > `Public`
 
     ```bash linenums="1"
     # Native JSON request to update the dataclass of a Collection
