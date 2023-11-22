@@ -25,6 +25,10 @@ As long as an Object is in the staging area data can be uploaded to it.
 
     This request requires at least APPEND permission on the parent resource in which the Object is to be created.
 
+!!! Info
+
+    * Names are unique within each hierarchy (e.g. you cannot create Objects with the same name inside the same Collection)
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"

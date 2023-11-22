@@ -16,6 +16,10 @@ API example for creating a new Collection.
 
     This request requires at least APPEND permission on the Project in which the Collection is to be created.
 
+!!! Info "Collection naming guidelines"
+
+    * Collection and Dataset names are restricted to the safe characters specified in the [S3 object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines){target=_blank}
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"

@@ -26,6 +26,11 @@ The project creator is automatically granted ADMIN permissions on the created Pr
 
     To create a new Project you only have to be a registered AOS user.
 
+!!! Info "Project naming guidelines"
+
+    * Project names are unique globally in the Aruna system
+    * Project names are restricted to the following characters: [a-z0-9\-] (i.e. alphanumeric lowercase and hyphens)
+
 === ":simple-curl: cURL"
 
     :material-checkbox-marked-outline: Tested

@@ -20,6 +20,10 @@ API example for creating a new Dataset.
 
     This request requires at least APPEND permission on the parent resource in which the Dataset is to be created.
 
+!!! Info "Dataset naming guidelines"
+
+    * Collection and Dataset names are restricted to the safe characters specified in the [S3 object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines){target=_blank}
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
