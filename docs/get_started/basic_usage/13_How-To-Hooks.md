@@ -14,7 +14,7 @@ The individual trigger types currently include:
 * **LabelAdded:** Triggers, when a Label key-value gets added to a resource. Can be limited to specific values.
 * **ObjectFinished:** Triggers only for Objects on finish.
 * **StaticLabelAdded:** Triggers, when an immutable Label key-value gets added to a resource. Can be limited to specific values.
-* **HookStatusChanged:** Triggers, if a hook status change occurs on a reseource.
+* **HookStatusChanged:** Triggers, if a hook status change occurs on a resource.
 
 A distinction is made between external hooks and internal hooks, which have slightly different use cases. 
 External hooks address an external service that can use the transferred information to perform its formatting/validation/processing/... and return a result and/or upload the result data itself. 

@@ -7,7 +7,7 @@ Every action inside the AOS is authenticated and authorized via tokens which hav
 
 This can be a either a generated API token or your OIDC token which you received after authentication against the OIDC provider supported by AOS. API tokens have the advantage that they can not only be used to authorise user-specific permissions, but can also be explicitly generated with permissions for a specific resource. In addition, the exact expiry date of an API token can be defined.
 
-For data protection reasons, a user must also register with each Dataproxy with which they wish to interact. By registering once, the dataproxy receives permission to synchronise information about the user. If a user wants to communicate directly with a dataproxy, he or she must request S3 creadentials from/for the dataproxy in advance, which also counts as registration.
+For data protection reasons, a user must also register with each Dataproxy with which they wish to interact. By registering once, the dataproxy receives permission to synchronise information about the user. If a user wants to communicate directly with a dataproxy, he or she must request S3 credentials from/for the dataproxy in advance, which also counts as registration.
 
 
 ## API tokens
