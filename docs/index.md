@@ -98,4 +98,4 @@ The implementation of the API that handles the incoming requests.
 - All endpoints work with JSON over HTTP just as they would do with requests made via gRPC from individual clients
 - [Client stubs](#aos-api) will be generated for major programming languages on every API release ([listed here](#aos-api))
 - A [basic CLI client](https://github.com/ArunaStorage/ArunaCLI) will be offered to simplify the usage entry barrier
-- A [web UI](https://aruna-storage.org) is available for demonstration purposes
+- A [web UI](https://dev.aruna-storage.org) is available for demonstration purposes

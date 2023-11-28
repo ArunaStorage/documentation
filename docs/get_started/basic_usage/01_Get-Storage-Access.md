@@ -7,7 +7,7 @@ The preparation for creating an account in the AOS is minimal. It is only requir
 
 * **GWDG SSO Service**, i.e. DFN AAI, Life Science Login (ELIXIR AAI) or GfBio Accounts
 
-These are also the current options that are offered if you want to register or login via the [official AOS demo website](https://aruna-storage.org/){:target="_blank"}. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
+These are also the current options that are offered if you want to register or login via the [official AOS demo website](https://dev.aruna-storage.org/){:target="_blank"}. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
 
 From here on you have two possibilities to authenticate/authorize all of your actions inside the AOS system:
 
