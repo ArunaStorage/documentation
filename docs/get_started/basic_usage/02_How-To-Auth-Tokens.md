@@ -410,6 +410,57 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
     ```
 
 
+### Get S3 credentials
+
+The Aruna DataProxy implements an [S3 compatible interface](11_How-To-S3-Interface.md){target="_blank"} that implements a basic 
+subset of the S3 functionality and can be used with any client that makes use of the S3 protocol. Before the interface can be 
+used for uploading and downloading data, a must have fetched S3 credentials at least once for the specific DataProxy.
+
+=== ":simple-curl: cURL"
+
+    ```bash linenums="1"
+    # Native JSON request to request S3 credentials for the specific endpoint
+    curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/user/{user-id}/s3_credentials?endpointId={endpoint-id}"
+    ```
+
+=== ":simple-rust: Rust"
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to fetch S3 credentials for the specific endpoint
+    let request = GetS3CredentialsUserRequest {
+        user_id: "<user-id>".to_string(),
+        endpoint_id: "<endpoint-id>".to_string(),
+    };
+
+    // Get/Create S3 credentials to register user at DataProxy
+    let response = user_client.get_s3_credentials_user(request)
+                              .await
+                              .unwrap()
+                              .into_inner();
+
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to revoke the specific API token
+    request = GetS3CredentialsUserRequest(
+        user_id="<user-id>",
+        endpoint_id="<endpoint-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.user_client.GetS3CredentialsUser(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+
 ## Grant permissions
 
 For hierarchical resources users can be granted specific permissions that are inherited and enforced by their global/personal tokens. 
