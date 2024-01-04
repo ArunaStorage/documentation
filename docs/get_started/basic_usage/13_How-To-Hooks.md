@@ -57,7 +57,7 @@ The default template that gets send if no custom template is defined as JSON:
   },
   "secret": "{{secret}}",
   "download": "{{download_url}}",
-  "pubkey_serial": {{pubkey_serial}},
+  "pubkey_serial": "{{pubkey_serial}}",
   "access_key": "{{access_key}}",
   "secret_key": "{{secret_key}}"
 }
@@ -87,30 +87,30 @@ API examples of how to create a global Hook which can be referenced by any Proje
     # Native JSON request to create a new external Hook which triggers 
     #    - on object finish
     #    - if the object is tagged with the hook key 'fasta-validation'
-    curl '
+    curl -d '
       {
         "name": "Fasta-Validation",
         "trigger": {
           "triggerType": "TRIGGER_TYPE_OBJECT_FINISHED",
           "filters": [
             {
-              "filterVariant": FILTER_VARIANT_KEY_VALUE,
-              "key": "fasta-validation",
-              "value": "",
-              "variant": "KEY_VALUE_VARIANT_HOOK"
+              "name": "hook-filter",
+              "keyValue": {
+                "key": "fasta-validation",
+                "value": "",
+                "variant": "KEY_VALUE_VARIANT_HOOK"
+              }
             }
           ]
-          "key": "fasta-validation",
-          "value": ""
         },
         "hook": {
           "externalHook": {
-          "url": "https://validation-demonstrator.org/fasta",
-          "credentials": {
-            "token": "SecretHookAuthToken"
-          },
-          "customTemplate": "",
-          "method": "METHOD_POST"
+            "url": "https://validation-demonstrator.org/fasta",
+            "credentials": {
+              "token": "SecretHookAuthToken"
+            },
+            "customTemplate": "",
+            "method": "METHOD_POST"
           },
           "internalHook": {}
         },
@@ -166,6 +166,40 @@ API examples of how to create a global Hook which can be referenced by any Proje
     println!("{:#?}", response);
     ```
 
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to create a new external Hook which triggers 
+    #    - on object finish
+    #    - if the object is tagged with the hook key 'fasta-validation'    
+    request = CreateHookRequest(
+        name="Fasta-Validation",
+        trigger=Trigger(
+            trigger_type=TriggerType.TRIGGER_TYPE_OBJECT_FINISHED,
+            filters=[],
+        ),
+        hook=Hook(
+            external_hook=ExternalHook(
+                url="https://validation-demonstrator.org/fasta",
+                credentials=Credentials(
+                    token="SecretHookAuthToken"
+                ),
+                custom_template="",
+                method=Method.METHOD_POST
+            )
+        ),
+        timeout=604800,
+        project_ids=[],
+        description="Fasta file format validation demonstrator."
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.CreateHook(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Add Projects to Hook
 
@@ -215,6 +249,26 @@ Projects have to be added to the globally available hooks to be included in thei
     println!("{:#?}", response);
     ```
 
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add Projects to a Hook
+    request = AddProjectsToHookRequest(
+        hook_id="<hook-id>",
+        project_ids=[
+            "<project-id-01>",
+            "<project-id-02>",
+            "<...>",
+        ]
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.AddProjectsToHook(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
 
 ## Get Hooks of Project
 
@@ -238,7 +292,7 @@ API examples of how to list all Hooks a specific Project is associated with.
     ```rust linenums="1"
     // Create tonic/ArunaAPI request to list all active Hooks of a Project
     let request = ListProjectHooksRequest { 
-        project_id: "<project-id-01>".to_string()
+        project_id: "<project-id>".to_string()
      };
 
     // Send the request to the AOS instance gRPC gateway
@@ -249,6 +303,21 @@ API examples of how to list all Hooks a specific Project is associated with.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to list all active Hooks of a Project
+    request = ListProjectHooksRequest(
+        project_id="<project-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.ListProjectHooks(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -287,6 +356,21 @@ API examples of how to list all Hooks created by a specific user.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to list all Hooks created by a specific user
+    request = ListOwnedHooksRequest(
+        user_id="<user-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.ListOwnedHooks(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
 
 
@@ -348,6 +432,36 @@ key-value pairs to a specific Object.
     println!("{:#?}", response);
     ```
 
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to return a successful external Hook service result
+    request = HookCallbackRequest(
+        secret="SecretHookAuthToken",
+        hook_id="<hook-id>",
+        object_id="<object-id>",
+        pubkey_serial=1337,
+        finished=Finished(
+            add_key_values=[
+                KeyValue(
+                    key="fasta-validated",
+                    value="true",
+                    variant=KeyValueVariant.KEY_VALUE_VARIANT_LABEL
+                )
+            ],
+            remove_key_values=[]
+        ),
+        error=None
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.HookCallback(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+
 ## Delete Hook
 
 API examples of how to delete a Hook.
@@ -381,4 +495,19 @@ API examples of how to delete a Hook.
     
     // Do something with the response
     println!("{:#?}", response);
+    ```
+
+=== ":simple-python: Python"
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to delete a Hook
+    request = DeleteHookRequest(
+        hook_id="<hook-id>"
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.hook_client.HookCallback(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
     ```
