@@ -12,7 +12,8 @@ Depending on the type of field, different operators are useful for filtering:
 | *name*              | String | `name != genome.fasta` |
 | *description*       | String | `description != ''`    |
 | *object_type*       | Enum   | `object_type = PROJECT`, `object_type IN [COLLECTION, DATASET]` |
-| *object_type_id*    | Int    | `object_type_id = 1`, `object_type_id IN [2,3]` |
+| *object_type_id*    | Int    | `object_type_id = 1`, `object_type_id IN [2,3]`, `object_type_id > 1` |
+| *count*             | Int    | `count > 1`, `count 1234 TO 123456` |
 | *size*              | Int    | `size > 123456`, `size 1234 TO 123456` |
 | *status*            | Enum   | `status = AVAILABLE`, `status NOT DELETED` |
 | *labels*            | Struct | `labels.variant = LABEL AND labels.key = validated AND labels.value = true`,<br/>`labels.variant = HOOK AND labels.key = my_validator` |
