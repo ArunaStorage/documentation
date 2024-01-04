@@ -237,6 +237,24 @@ Retrieves the data associated with the specific Object.
     ```
 
 
+## List buckets/Projects
+
+Lists all the buckets (i.e. Projects) the user has specific permissions for.
+
+[:material-file-cog:**Native S3 ListBuckets specification**](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html){:target="_blank"}
+
+??? Abstract "Required permissions"
+
+    This request does not require any kind of specific permission but only buckets/Projects the user has permissions on will be returned.
+
+=== ":simple-amazons3: s5cmd"
+
+    ```bash linenums="1"
+    # List all buckets/Projects a user has permissions for 
+    s5cmd ls
+    ```
+
+
 ## List bucket/Project objects
 
 Returns all (up to 1.000 for each request) Objects of a specific bucket i.e. Project.
