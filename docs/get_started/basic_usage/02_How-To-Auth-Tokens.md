@@ -117,7 +117,7 @@ An API token can be created with different scopes and/or different permissions.
         name: "<token-display-name>".to_string(),
         permission: None,
         expires_at: Some(
-            NaiveDate::from_ymd_opt(2024, 01, 01)
+            NaiveDate::from_ymd_opt(2030, 01, 01)
                 .unwrap()
                 .and_hms_opt(0, 0, 0)
                 .unwrap()
@@ -144,7 +144,7 @@ An API token can be created with different scopes and/or different permissions.
             resource_id: Some(ResourceId::ProjectId("<project-id>".to_string())),
         }),
         expires_at: Some(
-            NaiveDate::from_ymd_opt(2024, 01, 01)
+            NaiveDate::from_ymd_opt(2030, 01, 01)
                 .unwrap()
                 .and_hms_opt(0, 0, 0)
                 .unwrap()
@@ -171,7 +171,7 @@ An API token can be created with different scopes and/or different permissions.
             resource_id: Some(ResourceId::CollectionId("<collection-id>".to_string())),
         }),
         expires_at: Some(
-            NaiveDate::from_ymd_opt(2024, 01, 01)
+            NaiveDate::from_ymd_opt(2030, 01, 01)
                 .unwrap()
                 .and_hms_opt(0, 0, 0)
                 .unwrap()
@@ -195,7 +195,7 @@ An API token can be created with different scopes and/or different permissions.
     # Create tonic/ArunaAPI request to create a global/personal API token with expiration date
     request = CreateAPITokenRequest(
         name="<token-display-name>",
-        expires_at=Timestamp(seconds=int(datetime.datetime(2024, 1, 1).timestamp()))
+        expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -213,7 +213,7 @@ An API token can be created with different scopes and/or different permissions.
             project_id="<project-id>",
             permission_level="PERMISSION_LEVEL_WRITE"
         ),
-        expires_at=Timestamp(seconds=int(datetime.datetime(2024, 1, 1).timestamp()))
+        expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
     # Send the request to the AOS instance gRPC gateway
@@ -231,7 +231,7 @@ An API token can be created with different scopes and/or different permissions.
             collection_id="<collection-id>",
             permission_level="PERMISSION_LEVEL_READ"
         ),
-        expires_at=Timestamp(seconds=int(datetime.datetime(2024, 1, 1).timestamp()))
+        expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
     # Send the request to the AOS instance gRPC gateway

@@ -1139,7 +1139,7 @@ As already mentioned in the general Object update introduction, the newly create
         remove_key_values: vec![],
         data_class: DataClass::Public as i32,
         hashes: vec![<old-hashes>],
-        force_revision: true, // (1)
+        force_revision: true,
         metadata_license_tag: None,
         data_license_tag: None,
         parent: None,
