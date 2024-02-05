@@ -231,13 +231,13 @@ The presence of a client connection to the specific resource service is required
             ssl_credentials = grpc.ssl_channel_credentials()
             self.channel    = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
 
-            self.info_client = StorageStatusServiceStub(self.intercept_channel)
-            self.auth_client = AuthorizationServiceStub(self.intercept_channel)
-            self.user_client = UserServiceStub(self.intercept_channel)
-            self.project_client = ProjectServiceStub(self.intercept_channel)
-            self.collection_client = CollectionServiceStub(self.intercept_channel)
-            self.dataset_client = DatasetServiceStub(self.intercept_channel)
-            self.object_client = ObjectServiceStub(self.intercept_channel)
+            self.info_client = StorageStatusServiceStub(self.channel)
+            self.auth_client = AuthorizationServiceStub(self.channel)
+            self.user_client = UserServiceStub(self.channel)
+            self.project_client = ProjectServiceStub(self.channel)
+            self.collection_client = CollectionServiceStub(self.channel)
+            self.dataset_client = DatasetServiceStub(self.channel)
+            self.object_client = ObjectServiceStub(self.channel)
             # self.xyz_client = ...
 
 
@@ -246,7 +246,11 @@ The presence of a client connection to the specific resource service is required
         # Instantiate AosClient
         client = AosClient()
         
-        # Do something with the client services ...
+        # Do something with the client services ... for example:
+        response, call = client.user_client.GetUser.with_call(
+            request=GetUserRequest(),
+            metadata=(('authorization', f"Bearer {API_TOKEN}"),)
+        )
     ```
 
 
