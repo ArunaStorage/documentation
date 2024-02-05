@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.7">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.f2e4d321.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -58,17 +58,15 @@
     
     
    <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-        html.glightbox-open { overflow: initial; height: 100%; }
-        .gslide-title { margin-top: 0px; user-select: text; }
-        .gslide-desc { color: #666; user-select: text; }
-        .gslide-image img { background: white; }
-        
-            .gscrollbar-fixer { padding-right: 15px; }
-            .gdesc-inner { font-size: 0.75rem; }
-            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -1365,7 +1363,11 @@ This version is still in beta.
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">grpc</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">grpc</span>
 
 <span class="kn">from</span> <span class="nn">aruna.api.storage.services.v2.info_service_pb2_grpc</span> <span class="kn">import</span> <span class="n">StorageStatusServiceStub</span>
 <span class="kn">from</span> <span class="nn">aruna.api.storage.services.v2.authorization_service_pb2_grpc</span> <span class="kn">import</span> <span class="n">AuthorizationServiceStub</span>
@@ -1393,13 +1395,13 @@ This version is still in beta.
         <span class="n">ssl_credentials</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ssl_channel_credentials</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channel</span>    <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">AOS_HOST</span><span class="p">,</span> <span class="n">AOS_PORT</span><span class="p">),</span> <span class="n">ssl_credentials</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">info_client</span> <span class="o">=</span> <span class="n">StorageStatusServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">auth_client</span> <span class="o">=</span> <span class="n">AuthorizationServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_client</span> <span class="o">=</span> <span class="n">UserServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">project_client</span> <span class="o">=</span> <span class="n">ProjectServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">collection_client</span> <span class="o">=</span> <span class="n">CollectionServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_client</span> <span class="o">=</span> <span class="n">DatasetServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">object_client</span> <span class="o">=</span> <span class="n">ObjectServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept_channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_client</span> <span class="o">=</span> <span class="n">StorageStatusServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_client</span> <span class="o">=</span> <span class="n">AuthorizationServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_client</span> <span class="o">=</span> <span class="n">UserServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_client</span> <span class="o">=</span> <span class="n">ProjectServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_client</span> <span class="o">=</span> <span class="n">CollectionServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_client</span> <span class="o">=</span> <span class="n">DatasetServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_client</span> <span class="o">=</span> <span class="n">ObjectServiceStub</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
         <span class="c1"># self.xyz_client = ...</span>
 
 
@@ -1408,7 +1410,11 @@ This version is still in beta.
     <span class="c1"># Instantiate AosClient</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">AosClient</span><span class="p">()</span>
 
-    <span class="c1"># Do something with the client services ...</span>
+    <span class="c1"># Do something with the client services ... for example:</span>
+    <span class="n">response</span><span class="p">,</span> <span class="n">call</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">user_client</span><span class="o">.</span><span class="n">GetUser</span><span class="o">.</span><span class="n">with_call</span><span class="p">(</span>
+        <span class="n">request</span><span class="o">=</span><span class="n">GetUserRequest</span><span class="p">(),</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">API_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),)</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </div>
 </div>
@@ -1440,7 +1446,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\ </span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\ </span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\ </span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/auth/register
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/user/register
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1794,10 +1800,10 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.caa56a14.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
