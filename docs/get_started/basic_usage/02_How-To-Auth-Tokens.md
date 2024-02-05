@@ -256,7 +256,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
     # Native JSON request to get info on a specific API token by its id
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/auth/token/{token-id}
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user/token/{token-id}
     ```
     
     ```bash linenums="1"
@@ -484,7 +484,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/auth
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/authorizations
     ```
 
     ```bash linenums="1"
@@ -497,7 +497,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/auth
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/authorizations
     ```
 
 === ":simple-rust: Rust"
@@ -585,13 +585,12 @@ The assigned permissions can also be modified afterwards.
     # Native JSON request to set a users permission to read only for the specific resource
     curl -d '
       {
-        "resourceId": "<resource-id>",
         "userId": "<user-id>",
         "permission": "PERMISSION_LEVEL_READ",
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/auth
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/authorizations/{resource-id}
     ```
 
 === ":simple-rust: Rust"
@@ -648,12 +647,11 @@ However, access with project/collection scoped tokens is not restricted with the
     # Native JSON request to remove a users permission for a specific resource
     curl -d '
       {
-        "resourceId": "<resource-id>",
         "userId": "<user-id>",
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/auth
+         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/authorizations/{resource-id}
     ```
 
 === ":simple-rust: Rust"
@@ -708,14 +706,14 @@ This request additionally offers the option to recursively fetch the permissions
     # Native JSON request to list all assigned permissions for a specific resource
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/auths?resourceId=resource-id
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/authorizations?resourceId=resource-id
     ```
 
     ```bash linenums="1"
     # Native JSON request to recursively list all assigned permissions for a specific resource
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/auths?resourceId=resource-id&recursive=true
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/authorizations?resourceId=resource-id&recursive=true
     ```
 
 === ":simple-rust: Rust"

@@ -275,7 +275,7 @@ The project parameter is a hint for the administrators to associate the newly re
       }' \ 
          -H 'Authorization: Bearer <AUTH_TOKEN>' \ 
          -H 'Content-Type: application/json' \ 
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/auth/register
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/user/register
     ```
 
 === ":simple-rust: Rust"
