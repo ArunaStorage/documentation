@@ -460,6 +460,85 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
     print(f'{response}')
     ```
 
+???+ Info "Get IDs of available DataProxy Endpoints"
+
+    To fetch the IDs of all publicly available DataProxy endpoints in Aruna, you can use the EndpointService API. More specifically the `GetEndpoints` or `GetDefaultEndpoint` requests. 
+    
+    These requests do not require any special permissions.
+
+    === ":simple-curl: cURL"
+
+        ```bash linenums="1"
+        # Native JSON request to fetch info on all available endpoints
+        curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+             -H 'Content-Type: application/json' \
+             -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/endpoints"
+        ```
+
+        ```bash linenums="1"
+        # Native JSON request to fetch info of the default endpoint of a ArunaServer instance
+        curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
+             -H 'Content-Type: application/json' \
+             -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/endpoints/default"
+        ```
+
+    === ":simple-rust: Rust"
+
+        ```rust linenums="1"
+        // Create tonic/ArunaAPI request to fetch info on all available endpoints
+        let request = GetEndpointsRequest {};
+
+        // Send the request to the AOS instance gRPC gateway
+        let response = self
+            .endpoint_client
+            .get_endpoints(request)
+            .await
+            .unwrap()
+            .into_inner();
+
+        // Do something with the response
+        println!("{:#?}", response);
+        ```
+
+        ```rust linenums="1"
+        // Create tonic/ArunaAPI request to fetch info of the default endpoint of a ArunaServer instance
+        let request = GetDefaultEndpointRequest {};
+
+        // Send the request to the AOS instance gRPC gateway
+        let response = self
+            .endpoint_client
+            .get_default_endpoint(request)
+            .await
+            .unwrap()
+            .into_inner();
+
+        // Do something with the response
+        println!("{:#?}", response);
+        ```
+
+    === ":simple-python: Python"
+
+        ```python linenums="1"
+        # Create tonic/ArunaAPI request to fetch info on all available endpoints
+        request = GetEndpointsRequest()
+        
+        # Send the request to the AOS instance gRPC gateway
+        response = client.endpoint_client.GetEndpoints(request=request)
+        
+        # Do something with the response
+        print(f'{response}')
+        ```
+
+        ```python linenums="1"
+        # Create tonic/ArunaAPI request to fetch info of the default endpoint of a ArunaServer instance
+        request = GetDefaultEndpointRequest()
+        
+        # Send the request to the AOS instance gRPC gateway
+        response = client.endpoint_client.GetDefaultEndpoint(request=request)
+        
+        # Do something with the response
+        print(f'{response}')
+        ```
 
 ## Grant permissions
 
