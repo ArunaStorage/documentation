@@ -419,7 +419,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to request S3 credentials for the specific endpoint
+    # Native JSON request to fetch S3 credentials for the specific endpoint
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/user/{user-id}/s3_credentials?endpointId={endpoint-id}"
@@ -447,7 +447,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to revoke the specific API token
+    # Create tonic/ArunaAPI request to fetch S3 credentials for the specific endpoint
     request = GetS3CredentialsUserRequest(
         user_id="<user-id>",
         endpoint_id="<endpoint-id>"
