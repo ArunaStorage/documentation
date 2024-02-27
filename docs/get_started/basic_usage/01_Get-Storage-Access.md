@@ -23,6 +23,19 @@ If you plan to send your requests via gRPC the first step is to establish a conn
 
 The presence of a client connection to the specific resource service is required for all further requests in this tutorial if the requests are send via gRPC.
 
+!!! Info "Development instance endpoint URLs"
+
+    The development instance can be used for testing purposes. It can be accessed via the following URLs after successful registration.
+
+    **Please remember that the development instance in no way guarantees data consistency and availability!**
+
+    * JSON-over-HTTP: `https://api.dev.aruna-storage.org` or localized e.g. `https://api.gi.dev.aruna-storage.org`
+    * gRPC Clients: `https://grpc.dev.aruna-storage.org` or localized e.g. `https://grpc.gi.dev.aruna-storage.org`
+    * DataProxies: e.g. `https://proxy.gi.dev.aruna-storage.org`
+
+    **It is also emphasized that Aruna is a data orchestration engine that orchestrates data and metadata on behalf of multiple storage instances.<br/>
+    While we provide some physical storage for our partners, not all storage instances are operated by us.**
+
 !!! Danger
 
     These are minimal reproducible examples only for demonstration purposes which should not be used _'as-is'_ in a production environment!
