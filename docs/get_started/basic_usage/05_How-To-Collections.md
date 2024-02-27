@@ -37,7 +37,7 @@ API example for creating a new Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collection
+         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collections
     ```
 
 === ":simple-rust: Rust"
@@ -102,14 +102,14 @@ API examples of how to fetch information for one or multiple existing Collection
     # Native JSON request to fetch information of a collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}
+         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch information of multiple Collections
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/collections?collectionIds=collection-01&collectionIds=collection-02'
+         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/collections?collectionIds={collection-id-01}&collectionIds={collection-id-02}'
     ```
 
 === ":simple-rust: Rust"
@@ -204,7 +204,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/name
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/name
     ```
 
     ```bash linenums="1"
@@ -215,7 +215,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/description
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/description
     ```
 
     ```bash linenums="1"
@@ -227,7 +227,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/key_values
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/key_values
     ```
 
     !!! Info
@@ -242,7 +242,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/data_class
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/data_class
     ```
 
     ```bash linenums="1"
@@ -254,7 +254,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/licenses
+         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/licenses
     ```
 
 === ":simple-rust: Rust"
@@ -447,7 +447,7 @@ API examples of how to snapshot a Collection, i.e. create an immutable clone of 
     # Native JSON request request to snapshot a Collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
       -H 'Content-Type: application/json' \
-      -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/snapshot
+      -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}/snapshot
     ```
 
 === ":simple-rust: Rust"
@@ -502,7 +502,7 @@ API examples of how to delete a Collection.
     # Native JSON request to delete a Collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}
+         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/collections/{collection-id}
     ```
 
 === ":simple-rust: Rust"
