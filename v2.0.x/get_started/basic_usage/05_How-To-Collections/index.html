@@ -978,7 +978,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1076,7 +1076,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of a collection</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1084,7 +1084,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of multiple Collections</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections?collectionIds=collection-01&amp;collectionIds=collection-02&#39;</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections?collectionIds={collection-id-01}&amp;collectionIds={collection-id-02}&#39;</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1228,7 +1228,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/name
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/name
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1244,7 +1244,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/description
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/description
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1262,7 +1262,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/key_values
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/key_values
 </code></pre></div></td></tr></table></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1282,7 +1282,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/data_class
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/data_class
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1300,7 +1300,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/licenses
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/licenses
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1594,7 +1594,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request request to snapshot a Collection</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>/snapshot
+<span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>/snapshot
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1668,7 +1668,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to delete a Collection</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collection/<span class="o">{</span>collection-id<span class="o">}</span>
+<span class="w">     </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/collections/<span class="o">{</span>collection-id<span class="o">}</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
