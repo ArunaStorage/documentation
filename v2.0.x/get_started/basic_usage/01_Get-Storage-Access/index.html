@@ -940,6 +940,18 @@ This version is still in beta.
 <h2 id="client-creation">Client creation</h2>
 <p>If you plan to send your requests via gRPC the first step is to establish a connection to the gRPC gateway of the server you want to send the requests to.</p>
 <p>The presence of a client connection to the specific resource service is required for all further requests in this tutorial if the requests are send via gRPC.</p>
+<div class="admonition info">
+<p class="admonition-title">Development instance endpoint URLs</p>
+<p>The development instance can be used for testing purposes. It can be accessed via the following URLs after successful registration.</p>
+<p><strong>Please remember that the development instance in no way guarantees data consistency and availability!</strong></p>
+<ul>
+<li>JSON-over-HTTP: <code>https://api.dev.aruna-storage.org</code> or localized e.g. <code>https://api.gi.dev.aruna-storage.org</code></li>
+<li>gRPC Clients: <code>https://grpc.dev.aruna-storage.org</code> or localized e.g. <code>https://grpc.gi.dev.aruna-storage.org</code></li>
+<li>DataProxies: e.g. <code>https://proxy.gi.dev.aruna-storage.org</code></li>
+</ul>
+<p><strong>It is also emphasized that Aruna is a data orchestration engine that orchestrates data and metadata on behalf of multiple storage instances.<br/>
+While we provide some physical storage for our partners, not all storage instances are operated by us.</strong></p>
+</div>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>These are minimal reproducible examples only for demonstration purposes which should not be used <em>'as-is'</em> in a production environment!</p>
