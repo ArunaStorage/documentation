@@ -33,21 +33,21 @@ All data uploaded and stored by users is stored as an Object, represented as a s
 
 ### **API**
 
-[**Github repo**](https://github.com/ArunaStorage/ArunaAPI)
+[**Github repo**](https://github.com/ArunaStorage/api)
 
 > This repo contains the definitions of the Aruna Object Storage (AOS) API. It is written in the protocol-buffers interface definition language (IDL). This can be used to automatically generate clients in many different programming languages using the grpc framework.
 
 > With the release of a new API version, the client libraries are automatically compiled and updated to the latest version.
 > The API is fundamentally backwards compatible, which means that users' applications will continue to work as usual before they also decide to move to the new version.
 
-* Rust API stubs: [GitHub](https://github.com/ArunaStorage/rust-api) or [crates.io](https://crates.io/crates/aruna-rust-api)
+* Rust API stubs: [GitHub](https://github.com/ArunaStorage/api) or [crates.io](https://crates.io/crates/aruna-rust-api)
 * Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api)
 * Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api) or [PyPI](https://pypi.org/project/Aruna-Python-API)
 * Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api) or [GitHub Packages](https://github.com/ArunaStorage/java-api/packages/)
 
 ### **Server**
 
-[**Github repo**](https://github.com/ArunaStorage/ArunaServer)
+[**Github repo**](https://github.com/ArunaStorage/aruna/tree/main/components/server)
 
 The implementation of the API that handles the incoming requests.
 
@@ -66,7 +66,7 @@ The implementation of the API that handles the incoming requests.
 
 ### **DataProxy**
 
-[**Github repo**](https://github.com/ArunaStorage/DataProxy)
+[**Github repo**](https://github.com/ArunaStorage/aruna/tree/main/components/data_proxy)
 
 > This is the internal server implementation handling the communication between the data storage backend used for the specific AOS instance.
 

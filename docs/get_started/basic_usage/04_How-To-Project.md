@@ -208,12 +208,6 @@ API examples of how to fetch multiple Projects in a single request.
 
 API examples of how to update individual metadata of an existing Project.
 
-!!! Warning "Update operations that trigger the creation of a new revision"
-
-    * Name update
-    * Removal of KeyValues
-    * License update except from `All_Rights_Reserved`
-
 ??? Abstract "Required permissions"
 
     * Name update needs at least ADMIN permissions on the specific Project
@@ -283,6 +277,37 @@ API examples of how to update individual metadata of an existing Project.
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
          -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/licenses
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update listed authors of a Project
+    curl  -d '{
+        "addAuthors": [
+            {
+                "firstName": "Jane",
+                "lastName": "Doe",
+                "email": "jane.doe@test.org",
+                "orcid": "", 
+                "id": ""
+            }
+        ],
+        "removeAuthors": []
+    }' \
+    -H 'Authorization: Bearer <AUTH_TOKEN>' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -X POST https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/authors
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update the title of a Project
+    curl  -d '{
+        "title": "test"
+    }' \
+    -H 'Authorization: Bearer <AUTH_TOKEN>' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -X POST https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/title
     ```
 
 === ":simple-rust: Rust"
@@ -378,6 +403,47 @@ API examples of how to update individual metadata of an existing Project.
     println!("{:#?}", response);
     ```
 
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update listed authors of a Project
+    let request = UpdateProjectAuthorsRequest {
+        project_id: "<project-id>".to_string(),
+        add_authors: vec![Author{
+            first_name: "Jane".to_string(),
+            last_name: "Doe".to_string(),
+            email: Some("jane.doe@test.org".to_string()),
+            orcid: None,
+            id: None,
+        }],
+        remove_authors: vec![],
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = project_client.update_project_authors(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update the title of a Project
+    let request = UpdateProjectTitleRequest {
+        project_id: "<project-id>".to_string(),
+        title: "test".to_string(),
+    };
+    
+    // Send the request to the AOS instance gRPC gateway
+    let response = project_client.update_project_title(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
 === ":simple-python: Python"
 
     ```python linenums="1"
@@ -456,6 +522,20 @@ API examples of how to update individual metadata of an existing Project.
     print(f'{response}')
     ```
 
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to update listed authors of a Project
+    request = UpdateProjectAuthorsRequest(
+        project_id="<project-id>",
+        add_authors=[],
+        remove_authors=[],
+    )
+    
+    # Send the request to the AOS instance gRPC gateway
+    response = client.project_client.UpdateProjectLicenses(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
 
 ## Archive Project
 
