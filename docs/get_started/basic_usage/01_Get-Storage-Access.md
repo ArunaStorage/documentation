@@ -3,13 +3,13 @@
 
 ## Introduction
 
-The preparation for creating an account in the AOS is minimal. It is only required that you are already registered in a supported AAI. Currently that is: 
+The preparation for creating an account in Aruna is minimal. It is only required that you are already registered in a supported AAI. Currently that is: 
 
 * **GWDG SSO Service**, i.e. DFN AAI, Life Science Login (ELIXIR AAI) or GfBio Accounts
 
-These are also the current options that are offered if you want to register or login via the [official AOS demo website](https://dev.aruna-storage.org/){:target="_blank"}. If you want to register via the AOS API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
+These are also the current options that are offered if you want to register or login via the [Aruna demo website](https://dev.aruna-storage.org/){:target="_blank"}. If you want to register via the Aruna API instead, you just have to put the OIDC token you received from one of the previously mentioned services into the [user registration request header](#user-registration) for authorization.
 
-From here on you have two possibilities to authenticate/authorize all of your actions inside the AOS system:
+From here on you have two possibilities to authenticate/authorize all of your actions inside Aruna system:
 
 1. You can use your OIDC token which consumes the granted permissions you have on resources.
 2. You create API tokens which can either 
@@ -90,10 +90,10 @@ The presence of a client connection to the specific resource service is required
     }
     
     fn main() {
-        // Create connection to AOS instance gRPC gateway
+        // Create connection to the Aruna instance via gRPC
         let api_token   = "MySecretArunaApiToken".to_string();
         let tls_config  = ClientTlsConfig::new();
-        let endpoint    = Channel::from_shared("https://<URL-To-AOS-Instance-gRPC-Gateway>").unwrap().tls_config(tls_config).unwrap();
+        let endpoint    = Channel::from_shared("https://<URL-To-Aruna-Instance-gRPC-endpoint>").unwrap().tls_config(tls_config).unwrap();
         let channel     = endpoint.connect().await.unwrap();
         let interceptor = ClientInterceptor { api_token: api_token.clone() };
     
@@ -139,9 +139,9 @@ The presence of a client connection to the specific resource service is required
     #   In a production environment this should be stored in a more secure location ...
     API_TOKEN = 'MySecretArunaApiToken'
     
-    # AOS instance gRPC gateway endpoint
-    AOS_HOST = '<URL-To-AOS-Instance-gRPC-Gateway>' # Protocol (e.g. https://) has to be omitted
-    AOS_PORT = '443'
+    # Aruna instance gRPC endpoint
+    ARUNA_HOST = '<URL-To-Aruna-Instance-gRPC-endpoint>' # Protocol (e.g. https://) has to be omitted
+    ARUNA_PORT = '443'
 
 
     class _MyAuthInterceptor(grpc.UnaryUnaryClientInterceptor):
@@ -176,13 +176,13 @@ The presence of a client connection to the specific resource service is required
         pass
     
     
-    class AosClient(object):
+    class ArunaClient(object):
         """
-         Class to contain the AOS gRPC client service stubs for easier usage.
+         Class to contain the Aruna gRPC client service stubs for easier usage.
         """
         def __init__(self, ):
             ssl_credentials = grpc.ssl_channel_credentials()
-            self.secure_channel = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
+            self.secure_channel = grpc.secure_channel("{}:{}".format(ARUNA_HOST, ARUNA_PORT), ssl_credentials)
             self.intercept_channel = grpc.intercept_channel(self.secure_channel, _MyAuthInterceptor())
     
             self.info_client = StorageStatusServiceStub(self.intercept_channel)
@@ -197,8 +197,8 @@ The presence of a client connection to the specific resource service is required
 
     # Entry point of the script
     if __name__ == '__main__':
-        # Instantiate AosClient
-        client = AosClient()
+        # Instantiate ArunaClient
+        client = ArunaClient()
         
         # Do something with the client services ...
     ```
@@ -230,19 +230,19 @@ The presence of a client connection to the specific resource service is required
     #   In a production environment this should be stored in a more secure location ...
     API_TOKEN = 'MySecretArunaApiToken'
     
-    # AOS instance gRPC gateway endpoint
-    AOS_HOST = '<URL-To-AOS-Instance-gRPC-Gateway>' # Protocol (e.g. https://) has to be omitted
-    AOS_PORT = '443'
+    # Aruna instance gRPC endpoint
+    ARUNA_HOST = '<URL-To-Aruna-Instance-gRPC-Endpoint>' # Protocol (e.g. https://) has to be omitted
+    ARUNA_PORT = '443'
     
 
-    class AosClient(object):
+    class ArunaClient(object):
         """
-        Class to contain the AOS gRPC client service stubs for easier usage.
+        Class to contain the Aruna gRPC client service stubs for easier usage.
         """
         def __init__(self):
             # Read TLS credentials from local trusted certificates and instantiate a channel
             ssl_credentials = grpc.ssl_channel_credentials()
-            self.channel    = grpc.secure_channel("{}:{}".format(AOS_HOST, AOS_PORT), ssl_credentials)
+            self.channel    = grpc.secure_channel("{}:{}".format(ARUNA_HOST, ARUNA_PORT), ssl_credentials)
 
             self.info_client = StorageStatusServiceStub(self.channel)
             self.auth_client = AuthorizationServiceStub(self.channel)
@@ -256,20 +256,20 @@ The presence of a client connection to the specific resource service is required
 
     # Entry point of the Python script
     if __name__ == '__main__':
-        # Instantiate AosClient
-        client = AosClient()
+        # Instantiate ArunaClient
+        client = ArunaClient()
         
         # Do something with the client services ... for example:
         response, call = client.user_client.GetUser.with_call(
             request=GetUserRequest(),
-            metadata=(('authorization', f"Bearer {API_TOKEN}"),)
+            metadata=(('Authorization', f"Bearer {API_TOKEN}"),)
         )
     ```
 
 
 ## User registration
 
-Users can register themselves with an email address and an individual display name in an AOS instance. 
+Users can register themselves with an email address and an individual display name in an Aruna instance. 
 You only need the valid OIDC token received from one of the supported AAI logins.
 
 The `display_name` and `email` parameters are mandatory while `project` is optional. 
@@ -288,7 +288,7 @@ The project parameter is a hint for the administrators to associate the newly re
       }' \ 
          -H 'Authorization: Bearer <AUTH_TOKEN>' \ 
          -H 'Content-Type: application/json' \ 
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/user/register
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/user/register
     ```
 
 === ":simple-rust: Rust"
@@ -301,7 +301,7 @@ The project parameter is a hint for the administrators to associate the newly re
         project: "My little science project".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.register_user(request)
                               .await
                               .unwrap()
@@ -321,7 +321,7 @@ The project parameter is a hint for the administrators to associate the newly re
         project="My little science project"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.RegisterUser(
         request=request
     )
@@ -337,7 +337,7 @@ After registration users additionally have to be activated once in a second step
 
 ??? Abstract "Required permissions"
 
-    Users can only be activated by AOS global administrators.
+    Users can only be activated by Aruna global administrators.
 
 === ":simple-curl: cURL"
 
@@ -345,14 +345,14 @@ After registration users additionally have to be activated once in a second step
     # For convenience, administrators can request info on all unactivated users at once
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \ 
          -H 'Content-Type: application/json' \ 
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user/not_activated
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/user/not_activated
     ```
 
     ```bash linenums="1"
     # Native JSON request to activate registered user
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/user/{user-id}/activate
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/user/{user-id}/activate
     ```
 
 
@@ -362,7 +362,7 @@ After registration users additionally have to be activated once in a second step
     // Create tonic/ArunaAPI request to fetch all not activated users
     let request = GetNotActivatedUsersRequest {};
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC gateway
     let unactivated = user_client.get_not_activated_users(request)
                                  .await
                                  .unwrap()
@@ -378,7 +378,7 @@ After registration users additionally have to be activated once in a second step
         user_id: "<user-id>".to_string() // Has to be a valid ULID of a registered user
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.activate_user(request)
                                        .await
                                        .unwrap()
@@ -394,7 +394,7 @@ After registration users additionally have to be activated once in a second step
     # Create tonic/ArunaAPI request to fetch all not activated users
     request = GetNotActivatedUsersRequest()
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetNotActivatedUsers(request=request)
     
     # Do something with the response
@@ -407,7 +407,7 @@ After registration users additionally have to be activated once in a second step
         user_id="<user-id>"  # Has to be a valid ULID of a registered user
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.ActivateUser(request=request)
     
     # Do something with the response
@@ -423,7 +423,7 @@ To check which user a token is associated with or get information about the curr
 
     Registered users do not need special permissions to fetch information about their user account.
 
-    Only AOS global administrators can request user information of other users i.e. set the `user_id` parameter of the request to the id of another user.
+    Only Aruna global administrators can request user information of other users i.e. set the `user_id` parameter of the request to the id of another user.
 
 === ":simple-curl: cURL"
 
@@ -431,14 +431,14 @@ To check which user a token is associated with or get information about the curr
     # Native JSON request to fetch user information associated with authorization token
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/user
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch user information associated with the provided user id
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/user?userId=<user-id>'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/user?userId=<user-id>'
     ```
 
 === ":simple-rust: Rust"
@@ -449,7 +449,7 @@ To check which user a token is associated with or get information about the curr
         user_id: "".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.get_user(request)
                               .await
                               .unwrap()
@@ -465,7 +465,7 @@ To check which user a token is associated with or get information about the curr
     # Create tonic/ArunaAPI request to fetch user info of current user
     request = GetUserRequest()
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetUser(request=request)
     
     # Do something with the response
