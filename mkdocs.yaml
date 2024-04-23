@@ -8,7 +8,7 @@ docs_dir: docs/
 
 nav:
   - 'Home':
-    - 'AOS overview': index.md
+    - 'Aruna overview': index.md
     - 'Getting Started': get_started/basic_usage/00_index.md
   - 'Getting Started': 
     - 'Overview': get_started/basic_usage/00_index.md
