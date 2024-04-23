@@ -40,13 +40,15 @@ The project creator is automatically granted ADMIN permissions on the created Pr
     curl -d '
       {
         "name": "json-api-project", 
+        "title": "JSON API Project"
         "description": "Created with JSON over HTTP.",
         "keyValues": [],
         "relations": [],
         "data_class": "DATA_CLASS_PUBLIC",
         "preferredEndpoint": "",
         "metadataLicenseTag": "CC-BY-4.0",
-        "defaultDataLicenseTag": "CC-BY-4.0"
+        "defaultDataLicenseTag": "CC-BY-4.0",
+        "authors": []
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
@@ -58,9 +60,10 @@ The project creator is automatically granted ADMIN permissions on the created Pr
     :material-checkbox-blank-outline: Tested
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to create a Project
+    // Create tonic/ArunaAPI request to create a simple Project
     let request = CreateProjectRequest {
         name: "rust-api-project".to_string(),
+        title: "Rust API Project".to_string(),
         description: "Created with the gRPC Rust API client.".to_string(),
         key_values: vec![],
         relations: vec![],
@@ -68,6 +71,7 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         preferred_endpoint: "".to_string(), // Can be set to specific endpoint
         metadata_license_tag: "CC-BY-4.0".to_string(),
         default_data_license_tag: "CC-BY-4.0".to_string(),
+        authors: vec![]
     };
     
     // Send the request to the Aruna instance gRPC endpoint
@@ -83,16 +87,18 @@ The project creator is automatically granted ADMIN permissions on the created Pr
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to create a Project
+    # Create tonic/ArunaAPI request to create a simple Project
     request = CreateProjectRequest(
         name="python-api-project",
+        title="Python API Project",
         description="Created with the gRPC Python API client.",
         key_values=[], 
         relations=[], 
         data_class=DataClass.DATA_CLASS_PUBLIC,
         preferred_endpoint="",
         metadata_license_tag="CC-BY-4.0",
-        default_data_license_tag="CC-BY-4.0"
+        default_data_license_tag="CC-BY-4.0",
+        authors=[]
     )
     
     # Send the request to the Aruna instance gRPC endpoint
@@ -231,7 +237,18 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/name
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/projects/{project-id}/name
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update the title of a Project
+    curl -d '
+      {
+        "title": "Updated JSON API Project"
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/title
     ```
 
     ```bash linenums="1"
@@ -242,7 +259,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/description
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/projects/{project-id}/description
     ```
 
     ```bash linenums="1"
@@ -254,7 +271,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/key_values
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/projects/{project-id}/key_values
     ```
 
     !!! Info
@@ -269,7 +286,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/data_class
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/projects/{project-id}/data_class
     ```
 
     ```bash linenums="1"
@@ -281,7 +298,27 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/licenses
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/projects/{project-id}/licenses
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to add an author to a Project
+    curl -d '
+      {
+        "addAuthors": [
+            {
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "orcid": "0000-0002-1825-0097",
+            "id": "<user-id-if-registered>"
+            }
+        ],
+        "removeAuthors": []
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/authors
     ```
 
 === ":simple-rust: Rust"
@@ -295,6 +332,23 @@ API examples of how to update individual metadata of an existing Project.
     
     // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_name(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update the title of a Project
+    let request = UpdateProjectTitleRequest {
+        project_id: "<project-id>".to_string(),
+        title: "Update Rust API Project".to_string(),
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = project_client.update_project_title(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -377,6 +431,30 @@ API examples of how to update individual metadata of an existing Project.
     println!("{:#?}", response);
     ```
 
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to add an author to a Project
+    let request = UpdateProjectAuthorsRequest {
+        project_id: "<project-id>".to_string(),
+        add_authors: vec![Author {
+            first_name: "John".to_string(),
+            last_name: "Doe".to_string(),
+            email: "john.doe@example.com".to_string(),
+            orcid: "0000-0002-1825-0097".to_string(),
+            id: "<user-id-if-registered>".to_string(),
+        }],
+        remove_authors: vec![],
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = project_client.update_project_authors(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
 === ":simple-python: Python"
 
     ```python linenums="1"
@@ -388,6 +466,20 @@ API examples of how to update individual metadata of an existing Project.
     
     # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectName(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to update the title of a Project
+    request = UpdateProjectNameRequest(
+        project_id="<project-id>",
+        title="Updated Python API Project"
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.project_client.UpdateProjectTitle(request=request)
     
     # Do something with the response
     print(f'{response}')
@@ -454,6 +546,27 @@ API examples of how to update individual metadata of an existing Project.
     # Do something with the response
     print(f'{response}')
     ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add an author to a Project
+    request = UpdateAuthorsRequest(
+        project_id="<project-id>",
+        add_authors=[Author(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            orcid="0000-0002-1825-0097",
+            user_id="<user-id-if-registered"
+        )],
+        remove_authors=[]
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.project_client.UpdateProjectAuthors(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ``` 
 
 
 ## Archive Project
