@@ -84,8 +84,9 @@ Following there is a list of predefined internal relations:
 * `VERSION` - Relation to resource the version/revision was created from
 * `METADATA` - Data :fontawesome-solid-arrow-right-arrow-left: Metadata relation
 * `POLICY` - Relation to custom policy associated with the resource (currently not supported)
+* `DELETED` - Former `BELONGS_TO` relation of deleted resources
 
-But you also have the possibility to create further, user-defined relations which are not limited in direction and/or meaning.
+But you also have the possibility to create further, user-defined relations which are not limited in direction and/or meaning with the internal relation variant `CUSTOM`.
 
 <figure markdown>
   ![Basic concept of the Aruna Object Storage data structure resource relations](aruna_resources.png#only-light){ align=center }
