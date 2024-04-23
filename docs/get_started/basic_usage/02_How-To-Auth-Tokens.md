@@ -3,9 +3,9 @@
 
 ## Introduction
 
-Every action inside the AOS is authenticated and authorized via tokens which have to be provided in the request header: `Authorization: Bearer <token>`.
+Every action inside Aruna is authenticated and authorized via tokens which have to be provided in the request header: `Authorization: Bearer <token>`.
 
-This can be a either a generated API token or your OIDC token which you received after authentication against the OIDC provider supported by AOS. API tokens have the advantage that they can not only be used to authorise user-specific permissions, but can also be explicitly generated with permissions for a specific resource. In addition, the exact expiry date of an API token can be defined.
+This can be a either a generated API token or your OIDC token which you received after authentication against the OIDC provider supported by Aruna. API tokens have the advantage that they can not only be used to authorise user-specific permissions, but can also be explicitly generated with permissions for a specific resource. In addition, the exact expiry date of an API token can be defined.
 
 For data protection reasons, a user must also register with each Dataproxy with which they wish to interact. By registering once, the DataProxy receives permission to synchronise information about the user. If a user wants to communicate directly with a dataproxy, he or she must request S3 credentials from/for the dataproxy in advance, which also counts as registration.
 
@@ -40,7 +40,7 @@ this token "inherits and enforces" the user's READ permission with every request
 
 **Resource**: 
 
-: The field `permission` is filled with a valid ULID of an existing AOS resource and the corresponding permission level.
+: The field `permission` is filled with a valid ULID of an existing Aruna resource and the corresponding permission level.
 This token is valid for the specific resource and all the resources which are registered beneath it. 
 For example, these tokens can be used to give external users general but time limited access to a Project and all resources registered under it. However, these tokens should also not be distributed carelessly.
 
@@ -64,11 +64,11 @@ An API token can be created with different scopes and/or different permissions.
     curl -d '
       {
         "name": "<token-display-name>",
-        "expiresAt": "2024-01-01T00:00:00.000Z"
+        "expiresAt": "2025-01-01T00:00:00.000Z"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/user/token
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/user/token
     ```
 
     ```bash linenums="1"
@@ -83,11 +83,11 @@ An API token can be created with different scopes and/or different permissions.
           "objectId": "",
           "permissionLevel": "PERMISSION_LEVEL_WRITE"
         },
-        "expiresAt": "2024-01-01T00:00:00.000Z"
+        "expiresAt": "2025-01-01T00:00:00.000Z"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/user/token
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/user/token
     ```
 
     ```bash linenums="1"
@@ -102,11 +102,11 @@ An API token can be created with different scopes and/or different permissions.
           "objectId": "",
           "permissionLevel": "PERMISSION_LEVEL_READ"
         },
-        "expiresAt": "2024-01-01T00:00:00.000Z"
+        "expiresAt": "2025-01-01T00:00:00.000Z"
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/user/token
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/user/token
     ```
 
 === ":simple-rust: Rust"
@@ -125,7 +125,7 @@ An API token can be created with different scopes and/or different permissions.
         ),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.create_api_token(request)
                               .await
                               .unwrap()
@@ -152,7 +152,7 @@ An API token can be created with different scopes and/or different permissions.
         ),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.create_api_token(request)
                               .await
                               .unwrap()
@@ -179,7 +179,7 @@ An API token can be created with different scopes and/or different permissions.
         ),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.create_api_token(request)
                               .await
                               .unwrap()
@@ -198,7 +198,7 @@ An API token can be created with different scopes and/or different permissions.
         expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.CreateAPIToken(request=request)
     
     # Do something with the response
@@ -216,7 +216,7 @@ An API token can be created with different scopes and/or different permissions.
         expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.CreateAPIToken(request=request)
     
     # Do something with the response
@@ -234,7 +234,7 @@ An API token can be created with different scopes and/or different permissions.
         expires_at=Timestamp(seconds=int(datetime.datetime(2030, 1, 1).timestamp()))
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.CreateAPIToken(request=request)
     
     # Do something with the response
@@ -256,14 +256,14 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
     # Native JSON request to get info on a specific API token by its id
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user/token/{token-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/user/token/{token-id}
     ```
     
     ```bash linenums="1"
     # Native JSON request to get info on all tokens associated with the current user
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/user/tokens
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/user/tokens
     ```
 
 === ":simple-rust: Rust"
@@ -274,7 +274,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
         token_id: "<token-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.get_api_token(request)
                               .await
                               .unwrap()
@@ -288,7 +288,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
     // Create tonic/ArunaAPI request to get info on all tokens associated with the current user
     let request = GetApiTokensRequest {};
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.get_api_tokens(request)
                               .await
                               .unwrap()
@@ -306,7 +306,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
         token_id="<token-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetAPIToken(request=request)
     
     # Do something with the response
@@ -317,7 +317,7 @@ Meta information of tokens can be fetched after creation e.g. to check its expir
     # Create tonic/ArunaAPI request to get info on all tokens associated with the current user
     request = GetAPITokensRequest()
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetAPITokens(request=request)
     
     # Do something with the response
@@ -331,7 +331,7 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
 
 !!! Note
 
-    Only AOS instance administrators can revoke API tokens of other users.
+    Only Aruna instance administrators can revoke API tokens of other users.
 
 === ":simple-curl: cURL"
 
@@ -339,14 +339,14 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
     # Native JSON request to revoke the specific API token
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/user/token/{token-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/user/token/{token-id}
     ```
 
     ```bash linenums="1"
     # Native JSON request to revoke all tokens of the current user
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/user/tokens
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/user/tokens
     ```
 
 === ":simple-rust: Rust"
@@ -357,7 +357,7 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
         token_id: "<token-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.delete_api_token(request)
                               .await
                               .unwrap()
@@ -373,7 +373,7 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
         user_id: "".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.delete_api_tokens(request)
                               .await
                               .unwrap()
@@ -391,7 +391,7 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
         token_id="<token-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.DeleteAPIToken(request=request)
     
     # Do something with the response
@@ -402,7 +402,7 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
     # Create tonic/ArunaAPI request to to revoke all tokens of the current user
     request = DeleteAPITokensRequest()
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.DeleteAPITokens(request=request)
     
     # Do something with the response
@@ -422,7 +422,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
     # Native JSON request to fetch S3 credentials for the specific endpoint
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/user/{user-id}/s3_credentials?endpointId={endpoint-id}"
+         -X GET "https://<URL-to-Aruna-instance-API-endpoint>/v2/user/{user-id}/s3_credentials?endpointId={endpoint-id}"
     ```
 
 === ":simple-rust: Rust"
@@ -453,7 +453,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         endpoint_id="<endpoint-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetS3CredentialsUser(request=request)
     
     # Do something with the response
@@ -472,14 +472,14 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         # Native JSON request to fetch info on all available endpoints
         curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
              -H 'Content-Type: application/json' \
-             -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/endpoints"
+             -X GET "https://<URL-to-Aruna-instance-API-endpoint>/v2/endpoints"
         ```
 
         ```bash linenums="1"
         # Native JSON request to fetch info of the default endpoint of a ArunaServer instance
         curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
              -H 'Content-Type: application/json' \
-             -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/endpoints/default"
+             -X GET "https://<URL-to-Aruna-instance-API-endpoint>/v2/endpoints/default"
         ```
 
     === ":simple-rust: Rust"
@@ -488,7 +488,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         // Create tonic/ArunaAPI request to fetch info on all available endpoints
         let request = GetEndpointsRequest {};
 
-        // Send the request to the AOS instance gRPC gateway
+        // Send the request to the Aruna instance gRPC endpoint
         let response = self
             .endpoint_client
             .get_endpoints(request)
@@ -504,7 +504,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         // Create tonic/ArunaAPI request to fetch info of the default endpoint of a ArunaServer instance
         let request = GetDefaultEndpointRequest {};
 
-        // Send the request to the AOS instance gRPC gateway
+        // Send the request to the Aruna instance gRPC endpoint
         let response = self
             .endpoint_client
             .get_default_endpoint(request)
@@ -522,7 +522,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         # Create tonic/ArunaAPI request to fetch info on all available endpoints
         request = GetEndpointsRequest()
         
-        # Send the request to the AOS instance gRPC gateway
+        # Send the request to the Aruna instance gRPC endpoint
         response = client.endpoint_client.GetEndpoints(request=request)
         
         # Do something with the response
@@ -533,7 +533,7 @@ used for uploading and downloading data, a must have fetched S3 credentials at l
         # Create tonic/ArunaAPI request to fetch info of the default endpoint of a ArunaServer instance
         request = GetDefaultEndpointRequest()
         
-        # Send the request to the AOS instance gRPC gateway
+        # Send the request to the Aruna instance gRPC endpoint
         response = client.endpoint_client.GetDefaultEndpoint(request=request)
         
         # Do something with the response
@@ -563,7 +563,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/authorizations
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations
     ```
 
     ```bash linenums="1"
@@ -576,7 +576,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/authorizations
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations
     ```
 
 === ":simple-rust: Rust"
@@ -589,7 +589,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
         permission_level: PermissionLevel::Admin as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = auth_client.create_authorization(request)
                                  .await
                                  .unwrap()
@@ -607,7 +607,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
         permission_level: PermissionLevel::Read as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = auth_client.create_authorization(request)
                                  .await
                                  .unwrap()
@@ -627,7 +627,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
         permission=PermissionLevel.Value("PERMISSION_LEVEL_ADMIN")  # Needs int, therefore .Value()
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.auth_client.CreateAuthorization(request=request)
     
     # Do something with the response
@@ -642,7 +642,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
         permission=PermissionLevel.Value("PERMISSION_LEVEL_READ")  # Needs int, therefore .Value()
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.auth_client.CreateAuthorization(request=request)
     
     # Do something with the response
@@ -669,7 +669,7 @@ The assigned permissions can also be modified afterwards.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/authorizations/{resource-id}
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations/{resource-id}
     ```
 
 === ":simple-rust: Rust"
@@ -682,7 +682,7 @@ The assigned permissions can also be modified afterwards.
         permission_level: PermissionLevel::Read as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = auth_client.update_authorization(request)
                                  .await
                                  .unwrap()
@@ -702,7 +702,7 @@ The assigned permissions can also be modified afterwards.
         permission=PermissionLevel.Value("PERMISSION_LEVEL_READ")  # Needs int, therefore .Value()
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.auth_client.UpdateAuthorization(request=request)
     
     # Do something with the response
@@ -730,7 +730,7 @@ However, access with project/collection scoped tokens is not restricted with the
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/authorizations/{resource-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations/{resource-id}
     ```
 
 === ":simple-rust: Rust"
@@ -742,7 +742,7 @@ However, access with project/collection scoped tokens is not restricted with the
         user_id: "<user-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = auth_client.delete_authorization(request)
                                  .await
                                  .unwrap()
@@ -761,7 +761,7 @@ However, access with project/collection scoped tokens is not restricted with the
         user_id="<user-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.auth_client.UpdateAuthorization(request=request)
     
     # Do something with the response
@@ -785,14 +785,14 @@ This request additionally offers the option to recursively fetch the permissions
     # Native JSON request to list all assigned permissions for a specific resource
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/authorizations?resourceId=resource-id
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations?resourceId=resource-id
     ```
 
     ```bash linenums="1"
     # Native JSON request to recursively list all assigned permissions for a specific resource
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/authorizations?resourceId=resource-id&recursive=true
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/authorizations?resourceId=resource-id&recursive=true
     ```
 
 === ":simple-rust: Rust"
@@ -804,7 +804,7 @@ This request additionally offers the option to recursively fetch the permissions
         recursive: false, // Can be set to 'true' to also fetch permissions of underlying resources
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = auth_client.get_authorizations(request)
                                  .await
                                  .unwrap()
@@ -823,7 +823,7 @@ This request additionally offers the option to recursively fetch the permissions
         recursive=False # Can be set to 'true' to also fetch permissions of underlying resources
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.auth_client.GetAuthorizations(request=request)
     
     # Do something with the response
