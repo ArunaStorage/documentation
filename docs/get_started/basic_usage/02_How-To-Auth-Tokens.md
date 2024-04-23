@@ -72,7 +72,7 @@ An API token can be created with different scopes and/or different permissions.
     ```
 
     ```bash linenums="1"
-    # Native JSON request to create a project scoped token with WRITE permissions
+    # Native JSON request to create a Project scoped token with WRITE permissions
     curl -d '
       {
         "name": "<token-display-name>",
@@ -91,7 +91,7 @@ An API token can be created with different scopes and/or different permissions.
     ```
 
     ```bash linenums="1"
-    # Native JSON request to create a collection scoped token with READ permissions
+    # Native JSON request to create a Collection scoped token with READ permissions
     curl -d '
       {
         "name": "<token-display-name>",
@@ -136,7 +136,7 @@ An API token can be created with different scopes and/or different permissions.
     ```
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to create a project scoped token with WRITE permissions
+    // Create tonic/ArunaAPI request to create a Project scoped token with WRITE permissions
     let request = CreateApiTokenRequest {
         name: "<token-display-name>".to_string(),
         permission: Some(Permission {
@@ -163,7 +163,7 @@ An API token can be created with different scopes and/or different permissions.
     ```
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to create a collection scoped token with READ permissions
+    // Create tonic/ArunaAPI request to create a Collection scoped token with READ permissions
     let request = CreateApiTokenRequest {
         name: "<token-display-name>".to_string(),
         permission: Some(Permission {
@@ -414,7 +414,8 @@ API examples of how to revoke/delete a specific API token or all tokens of the c
 
 The Aruna DataProxy implements an [S3 compatible interface](11_How-To-S3-Interface.md){target="_blank"} that implements a basic 
 subset of the S3 functionality and can be used with any client that makes use of the S3 protocol. Before the interface can be 
-used for uploading and downloading data, a must have fetched S3 credentials at least once for the specific DataProxy.
+used for uploading and downloading data, a user must have fetched S3 credentials at least once for the specific DataProxy to register 
+the DataProxy as trusted with the user.
 
 === ":simple-curl: cURL"
 
@@ -567,7 +568,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
     ```
 
     ```bash linenums="1"
-    # Native JSON request to add user with read only permissions to a project
+    # Native JSON request to add user with read only permissions to a resource
     curl -d '
       {
         "resourceId": "<resource-id>",
@@ -600,7 +601,7 @@ This makes it easy to add users e.g. to Projects without having to create additi
     ```
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to add user with read only permissions to a project
+    // Create tonic/ArunaAPI request to add user with read only permissions to a resource
     let request = CreateAuthorizationRequest {
         resource_id: "<resource-id>".to_string(),
         user_id: "<user-id>".to_string(),
@@ -714,7 +715,7 @@ The assigned permissions can also be modified afterwards.
 
 Users can, of course, also be completely removed from resources again, depriving them of any access with personalized tokens. 
 
-However, access with project/collection scoped tokens is not restricted with the removal of users personal permissions!
+**However, access with Project/Collection/Dataset/Object scoped tokens is not restricted with the removal of users personal permissions!**
 
 ??? Abstract "Required permissions"
 
