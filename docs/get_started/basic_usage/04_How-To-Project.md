@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Here you get a quick rundown how to basically create, read, update and delete Projects within the AOS.
+Here you get a quick rundown how to basically create, read, update and delete Projects within Aruna.
 
 This should be the first step after gaining access to the storage (and maybe creating an API token) which is described in the previous chapters.
 
@@ -12,7 +12,7 @@ This should be the first step after gaining access to the storage (and maybe cre
     A Project is the basic resource to organize general user access for stored data <!--and/or data to be stored--> (i.e. Objects). 
 
     It also acts as an umbrella container for all other resources which means that every hierarchy has a Project as root. 
-    This directly implies that every project name has to be globally unique in the AOS universe.
+    This directly implies that every project name has to be globally unique in the Aruna universe.
 
     More in-depth information can be found in the [**:material-graph:Data Structure**](../../internal_data_structure/internal_data_structure.md){target="_blank"} section.
 
@@ -24,7 +24,7 @@ The project creator is automatically granted ADMIN permissions on the created Pr
 
 ??? Abstract "Required permissions"
 
-    To create a new Project you only have to be a registered AOS user.
+    To create a new Project you only have to be a registered Aruna user.
 
 !!! Info "Project naming guidelines"
 
@@ -50,7 +50,7 @@ The project creator is automatically granted ADMIN permissions on the created Pr
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/project
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/project
     ```
 
 === ":simple-rust: Rust"
@@ -70,7 +70,7 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         default_data_license_tag: "CC-BY-4.0".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.create_project(request)
                                  .await
                                  .unwrap() //
@@ -95,7 +95,7 @@ The project creator is automatically granted ADMIN permissions on the created Pr
         default_data_license_tag="CC-BY-4.0"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.CreateProject(request=request)
     
     # Do something with the response
@@ -117,7 +117,7 @@ API example for fetching info of an existing Project.
     # Native JSON request to fetch information of a Project
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}
     ```
 
 === ":simple-rust: Rust"
@@ -128,7 +128,7 @@ API example for fetching info of an existing Project.
         project_id: "<project-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.get_project(request)
                                  .await
                                  .unwrap()
@@ -146,7 +146,7 @@ API example for fetching info of an existing Project.
         project_id="<project-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.GetProject(request=request)
     
     # Do something with the response
@@ -168,7 +168,7 @@ API examples of how to fetch multiple Projects in a single request.
     # Native JSON request to fetch information of multiple projects in one request
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/projects?projectIds=project-id-01&projectIds=project-id-02
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/projects?projectIds=project-id-01&projectIds=project-id-02
     ```
 
 === ":simple-rust: Rust"
@@ -183,7 +183,7 @@ API examples of how to fetch multiple Projects in a single request.
         ],
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.get_projects(request)
                               .await
                               .unwrap()
@@ -201,7 +201,7 @@ API examples of how to fetch multiple Projects in a single request.
         project_ids=["<project-id-01>", "<project-id-02>", "<...>"] 
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.GetProjects(request=request)
     
     # Do something with the response
@@ -231,7 +231,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/name
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/name
     ```
 
     ```bash linenums="1"
@@ -242,7 +242,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/description
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/description
     ```
 
     ```bash linenums="1"
@@ -254,7 +254,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/key_values
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/key_values
     ```
 
     !!! Info
@@ -269,7 +269,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/data_class
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/data_class
     ```
 
     ```bash linenums="1"
@@ -281,7 +281,7 @@ API examples of how to update individual metadata of an existing Project.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/licenses
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/licenses
     ```
 
 === ":simple-rust: Rust"
@@ -293,7 +293,7 @@ API examples of how to update individual metadata of an existing Project.
         name: "updated-rust-api-project".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_name(request)
                                  .await
                                  .unwrap()
@@ -310,7 +310,7 @@ API examples of how to update individual metadata of an existing Project.
         description: "Updated with the gRPC Rust API client.".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_description(request)
                                  .await
                                  .unwrap()
@@ -328,7 +328,7 @@ API examples of how to update individual metadata of an existing Project.
         remove_key_values: vec![]
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_key_values(request)
                                  .await
                                  .unwrap()
@@ -349,7 +349,7 @@ API examples of how to update individual metadata of an existing Project.
         data_class: DataClass::Public as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_data_class(request)
                                  .await
                                  .unwrap()
@@ -367,7 +367,7 @@ API examples of how to update individual metadata of an existing Project.
         default_data_license_tag: "CC0".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.update_project_licenses(request)
                                  .await
                                  .unwrap()
@@ -386,7 +386,7 @@ API examples of how to update individual metadata of an existing Project.
         name="updated-python-api-project"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectName(request=request)
     
     # Do something with the response
@@ -400,7 +400,7 @@ API examples of how to update individual metadata of an existing Project.
         description="Updated with the gRPC Python API client"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectDescription(request=request)
     
     # Do something with the response
@@ -415,7 +415,7 @@ API examples of how to update individual metadata of an existing Project.
         remove_key_values=[]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectKeyValues(request=request)
     
     # Do something with the response
@@ -433,7 +433,7 @@ API examples of how to update individual metadata of an existing Project.
         data_class=DataClass.DATA_CLASS_PUBLIC
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectDataClass(request=request)
     
     # Do something with the response
@@ -448,7 +448,7 @@ API examples of how to update individual metadata of an existing Project.
         default_data_license_tag="CC0"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.UpdateProjectLicenses(request=request)
     
     # Do something with the response
@@ -470,7 +470,7 @@ A Project can be archived which sets it and all the downstream relations to an i
     # Native JSON request to archive a Project
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}/archive
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}/archive
     ```
 
 === ":simple-rust: Rust"
@@ -481,7 +481,7 @@ A Project can be archived which sets it and all the downstream relations to an i
         project_id: "<project-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.archive_project(request)
                                  .await
                                  .unwrap()
@@ -499,7 +499,7 @@ A Project can be archived which sets it and all the downstream relations to an i
         project_id="<project-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.ArchiveProject(request=request)
     
     # Do something with the response
@@ -525,7 +525,7 @@ API examples of how to delete a Project.
     # Native JSON request to delete a project
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/project/{project-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/project/{project-id}
     ```
 
 === ":simple-rust: Rust"
@@ -536,7 +536,7 @@ API examples of how to delete a Project.
         project_id: "<project-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = project_client.delete_project(request)
                                  .await
                                  .unwrap()
@@ -554,7 +554,7 @@ API examples of how to delete a Project.
         project_id="<project-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.project_client.DeleteProject(request=request)
     
     # Do something with the response
