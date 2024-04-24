@@ -31,6 +31,7 @@ API example for creating a new Dataset.
     curl -d '
       {
         "name": "json-api-dataset", 
+        "title": "JSON API Dataset",
         "description": "Created with JSON over HTTP.",
         "keyValues": [],
         "relations": [],
@@ -38,11 +39,12 @@ API example for creating a new Dataset.
         "projectId": "<project-id>",
         "collectionId": "<dataset-id>",
         "metadataLicenseTag": "CC-BY-4.0",
-        "defaultDataLicenseTag": "CC-BY-4.0"
+        "defaultDataLicenseTag": "CC-BY-4.0",
+        "authors": []
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/dataset
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets
     ```
 
 === ":simple-rust: Rust"
@@ -51,6 +53,7 @@ API example for creating a new Dataset.
     // Create tonic/ArunaAPI request to create a Dataset
     let request = CreateDatasetRequest {
         name: "rust-api-dataset".to_string(),
+        title: "Rust API Dataset".to_string(),
         description: "Created with the gRPC Rust API client.".to_string(),
         key_values: vec![],
         external_relations: vec![],
@@ -58,9 +61,10 @@ API example for creating a new Dataset.
         metadata_license_tag: Some("CC-BY-4.0".to_string()),
         default_data_license_tag: Some("CC-BY-4.0".to_string()),
         parent: Some(Parent::ProjectId("<project-id>".to_string())),
+        authors: vec![]
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.create_dataset(request)
                                  .await
                                  .unwrap() 
@@ -76,6 +80,7 @@ API example for creating a new Dataset.
     # Create tonic/ArunaAPI request to create a new Dataset
     request = CreateDatasetRequest(
         name="python-api-project",
+        title="Python API Project",
         description="Created with the gRPC Python API client.",
         key_values=[], 
         external_relations=[], 
@@ -83,10 +88,11 @@ API example for creating a new Dataset.
         project_id="<project-id>",
         collection_id="<collection-id>",
         metadata_license_tag="CC-BY-4.0",
-        default_data_license_tag="CC-BY-4.0"
+        default_data_license_tag="CC-BY-4.0",
+        authors=[]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.CreateDataset(request=request)
 
     # Do something with the response
@@ -108,14 +114,14 @@ API examples of how to fetch information for one or multiple existing Dataset(s)
     # Native JSON request to fetch information of a Dataset
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}'
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch information of multiple Datasets
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/datasets?datasetIds=dataset-id-01&datasetIds=dataset-id-02'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets?datasetIds=dataset-id-01&datasetIds=dataset-id-02'
     ```
 
 === ":simple-rust: Rust"
@@ -126,7 +132,7 @@ API examples of how to fetch information for one or multiple existing Dataset(s)
         dataset_id: "<dataset-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.get_dataset(request)
                                     .await
                                     .unwrap()
@@ -146,7 +152,7 @@ API examples of how to fetch information for one or multiple existing Dataset(s)
         ],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.get_datasets(request)
                                     .await
                                     .unwrap()
@@ -164,7 +170,7 @@ API examples of how to fetch information for one or multiple existing Dataset(s)
         dataset_id="<dataset-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.GetDataset(request=request)
 
     # Do something with the response
@@ -180,7 +186,7 @@ API examples of how to fetch information for one or multiple existing Dataset(s)
             "<...>"]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.GetDatasets(request=request)
 
     # Do something with the response
@@ -209,7 +215,18 @@ API examples of how to update individual metadata of an existing Dataset.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/name
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/name
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update the title of a Dataset
+    curl -d '
+      {
+        "title": "Updated JSON API Dataset"
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/title
     ```
 
     ```bash linenums="1"
@@ -220,7 +237,7 @@ API examples of how to update individual metadata of an existing Dataset.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/description
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/description
     ```
 
     ```bash linenums="1"
@@ -232,7 +249,7 @@ API examples of how to update individual metadata of an existing Dataset.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/key_values
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/key_values
     ```
 
     !!! Info
@@ -247,7 +264,7 @@ API examples of how to update individual metadata of an existing Dataset.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/data_class
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/data_class
     ```
 
     ```bash linenums="1"
@@ -259,7 +276,27 @@ API examples of how to update individual metadata of an existing Dataset.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/licenses
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/licenses
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to add an author to a Dataset
+    curl -d '
+      {
+        "addAuthors": [
+            {
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "orcid": "0000-0002-1825-0097",
+            "id": "<user-id-if-registered>"
+            }
+        ],
+        "removeAuthors": []
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/dataset/{collection-id}/authors
     ```
 
 === ":simple-rust: Rust"
@@ -271,8 +308,25 @@ API examples of how to update individual metadata of an existing Dataset.
         name: "updated-rust-api-dataset".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.update_dataset_name(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update the title of a Dataset
+    let request = UpdateDatasetTitleRequest {
+        dataset_id: "<dataset-id>".to_string(),
+        title: "Updated Rust API Dataset".to_string(),
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = collection_client.update_dataset_title(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -288,7 +342,7 @@ API examples of how to update individual metadata of an existing Dataset.
         description: "Updated with the gRPC Rust API client.".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.update_dataset_description(request)
                                  .await
                                  .unwrap()
@@ -306,7 +360,7 @@ API examples of how to update individual metadata of an existing Dataset.
         remove_key_values: vec![]
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.update_dataset_key_values(request)
                                  .await
                                  .unwrap()
@@ -327,7 +381,7 @@ API examples of how to update individual metadata of an existing Dataset.
         data_class: DataClass::Public as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.update_dataset_data_class(request)
                                  .await
                                  .unwrap()
@@ -345,8 +399,32 @@ API examples of how to update individual metadata of an existing Dataset.
         default_data_license_tag: "CC0".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.update_dataset_licenses(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to add an author to a Dataset
+    let request = UpdateDatasetAuthorsRequest {
+        dataset_id: "<dataset-id>".to_string(),
+        add_authors: vec![Author {
+            first_name: "John".to_string(),
+            last_name: "Doe".to_string(),
+            email: "john.doe@example.com".to_string(),
+            orcid: "0000-0002-1825-0097".to_string(),
+            id: "<user-id-if-registered>".to_string(),
+        }],
+        remove_authors: vec![],
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = project_client.update_dataset_authors(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -364,7 +442,21 @@ API examples of how to update individual metadata of an existing Dataset.
         name="updated-python-api-project"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.dataset_client.UpdateDatasetName(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to update the title of a Dataset
+    request = UpdateDatasetTitleRequest(
+        dataset_id="<dataset-id>",
+        title="Updated Python API Dataset"
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.UpdateDatasetName(request=request)
     
     # Do something with the response
@@ -378,7 +470,7 @@ API examples of how to update individual metadata of an existing Dataset.
         description="Updated with the gRPC Python API client"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.UpdateDatasetDescription(request=request)
     
     # Do something with the response
@@ -393,7 +485,7 @@ API examples of how to update individual metadata of an existing Dataset.
         remove_key_values=[]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.UpdateDatasetKeyValues(request=request)
     
     # Do something with the response
@@ -411,7 +503,7 @@ API examples of how to update individual metadata of an existing Dataset.
         data_class=DataClass.DATA_CLASS_PUBLIC
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.UpdateDatasetDataClass(request=request)
     
     # Do something with the response
@@ -426,12 +518,33 @@ API examples of how to update individual metadata of an existing Dataset.
         default_data_license_tag="CC0"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.UpdateDatasetLicenses(request=request)
     
     # Do something with the response
     print(f'{response}')
     ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add an author to a Dataset
+    request = UpdateDatasetAuthorsRequest(
+        dataset_id="<dataset-id>",
+        add_authors=[Author(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            orcid="0000-0002-1825-0097",
+            user_id="<user-id-if-registered"
+        )],
+        remove_authors=[]
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.project_client.UpdateDatasetAuthors(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ``` 
 
 
 ## Snapshot Dataset
@@ -448,7 +561,7 @@ API examples of how to snapshot a Dataset, i.e. create an immutable clone of the
     # Native JSON request to snapshot a Dataset
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
       -H 'Content-Type: application/json' \
-      -X POST https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}/snapshot
+      -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}/snapshot
     ```
 
 === ":simple-rust: Rust"
@@ -459,7 +572,7 @@ API examples of how to snapshot a Dataset, i.e. create an immutable clone of the
         dataset_id: "<dataset-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.snapshot_dataset_version(request)
                                     .await
                                     .unwrap()
@@ -477,7 +590,7 @@ API examples of how to snapshot a Dataset, i.e. create an immutable clone of the
         dataset_id="<dataset-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.SnapshotDatasetVersion(request=request)
 
     # Do something with the response
@@ -503,7 +616,7 @@ API examples of how to delete a Dataset.
     # Native JSON request to delete a Dataset
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/dataset/{dataset-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/datasets/{dataset-id}
     ```
 
 === ":simple-rust: Rust"
@@ -514,7 +627,7 @@ API examples of how to delete a Dataset.
         dataset_id: "<dataset-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = dataset_client.delete_dataset(request)
                                     .await
                                     .unwrap()
@@ -532,7 +645,7 @@ API examples of how to delete a Dataset.
         dataset_id="<dataset-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.dataset_client.DeleteDataset(request=request)
 
     # Do something with the response
