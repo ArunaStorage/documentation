@@ -549,7 +549,7 @@ API examples of how to update individual metadata of an existing Project.
 
     ```python linenums="1"
     # Create tonic/ArunaAPI request to add an author to a Project
-    request = UpdateAuthorsRequest(
+    request = UpdateProjectAuthorsRequest(
         project_id="<project-id>",
         add_authors=[Author(
             first_name="John",
