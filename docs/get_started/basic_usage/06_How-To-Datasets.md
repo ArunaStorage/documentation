@@ -326,7 +326,7 @@ API examples of how to update individual metadata of an existing Dataset.
     };
     
     // Send the request to the Aruna instance gRPC endpoint
-    let response = collection_client.update_dataset_title(request)
+    let response = dataset_client.update_dataset_title(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -424,7 +424,7 @@ API examples of how to update individual metadata of an existing Dataset.
     };
     
     // Send the request to the Aruna instance gRPC endpoint
-    let response = project_client.update_dataset_authors(request)
+    let response = dataset_client.update_dataset_authors(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -540,7 +540,7 @@ API examples of how to update individual metadata of an existing Dataset.
     )
     
     # Send the request to the Aruna instance gRPC endpoint
-    response = client.project_client.UpdateDatasetAuthors(request=request)
+    response = client.dataset_client.UpdateDatasetAuthors(request=request)
     
     # Do something with the response
     print(f'{response}')
