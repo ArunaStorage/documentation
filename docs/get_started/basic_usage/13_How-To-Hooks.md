@@ -3,8 +3,8 @@
 
 ## Introduction
 
-Hooks are the way to automate internal processes in the AOS and/or to integrate external services to extend functionality. 
-Once created, they're available globally in the AOS, and Projects must be associated with them to be included in their trigger cycle. 
+Hooks are the way to automate internal processes in Aruna and/or to integrate external services to extend functionality. 
+Once created, they're available globally in Aruna, and Projects must be associated with them to be included in their trigger cycle. 
 The action that triggers the specific hook is defined by its trigger type.
 
 The individual trigger types currently include:
@@ -20,27 +20,27 @@ A distinction is made between external hooks and internal hooks, which have slig
 External hooks address an external service that can use the transferred information to perform its formatting/validation/processing/... and return a result and/or upload the result data itself. 
 The transferred information contains the metadata of a resource, which can also contain a link to the uploaded data of an Object in order to make it available to the service.
 Internal hooks are responsible for the automatic binding of specific labels/hooks on resources and/or the creation of relationships. 
-In other words, internal hooks can be used to automate certain AOS internal processes.
+In other words, internal hooks can be used to automate certain Aruna internal processes.
 
 The information sent to the external service can be customized by overwriting with the `custom_template` parameter.
 The format of the additional information is absolutely free as long as it contains the mandatory placeholder from the following list:
 
-| Placeholder         | Necessity   | Description |
-|---------------------|-------------|-------------|
-| *{{secret}}*        | mandatory   | Token secret that contains WRITE permissions on the resource that triggered the Hook. |
-| *{{object_id}}*     | mandatory   | Id of the resource that triggered the Hook. |
-| *{{hook_id}}*       | mandatory   | Id of the Hook that triggered the external service. |
-| *{{pubkey_serial}}* | mandatory   | Id of the public key that shall be used to verify the token signature. |
-| *{{name}}*          | optional    | Name of the resource that triggered the Hook. |
-| *{{description}}*   | optional    | Description of the resource that triggered the Hook. |
-| *{{size}}*          | optional    | Size in bytes of the resource that triggered the Hook. |
-| *{{key_values}}*    | optional    | Key-value pairs of the resource that triggered the Hook. |
-| *{{status}}*        | optional    | Status of the resource that triggered the Hook. |
-| *{{class}}*         | optional    | Data class of the resource that triggered the Hook. |
-| *{{endpoints}}*     | optional    | Endpoints associated with the resource that triggered the Hook. |
-| *{{download_url}}*  | optional    | Presigned URL that can used to download the data uploaded to the Object. |
-| *{{access_key}}*    | optional    | Access Key Id part of the S3 credentials that can be used to upload data. |
-| *{{secret_key}}*    | optional    | Secret Key part of the S3 credentials that can be used to upload data. |
+| Placeholder         | Necessity | Description |
+|---------------------|-----------|-------------|
+| *{{secret}}*        | mandatory | Token secret that contains WRITE permissions on the resource that triggered the Hook. |
+| *{{object_id}}*     | mandatory | Id of the resource that triggered the Hook. |
+| *{{hook_id}}*       | mandatory | Id of the Hook that triggered the external service. |
+| *{{pubkey_serial}}* | mandatory | Id of the public key that shall be used to verify the token signature. |
+| *{{name}}*          | optional  | Name of the resource that triggered the Hook. |
+| *{{description}}*   | optional  | Description of the resource that triggered the Hook. |
+| *{{size}}*          | optional  | Size in bytes of the resource that triggered the Hook. |
+| *{{key_values}}*    | optional  | Key-value pairs of the resource that triggered the Hook. |
+| *{{status}}*        | optional  | Status of the resource that triggered the Hook. |
+| *{{class}}*         | optional  | Data class of the resource that triggered the Hook. |
+| *{{endpoints}}*     | optional  | Endpoints associated with the resource that triggered the Hook. |
+| *{{download_url}}*  | optional  | Presigned URL that can used to download the data uploaded to the Object. |
+| *{{access_key}}*    | optional  | Access Key Id part of the S3 credentials that can be used to upload data. |
+| *{{secret_key}}*    | optional  | Secret Key part of the S3 credentials that can be used to upload data. |
 
 The default template that gets send if no custom template is defined as JSON:
 
@@ -79,7 +79,7 @@ API examples of how to create a global Hook which can be referenced by any Proje
 
 ??? Abstract "Required permissions"
 
-    To create a new Hook you only have to be a registered AOS user.
+    To create a new Hook you only have to be a registered Aruna user.
 
 === ":simple-curl: cURL"
 
@@ -120,7 +120,7 @@ API examples of how to create a global Hook which can be referenced by any Proje
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/hook
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/hook
     ```
 
 === ":simple-rust: Rust"
@@ -156,7 +156,7 @@ API examples of how to create a global Hook which can be referenced by any Proje
         description: "Fasta file format validation demonstrator.".to_string(),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.create_hook(request)
                               .await
                               .unwrap()
@@ -193,7 +193,7 @@ API examples of how to create a global Hook which can be referenced by any Proje
         description="Fasta file format validation demonstrator."
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.CreateHook(request=request)
     
     # Do something with the response
@@ -223,7 +223,7 @@ Projects have to be added to the globally available hooks to be included in thei
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/hook/{hook-id}
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/hook/{hook-id}
     ```
 
 === ":simple-rust: Rust"
@@ -239,7 +239,7 @@ Projects have to be added to the globally available hooks to be included in thei
         ],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.add_projects_to_hook(request)
                               .await
                               .unwrap()
@@ -262,7 +262,7 @@ Projects have to be added to the globally available hooks to be included in thei
         ]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.AddProjectsToHook(request=request)
     
     # Do something with the response
@@ -284,7 +284,7 @@ API examples of how to list all Hooks a specific Project is associated with.
     # Native JSON request to create a new external Hook which triggers on object creation
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/hooks/project/{project-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/hooks/project/{project-id}
     ```
 
 === ":simple-rust: Rust"
@@ -295,7 +295,7 @@ API examples of how to list all Hooks a specific Project is associated with.
         project_id: "<project-id>".to_string()
      };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.list_hooks_of_project(request)
                               .await
                               .unwrap()
@@ -313,7 +313,7 @@ API examples of how to list all Hooks a specific Project is associated with.
         project_id="<project-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.ListProjectHooks(request=request)
     
     # Do something with the response
@@ -327,9 +327,9 @@ API examples of how to list all Hooks created by a specific user.
 
 ??? Abstract "Required permissions"
 
-    To list your created Hooks you only have to be a registered AOS user.
+    To list your created Hooks you only have to be a registered Aruna user.
 
-    Global AOS administrators can list the created Hooks of other users.
+    Global Aruna administrators can list the created Hooks of other users.
 
 === ":simple-curl: cURL"
 
@@ -337,7 +337,7 @@ API examples of how to list all Hooks created by a specific user.
     # Native JSON request to create a new external Hook which triggers on object creation
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/hooks/owner/{user-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/hooks/owner/{user-id}
     ```
 
 === ":simple-rust: Rust"
@@ -348,7 +348,7 @@ API examples of how to list all Hooks created by a specific user.
         user_id: "<user-id>".to_string(),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.list_hooks_of_project(request)
                               .await
                               .unwrap()
@@ -366,7 +366,7 @@ API examples of how to list all Hooks created by a specific user.
         user_id="<user-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.ListOwnedHooks(request=request)
     
     # Do something with the response
@@ -400,7 +400,7 @@ key-value pairs to a specific Object.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/hook/callback
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/hook/callback
     ```
 
 === ":simple-rust: Rust"
@@ -422,7 +422,7 @@ key-value pairs to a specific Object.
         })),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.hook_callback(request)
                               .await
                               .unwrap()
@@ -454,7 +454,7 @@ key-value pairs to a specific Object.
         error=None
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.HookCallback(request=request)
     
     # Do something with the response
@@ -476,7 +476,7 @@ API examples of how to delete a Hook.
     # Native JSON request to delete a Hook
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/hook/{hook-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/hook/{hook-id}
     ```
 
 === ":simple-rust: Rust"
@@ -487,7 +487,7 @@ API examples of how to delete a Hook.
         hook_id: "<hook-id>".to_string()
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = hook_client.delete_hook(request)
                               .await
                               .unwrap()
@@ -505,7 +505,7 @@ API examples of how to delete a Hook.
         hook_id="<hook-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.hook_client.HookCallback(request=request)
     
     # Do something with the response
