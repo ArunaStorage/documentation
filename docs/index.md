@@ -23,6 +23,7 @@ All data uploaded and stored by users is stored as an Object, represented as a s
 .</figcaption>
 </figure>
 
+
 ## Components
 
 <figure id="aruna-resources" markdown>
@@ -44,6 +45,7 @@ All data uploaded and stored by users is stored as an Object, represented as a s
 * Go API stubs: [GitHub](https://github.com/ArunaStorage/go-api){:target="_blank"}
 * Python API stubs: [GitHub](https://github.com/ArunaStorage/python-api){:target="_blank"} or [PyPI](https://pypi.org/project/Aruna-Python-API){:target="_blank"}
 * Java API stubs: [GitHub](https://github.com/ArunaStorage/java-api){:target="_blank"} or [GitHub Packages](https://github.com/ArunaStorage/java-api/packages/){:target="_blank"}
+
 
 ### **Aruna Data Orchestration Engine**
 
@@ -87,5 +89,5 @@ The implementation of the Server, that handles the incoming requests, and DataPr
 - The base API interface is defined using [Protocol Buffers](https://developers.google.com/protocol-buffers)
 - All endpoints work with JSON over HTTP just as they would do with requests made via gRPC from individual clients
 - [Client stubs](#api) will be generated for major programming languages on every API release ([listed here](#api))
-- A [basic CLI client](https://github.com/ArunaStorage/ArunaCLI) will be offered to simplify the usage entry barrier
 - A [web UI](https://dev.aruna-storage.org) is available for demonstration purposes
+- A CLI client will be offered in the future to simplify the usage entry barrier
