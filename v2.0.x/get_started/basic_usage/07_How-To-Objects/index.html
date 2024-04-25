@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://ArunaStorage.github.io/Documentation/v2.0.x/get_started/basic_usage/07_How-To-Objects/">
+        <link rel="canonical" href="https://ArunaStorage.github.io/documentation/v2.0.x/get_started/basic_usage/07_How-To-Objects/">
       
       
         <link rel="prev" href="../06_How-To-Datasets/">
@@ -18,15 +18,15 @@
       
       
       <link rel="icon" href="../../../assets/logo-icon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.19">
     
     
       
-        <title>7 | Objects - Aruna Object Storage Documentation</title>
+        <title>7 | Objects - Aruna Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.66ac8b77.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -117,7 +117,7 @@ This version is still in beta.
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Aruna Object Storage Documentation" class="md-header__button md-logo" aria-label="Aruna Object Storage Documentation" data-md-component="logo">
+    <a href="../../.." title="Aruna Documentation" class="md-header__button md-logo" aria-label="Aruna Documentation" data-md-component="logo">
       
   <img src="../../../assets/logo-claim.png" alt="logo">
 
@@ -130,7 +130,7 @@ This version is still in beta.
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Aruna Object Storage Documentation
+            Aruna Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -213,13 +213,13 @@ This version is still in beta.
     
     
       <div class="md-header__source">
-        <a href="https://github.com/ArunaStorage/ArunaAPI" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/ArunaStorage/api" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
-    ArunaStorage/ArunaAPI
+    arunastorage/api
   </div>
 </a>
       </div>
@@ -318,22 +318,22 @@ This version is still in beta.
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Aruna Object Storage Documentation" class="md-nav__button md-logo" aria-label="Aruna Object Storage Documentation" data-md-component="logo">
+    <a href="../../.." title="Aruna Documentation" class="md-nav__button md-logo" aria-label="Aruna Documentation" data-md-component="logo">
       
   <img src="../../../assets/logo-claim.png" alt="logo">
 
     </a>
-    Aruna Object Storage Documentation
+    Aruna Documentation
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/ArunaStorage/ArunaAPI" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/ArunaStorage/api" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
-    ArunaStorage/ArunaAPI
+    arunastorage/api
   </div>
 </a>
     </div>
@@ -442,7 +442,7 @@ This version is still in beta.
         
   
   <span class="md-ellipsis">
-    Overview
+    Getting Started
   </span>
   
 
@@ -1042,7 +1042,7 @@ This version is still in beta.
 <p>If you don't know how to create other hierarchical resources you should read the previous chapters on how to use the <a href="../04_How-To-Project/"><strong>Project API</strong></a>, <a href="../05_How-To-Collections/"><strong>Collection API</strong></a> and/or <a href="../06_How-To-Datasets/"><strong>Dataset API</strong></a>.</p>
 <h2 id="initialize-object">Initialize Object</h2>
 <p>The first step is to initialize an Object.
-This creates an Object in the AOS with a status of <em>Initializing</em> which marks it as a <em>Staging Object</em>.
+This creates an Object in Aruna with a status of <em>Initializing</em> which marks it as a <em>Staging Object</em>.
 As long as an Object is in the staging area data can be uploaded to it.</p>
 <details class="tip">
 <summary>Hash validation</summary>
@@ -1084,10 +1084,13 @@ the DataProxy after the data upload has been finished. This ensures that the upl
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new Object</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to create a new Object</span>
 curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</span>
 <span class="s1">  {</span>
 <span class="s1">    &quot;name&quot;: &quot;aruna.png&quot;,</span>
+<span class="s1">    &quot;title&quot;: &quot;Aruna Logo&quot;,</span>
 <span class="s1">    &quot;description&quot;: &quot;My demo Object&quot;,</span>
 <span class="s1">    &quot;keyValues&quot;: [],</span>
 <span class="s1">    &quot;relations&quot;: [],</span>
@@ -1102,11 +1105,12 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">        }</span>
 <span class="s1">    ],</span>
 <span class="s1">    &quot;metadataLicenseTag&quot;: &quot;CC-BY-4.0&quot;,</span>
-<span class="s1">    &quot;dataLicenseTag&quot;: &quot;CC-BY-4.0&quot;</span>
+<span class="s1">    &quot;dataLicenseTag&quot;: &quot;CC-BY-4.0&quot;,</span>
+<span class="s1">    &quot;authors&quot;: []</span>
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1133,9 +1137,12 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
-<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to create a new Object</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to create a new Object</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateObjectRequest</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">name</span>: <span class="s">&quot;aruna.png&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">title</span>: <span class="s">&quot;Aruna Logo&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">description</span>: <span class="s">&quot;My demo Object&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">key_values</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
 <span class="w">    </span><span class="n">relations</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
@@ -1147,9 +1154,10 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">metadata_license_tag</span>: <span class="s">&quot;CC-BY-4.0&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">data_license_tag</span>: <span class="s">&quot;CC-BY-4.0&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">parent</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">Parent</span>::<span class="n">ProjectId</span><span class="p">(</span><span class="s">&quot;&lt;project-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">())),</span>
+<span class="w">    </span><span class="n">authors</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">create_object</span><span class="p">(</span><span class="n">init_request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -1182,9 +1190,12 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to create a new Object</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to create a new Object</span>
 <span class="n">request</span> <span class="o">=</span> <span class="n">CreateObjectRequest</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;aruna.png&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Aruna Logo&quot;</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;My demo Object&quot;</span><span class="p">,</span>
     <span class="n">key_values</span><span class="o">=</span><span class="p">[],</span>
     <span class="n">external_relations</span><span class="o">=</span><span class="p">[],</span>
@@ -1197,10 +1208,11 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
         <span class="nb">hash</span><span class="o">=</span><span class="s2">&quot;5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33&quot;</span>
     <span class="p">)],</span>
     <span class="n">metadata_license_tag</span><span class="o">=</span><span class="s2">&quot;CC-BY-4.0&quot;</span><span class="p">,</span>
-    <span class="n">data_license_tag</span><span class="o">=</span><span class="s2">&quot;CC-BY-4.0&quot;</span>
+    <span class="n">data_license_tag</span><span class="o">=</span><span class="s2">&quot;CC-BY-4.0&quot;</span><span class="p">,</span>
+    <span class="n">authors</span><span class="o">=</span><span class="p">[]</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">CreateObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -1211,12 +1223,12 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 </div>
 <h2 id="upload-data-to-a-staging-object">Upload data to a Staging Object</h2>
 <p>After initializing an Object you can request an upload url with the object id you received from the initialization.
-Data then can be uploaded through the received url to the AOS data proxy.</p>
+Data then can be uploaded through the received url to the Aruna DataProxy.</p>
 <p>If the data associated with the Object is greater than 5 Gigabytes you have to request a <em>multipart</em> upload and chunk your data in parts which are at most 5 Gigabytes in size.
 You also have to request an upload url for each part individually.</p>
 <div class="admonition tip">
 <p class="admonition-title">S3 Presigned download URL</p>
-<p>You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to upload the Object data to.</p>
+<p>You can also generate presigned URLs on your own for the specific Aruna DataPoxy you want to upload the Object data to.</p>
 </div>
 <details class="abstract">
 <summary>Required permissions</summary>
@@ -1239,9 +1251,9 @@ You also have to request an upload url for each part individually.</p>
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to request an upload url for single part upload</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>/upload
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>/upload
 
-<span class="c1"># Native JSON request to upload single part data through the generated data proxy upload url</span>
+<span class="c1"># Native JSON request to upload single part data through the generated DataProxy upload url</span>
 curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-T<span class="w"> </span>&lt;path-to-local-file&gt;<span class="w"> </span>&lt;upload-url&gt;
 </code></pre></div></td></tr></table></div>
 </div>
@@ -1286,7 +1298,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 <span class="w">    </span><span class="n">part_number</span>: <span class="mi">1</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_upload_url</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -1343,7 +1355,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
     <span class="n">part_number</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetUploadURL</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -1385,9 +1397,9 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to request an upload url for specific part of multipart upload</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/{object-id}/upload?multipart=true&amp;partNumber=&lt;part-number&gt;&#39;</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/{object-id}/upload?multipart=true&amp;partNumber=&lt;part-number&gt;&#39;</span>
 
-<span class="c1"># Upload multipart data with native JSON requests through the generated data proxy upload urls</span>
+<span class="c1"># Upload multipart data with native JSON requests through the generated DataProxy upload urls</span>
 curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-T<span class="w"> </span>&lt;path-to-local-file&gt;<span class="w"> </span>&lt;upload-url&gt;
 </code></pre></div></td></tr></table></div>
 </div>
@@ -1413,7 +1425,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 <span class="w">    </span><span class="n">part_number</span>: <span class="o">&lt;</span><span class="n">part</span><span class="o">-</span><span class="n">number</span><span class="o">&gt;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_upload_url</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -1442,7 +1454,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
     <span class="n">part_number</span><span class="o">=&lt;</span><span class="n">part</span><span class="o">-</span><span class="n">number</span><span class="o">&gt;</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetUploadURL</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -1481,7 +1493,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 
 <span class="w">    </span><span class="nv">UPLOAD_URL</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                         </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                         </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/</span><span class="si">${</span><span class="nv">OBJECT_ID</span><span class="si">}</span><span class="s2">/upload?multipart=true&amp;partNumber=</span><span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.url&#39;</span><span class="k">)</span>
+<span class="w">                         </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/</span><span class="si">${</span><span class="nv">OBJECT_ID</span><span class="si">}</span><span class="s2">/upload?multipart=true&amp;partNumber=</span><span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.url&#39;</span><span class="k">)</span>
 <span class="w">    </span><span class="nv">ETAG</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-T<span class="w"> </span><span class="si">${</span><span class="nv">PART_FILE</span><span class="si">}</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">UPLOAD_URL</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>etag<span class="k">)</span>
 
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nPart: </span><span class="si">${</span><span class="nv">PART_NUM</span><span class="si">}</span><span class="s2">, ETag: </span><span class="si">${</span><span class="nv">ETAG</span><span class="si">}</span><span class="s2">\n&quot;</span>
@@ -1662,7 +1674,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
             <span class="n">part_number</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
         <span class="p">)</span>
 
-        <span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+        <span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
         <span class="n">get_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetUploadURL</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">get_request</span><span class="p">)</span>
 
         <span class="c1"># Extraxt download url from response</span>
@@ -1734,7 +1746,7 @@ On success the response will contain the finished Object analog to the response 
 </details>
 <details class="tip">
 <summary>Object hashes</summary>
-<p>SHA256 and MD5 hash sums are always calculated automatically for the content of the object and added to the object, so they do not have to be explicitly specified when finishing. Currently AOS only supports SHA256 and MD5 but the list can be extended if the demand arises.</p>
+<p>SHA256 and MD5 hash sums are always calculated automatically for the content of the object and added to the object, so they do not have to be explicitly specified when finishing. Currently Aruna only supports SHA256 and MD5 but the list can be extended if the demand arises.</p>
 <p>So, in the future further hashes of the object can be specified, which are also added to the object. However, these hashes are not validated against the content of the object.    </p>
 </details>
 <details class="abstract">
@@ -1792,7 +1804,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>/finish
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>/finish
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1853,7 +1865,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="p">],</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">finish_object_staging</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -1910,7 +1922,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="p">],</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">FinishObjectStaging</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -1935,7 +1947,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of a single Object</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1943,7 +1955,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch information of multiple Objects in a single request</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/objects?objectIds={object-id-01}&amp;objectIds={object-id-02}&#39;</span>
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects?objectIds={object-id-01}&amp;objectIds={object-id-02}&#39;</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -1964,7 +1976,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="w">    </span><span class="n">object_id</span>: <span class="s">&quot;&lt;object-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -1998,7 +2010,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="w">    </span><span class="p">]</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2023,7 +2035,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <span class="n">object_id</span><span class="o">=</span><span class="s2">&quot;&lt;object-id&gt;&quot;</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -2051,7 +2063,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
     <span class="p">]</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetObjects</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -2064,7 +2076,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <p>To download the data associated with an Object you have to request a download url. </p>
 <div class="admonition tip">
 <p class="admonition-title">S3 Presigned download URL</p>
-<p>You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to download the Object data from. </p>
+<p>You can also generate presigned URLs on your own for the specific Aruna DataPoxy you want to download the Object data from. </p>
 </div>
 <details class="abstract">
 <summary>Required permissions</summary>
@@ -2082,7 +2094,7 @@ curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Auth
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to fetch the download URL of an Object</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>/download
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>/download
 
 <span class="c1"># Download the data with the provided remote file name</span>
 curl<span class="w"> </span>-J<span class="w"> </span>-O<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>&lt;received-download-url&gt;
@@ -2136,7 +2148,7 @@ curl<span class="w"> </span>-J<span class="w"> </span>-O<span class="w"> </span>
 <span class="w">    </span><span class="n">object_id</span>: <span class="s">&quot;&lt;object-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span><span class="w"> </span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_download_url</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2209,7 +2221,7 @@ curl<span class="w"> </span>-J<span class="w"> </span>-O<span class="w"> </span>
     <span class="n">object_id</span><span class="o">=</span><span class="s2">&quot;&lt;object-id&gt;&quot;</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">download_url_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetDownloadURL</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">download_url_request</span><span class="p">)</span>
 
 <span class="c1"># Extract download url from response</span>
@@ -2302,7 +2314,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>
 </code></pre></div></td></tr></table></div>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -2352,7 +2364,57 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to update the title of an Object in-place</span>
+curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;title&quot;: &quot;Updated Title&quot;</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>/title
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Native JSON request to add an author to an Object in-place</span>
+curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">  {</span>
+<span class="s1">    &quot;addAuthors&quot;: [</span>
+<span class="s1">        {</span>
+<span class="s1">        &quot;firstName&quot;: &quot;John&quot;,</span>
+<span class="s1">        &quot;lastName&quot;: &quot;Doe&quot;,</span>
+<span class="s1">        &quot;email&quot;: &quot;john.doe@example.com&quot;,</span>
+<span class="s1">        &quot;orcid&quot;: &quot;0000-0002-1825-0097&quot;,</span>
+<span class="s1">        &quot;id&quot;: &quot;&lt;user-id-if-registered&gt;&quot;</span>
+<span class="s1">        }</span>
+<span class="s1">    ],</span>
+<span class="s1">    &quot;removeAuthors&quot;: []</span>
+<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span>/authors
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -2393,7 +2455,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">parent</span>: <span class="nb">None</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object</span><span class="p">(</span><span class="n">add_request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2447,11 +2509,81 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">parent</span>: <span class="nb">None</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object</span><span class="p">(</span><span class="n">add_request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to update the title of an Object in-place</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">add_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UpdateObjectTitleRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">object_id</span>: <span class="s">&quot;&lt;object-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">title</span>: <span class="s">&quot;Updated Title&quot;</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object_title</span><span class="p">(</span><span class="n">add_request</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                            </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+
+<span class="c1">// Do something with the response</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Create tonic/ArunaAPI request to add an author to an Object</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UpdateObjectAuthorsRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">object_id</span>: <span class="s">&quot;&lt;object-id&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">add_authors</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="n">Author</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">first_name</span>: <span class="s">&quot;John&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">last_name</span>: <span class="s">&quot;Doe&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">email</span>: <span class="s">&quot;john.doe@example.com&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">orcid</span>: <span class="s">&quot;0000-0002-1825-0097&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">id</span>: <span class="s">&quot;&lt;user-id-if-registered&gt;&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">}],</span>
+<span class="w">    </span><span class="n">remove_authors</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[],</span>
+<span class="p">};</span>
+
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object_authors</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">                             </span><span class="p">.</span><span class="k">await</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+<span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
 
 <span class="c1">// Do something with the response</span>
 <span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
@@ -2496,7 +2628,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="n">data_license_tag</span><span class="p">:</span> <span class="s2">&quot;&lt;old-license-tag&gt;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">UpdateObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -2548,8 +2680,66 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="n">data_license_tag</span><span class="p">:</span> <span class="s2">&quot;&lt;old-license-tag&gt;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">UpdateObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to update the title of a Dataset</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">UpdateObjectTitleRequest</span><span class="p">(</span>
+    <span class="n">object_id</span><span class="o">=</span><span class="s2">&quot;&lt;object-id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Updated Title&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dataset_client</span><span class="o">.</span><span class="n">UpdateObjectTitle</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+<span class="c1"># Do something with the response</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Create tonic/ArunaAPI request to add an author to a Dataset</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">UpdateObjectAuthorsRequest</span><span class="p">(</span>
+    <span class="n">object_id</span><span class="o">=</span><span class="s2">&quot;&lt;object-id&gt;&quot;</span><span class="p">,</span>
+    <span class="n">add_authors</span><span class="o">=</span><span class="p">[</span><span class="n">Author</span><span class="p">(</span>
+        <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">,</span>
+        <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Doe&quot;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="s2">&quot;john.doe@example.com&quot;</span><span class="p">,</span>
+        <span class="n">orcid</span><span class="o">=</span><span class="s2">&quot;0000-0002-1825-0097&quot;</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;&lt;user-id-if-registered&quot;</span>
+    <span class="p">)],</span>
+    <span class="n">remove_authors</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">dataset_client</span><span class="o">.</span><span class="n">UpdateObjectAuthors</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -2611,7 +2801,7 @@ As already mentioned in the general Object update introduction, the newly create
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.object.id&#39;</span><span class="k">)</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.object.id&#39;</span><span class="k">)</span>
 
 <span class="c1"># Native JSON request to finish the new Object revision</span>
 curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</span>
@@ -2622,7 +2812,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>NEW_REVISION_ID<span class="o">}</span>/finish
+<span class="w">     </span>-X<span class="w"> </span>PATCH<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>NEW_REVISION_ID<span class="o">}</span>/finish
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -2681,7 +2871,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">parent</span>: <span class="nb">None</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2699,7 +2889,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">completed_parts</span>: <span class="p">[],</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">finish_object_staging</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                            </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2767,7 +2957,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="n">data_license_tag</span><span class="o">=</span><span class="s2">&quot;&lt;old-license-tag&gt;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">update_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">UpdateObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -2783,7 +2973,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="n">completed_parts</span><span class="o">=</span><span class="p">[],</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">finish_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">FinishObjectStaging</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -2842,14 +3032,14 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>object-id<span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.object.id&#39;</span><span class="k">)</span>
+<span class="w">     </span>-X<span class="w"> </span>POST<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>object-id<span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.object.id&#39;</span><span class="k">)</span>
 
 <span class="c1"># Native JSON request to request an upload url for single part upload</span>
 curl<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/<span class="o">{</span>NEW_REVISION_ID<span class="o">}</span>/upload
+<span class="w">     </span>-X<span class="w"> </span>GET<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/<span class="o">{</span>NEW_REVISION_ID<span class="o">}</span>/upload
 
-<span class="c1"># Native JSON request to upload single part data through the generated data proxy upload url</span>
+<span class="c1"># Native JSON request to upload single part data through the generated DataProxy upload url</span>
 curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-T<span class="w"> </span>&lt;path-to-local-file&gt;<span class="w"> </span>&lt;upload-url&gt;
 
 <span class="c1"># Request to finish the updated object only needed in case of no upload or multipart upload</span>
@@ -2931,7 +3121,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 <span class="w">    </span><span class="n">parent</span>: <span class="nb">None</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">update_object</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                                   </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                                   </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -2948,7 +3138,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
 <span class="w">    </span><span class="n">part_number</span>: <span class="mi">1</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">get_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">get_upload_url</span><span class="p">(</span><span class="n">get_request</span><span class="p">)</span>
 <span class="w">                                </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -3043,7 +3233,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
     <span class="n">data_license_tag</span><span class="o">=</span><span class="s2">&quot;&lt;old-license-tag&gt;&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">UpdateObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -3057,7 +3247,7 @@ curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span
     <span class="n">part_number</span><span class="o">=</span><span class="mi">1</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">get_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">GetUploadURL</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -3131,7 +3321,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Authorization: Bearer &lt;AUTH_TOKEN&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">     </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">     </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://&lt;URL-to-AOS-instance-API-gateway&gt;/v2/object/&lt;object-id&gt;
+<span class="w">     </span>-X<span class="w"> </span>DELETE<span class="w"> </span>https://&lt;URL-to-Aruna-instance-API-endpoint&gt;/v2/objects/&lt;object-id&gt;
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -3154,7 +3344,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
 <span class="w">    </span><span class="n">with_revisions</span>: <span class="nc">false</span><span class="p">,</span>
 <span class="p">};</span>
 
-<span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<span class="c1">// Send the request to the Aruna instance gRPC endpoint</span>
 <span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_client</span><span class="p">.</span><span class="n">delete_object</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="w">                                   </span><span class="p">.</span><span class="k">await</span>
 <span class="w">                                   </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
@@ -3181,7 +3371,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <span class="n">with_revisions</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span>
 
-<span class="c1"># Send the request to the AOS instance gRPC gateway</span>
+<span class="c1"># Send the request to the Aruna instance gRPC endpoint</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">object_client</span><span class="o">.</span><span class="n">DeleteObject</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
 
 <span class="c1"># Do something with the response</span>
@@ -3289,7 +3479,7 @@ curl<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;</sp
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.footer", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "search.highlight", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.dd8806f2.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
