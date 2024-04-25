@@ -4,11 +4,11 @@
 
 ## Introduction
 
-Workspaces are a dedicate class of Projects that can be used to provide unregistered users with an anonymous, encapsulated space in the AOS.
+Workspaces are a dedicate class of Projects that can be used to provide unregistered users with an anonymous, encapsulated space in Aruna.
 When a workspace is created, an internal service account is automatically created for the administration. 
 Also token is generated for the service account that only has permissions for the workspace and cannot be changed.
 
-After a user has registered in the AOS, he/she is free to use this token to claim the entire Workspace and associate it with his or her user like a normal Project. 
+After a user has registered in Aruna, he/she is free to use this token to claim the entire Workspace and associate it with his or her user like a normal Project. 
 
 Templates for Workspaces can be created in advance. 
 Through a template, the basic conditions for the creation of a *Workspace* are defined and automated in order to simplify the administration of Workspaces. 
@@ -29,7 +29,7 @@ API examples of how to create a new Workspace.
 
 ??? Abstract "Required permissions"
 
-    To create a new Workspace you only have to be a registered AOS user.
+    To create a new Workspace you only have to be a registered Aruna user.
 
 === ":simple-curl: cURL"
 
@@ -42,7 +42,7 @@ API examples of how to create a new Workspace.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/workspace
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces
     ```
 
 === ":simple-rust: Rust"
@@ -54,7 +54,7 @@ API examples of how to create a new Workspace.
         description: "<workspace-description>".to_string(),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.create_workspace(request)
                                    .await
                                    .unwrap()
@@ -95,7 +95,7 @@ API examples of how to create a new Workspace.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/workspace/template
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/templates
     ```
 
 === ":simple-rust: Rust"
@@ -119,7 +119,7 @@ API examples of how to create a new Workspace.
         ],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.create_workspace_template(request)
                                    .await
                                    .unwrap()
@@ -138,7 +138,7 @@ API examples of how to get a Workspace template.
 
     To fetch a Workspace template you do not need special permissions but have to use a personal token.
 
-    Only global AOS administrators can fetch information of Workspace templates created by other users.
+    Only global Aruna administrators can fetch information of Workspace templates created by other users.
 
 === ":simple-curl: cURL"
 
@@ -146,7 +146,7 @@ API examples of how to get a Workspace template.
     # Native JSON request to fetch information of a specific Workspace template
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/workspace/template/{template-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/templates/{template-id}
     ```
 
 === ":simple-rust: Rust"
@@ -157,7 +157,7 @@ API examples of how to get a Workspace template.
         template_id: "<template-id>".to_string() 
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.get_workspace_template(request)
                                    .await
                                    .unwrap()
@@ -182,7 +182,7 @@ API examples of how to get all Workspace templates owned by yourself.
     # Native JSON request to fetch information of all your Workspace templates
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/workspace/templates
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/templates
     ```
 
 === ":simple-rust: Rust"
@@ -191,7 +191,7 @@ API examples of how to get all Workspace templates owned by yourself.
     // Create tonic/ArunaAPI request to fetch information of all your Workspace templates
     let request = ListOwnedWorkspaceTemplatesRequest {};
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.list_owned_workspace_templates(request)
                                    .await
                                    .unwrap()
@@ -220,7 +220,7 @@ API examples of how to claim an anonymous Workspace for your user.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/workspace/{workspace-id}/claim
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/{workspace-id}/claim
     ```
 
 === ":simple-rust: Rust"
@@ -232,7 +232,7 @@ API examples of how to claim an anonymous Workspace for your user.
         token: "<workspace-token>".to_string(),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.claim_workspace(request)
                                    .await
                                    .unwrap()
@@ -257,7 +257,7 @@ API examples of how to delete a Workspace template.
     # Native JSON request delete a Workspace template
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/workspace/template/{template-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/template/{template-id}
     ```
 
 === ":simple-rust: Rust"
@@ -268,7 +268,7 @@ API examples of how to delete a Workspace template.
         template_id: "<template-id>".to_string() 
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.delete_workspace_template(request)
                                    .await
                                    .unwrap()
@@ -292,7 +292,7 @@ API examples of how to delete a Workspace.
     # Native JSON request delete a Workspace
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/workspace/{workspace-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/workspaces/{workspace-id}
     ```
 
 === ":simple-rust: Rust"
@@ -303,7 +303,7 @@ API examples of how to delete a Workspace.
         workspace_id: "<workspace-id>".to_string() 
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = workspace_client.delete_workspace(request)
                                    .await
                                    .unwrap()
