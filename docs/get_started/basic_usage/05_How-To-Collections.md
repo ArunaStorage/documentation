@@ -74,7 +74,7 @@ API example for creating a new Collection.
     ```python linenums="1"
     # Create tonic/ArunaAPI request to create a new Collection
     request = CreateCollectionRequest(
-        name="python-api-project",
+        name="python-api-collection",
         description="Created with the gRPC Python API client.",
         key_values=[], 
         relations=[], 
@@ -418,7 +418,7 @@ API examples of how to update individual metadata of an existing Collection.
     };
     
     // Send the request to the Aruna instance gRPC endpoint
-    let response = project_client.update_collection_authors(request)
+    let response = collection_client.update_collection_authors(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -538,7 +538,7 @@ API examples of how to update individual metadata of an existing Collection.
     )
     
     # Send the request to the Aruna instance gRPC endpoint
-    response = client.project_client.UpdateCollectionAuthors(request=request)
+    response = client.collection_client.UpdateCollectionAuthors(request=request)
     
     # Do something with the response
     print(f'{response}')
