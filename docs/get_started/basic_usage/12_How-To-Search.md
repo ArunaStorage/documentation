@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In the FAIR context, the discoverability of data plays one of the most important roles, as even the best data will simply lie unused without a way to be found. AOS provides a public search index in which specific metadata of all public objects can be searched. The user-defined scope of the search can be adjusted from fuzzy to detailed. A normal search query includes all fields but can be additionally filtered.
+In the FAIR context, the discoverability of data plays one of the most important roles, as even the best data will simply lie unused without a way to be found. Aruna provides a public search index in which specific metadata of all public objects can be searched. The user-defined scope of the search can be adjusted from fuzzy to detailed. A normal search query includes all fields but can be additionally filtered.
 
 Depending on the type of field, different operators are useful for filtering:
 
@@ -105,7 +105,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/search
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/search
     ```
 
     ```bash linenums="1"
@@ -119,7 +119,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/search
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/search
     ```
 
     ```bash linenums="1"
@@ -133,7 +133,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/search
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/search
     ```
 
 === ":simple-rust: Rust"
@@ -147,7 +147,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset: 0,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.search_resources(request)
                                  .await
                                  .unwrap()
@@ -166,7 +166,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset: 0,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.search_resources(request)
                                  .await
                                  .unwrap()
@@ -185,7 +185,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset: 0,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.search_resources(request)
                                  .await
                                  .unwrap()
@@ -206,7 +206,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset=0
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.SearchResources(request=request)
     
     # Do something with the response
@@ -222,7 +222,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset=0
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.SearchResources(request=request)
     
     # Do something with the response
@@ -238,7 +238,7 @@ The `limit` and `offset` parameter can be used to paginate the requests.
         offset=0
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.SearchResources(request=request)
     
     # Do something with the response
@@ -262,14 +262,14 @@ API examples of how to fetch Object information of public resources.
     # Native JSON request to fetch information of a public Object
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/resource/{resource-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/resource/{resource-id}
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch information of multiple public Objects
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/resources?resourceIds=resource-id-01&resourceIds=resource-id-02'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/resources?resourceIds=resource-id-01&resourceIds=resource-id-02'
     ```
 
 === ":simple-rust: Rust"
@@ -280,7 +280,7 @@ API examples of how to fetch Object information of public resources.
         resource_id: "<resource-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.get_resource(request)
                                  .await
                                  .unwrap() 
@@ -300,7 +300,7 @@ API examples of how to fetch Object information of public resources.
         ],
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.get_resources(request)
                                  .await
                                  .unwrap() 
@@ -318,7 +318,7 @@ API examples of how to fetch Object information of public resources.
         resource_id="<resource-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.GetResource(request=request)
     
     # Do something with the response
@@ -335,7 +335,7 @@ API examples of how to fetch Object information of public resources.
         ]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.GetResource(request=request)
     
     # Do something with the response
@@ -349,7 +349,7 @@ API examples of how to request access for resources owned by other users.
 
 ??? Abstract "Required permissions"
 
-    To request access to a resource you only have to be a registered AOS user.
+    To request access to a resource you only have to be a registered Aruna user.
 
 === ":simple-curl: cURL"
 
@@ -357,7 +357,7 @@ API examples of how to request access for resources owned by other users.
     # Native JSON request to request access to an Object of another user
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/resource/resource-id/access?message=Would%20you%20please%20give%20me%20access%20to%20this%20dataset%3F'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/resource/resource-id/access?message=Would%20you%20please%20give%20me%20access%20to%20this%20dataset%3F'
     ```
 
 === ":simple-rust: Rust"
@@ -369,7 +369,7 @@ API examples of how to request access for resources owned by other users.
         message: "Would you please give me access to this dataset?".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = search_client.request_resource_access(request)
                                  .await
                                  .unwrap() 
@@ -388,7 +388,7 @@ API examples of how to request access for resources owned by other users.
         message="Would you please give me access to this dataset?"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.search_client.RequestResourceAccess(request=request)
     
     # Do something with the response
