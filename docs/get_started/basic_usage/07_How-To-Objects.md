@@ -13,7 +13,7 @@ If you don't know how to create other hierarchical resources you should read the
 ## Initialize Object
 
 The first step is to initialize an Object.
-This creates an Object in the AOS with a status of _Initializing_ which marks it as a _Staging Object_.
+This creates an Object in Aruna with a status of _Initializing_ which marks it as a _Staging Object_.
 As long as an Object is in the staging area data can be uploaded to it.
 
 ??? Tip "Hash validation"
@@ -25,6 +25,10 @@ As long as an Object is in the staging area data can be uploaded to it.
 
     This request requires at least APPEND permission on the parent resource in which the Object is to be created.
 
+!!! Info
+
+    * Names are unique within each hierarchy (e.g. you cannot create Objects with the same name inside the same Collection)
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
@@ -32,6 +36,7 @@ As long as an Object is in the staging area data can be uploaded to it.
     curl -d '
       {
         "name": "aruna.png",
+        "title": "Aruna Logo",
         "description": "My demo Object",
         "keyValues": [],
         "relations": [],
@@ -45,12 +50,13 @@ As long as an Object is in the staging area data can be uploaded to it.
             "hash": "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
             }
         ],
-        "metadataLicenseTag": "CC-BY",
-        "dataLicenseTag": "CC-BY"
+        "metadataLicenseTag": "CC-BY-4.0",
+        "dataLicenseTag": "CC-BY-4.0",
+        "authors": []
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/object
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects
     ```
 
 === ":simple-rust: Rust"
@@ -59,6 +65,7 @@ As long as an Object is in the staging area data can be uploaded to it.
     // Create tonic/ArunaAPI request to create a new Object
     let request = CreateObjectRequest {
         name: "aruna.png".to_string(),
+        title: "Aruna Logo".to_string(),
         description: "My demo Object".to_string(),
         key_values: vec![],
         relations: vec![],
@@ -67,12 +74,13 @@ As long as an Object is in the staging area data can be uploaded to it.
             alg: Hashalgorithm::Sha256 as i32,
             hash: "5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33".to_string(),
         }],
-        metadata_license_tag: "CC-BY".to_string(),
-        data_license_tag: "CC-BY".to_string(),
+        metadata_license_tag: "CC-BY-4.0".to_string(),
+        data_license_tag: "CC-BY-4.0".to_string(),
         parent: Some(Parent::ProjectId("<project-id>".to_string())),
+        authors: vec![],
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.create_object(init_request)
                                 .await
                                 .unwrap()
@@ -88,6 +96,7 @@ As long as an Object is in the staging area data can be uploaded to it.
     # Create tonic/ArunaAPI request to create a new Object
     request = CreateObjectRequest(
         name="aruna.png",
+        title="Aruna Logo",
         description="My demo Object",
         key_values=[],
         external_relations=[],
@@ -99,11 +108,12 @@ As long as an Object is in the staging area data can be uploaded to it.
             alg=Hashalgorithm.HASHALGORITHM_SHA256,
             hash="5839942d4f1e706fee33d0837617163f9368274a72b2b7e89d3b0877f390fc33"
         )],
-        metadata_license_tag="CC-BY",
-        data_license_tag="CC-BY"
+        metadata_license_tag="CC-BY-4.0",
+        data_license_tag="CC-BY-4.0",
+        authors=[]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.CreateObject(request=request)
 
     # Do something with the response
@@ -114,14 +124,14 @@ As long as an Object is in the staging area data can be uploaded to it.
 ## Upload data to a Staging Object
 
 After initializing an Object you can request an upload url with the object id you received from the initialization.
-Data then can be uploaded through the received url to the AOS data proxy.
+Data then can be uploaded through the received url to the Aruna DataProxy.
 
 If the data associated with the Object is greater than 5 Gigabytes you have to request a _multipart_ upload and chunk your data in parts which are at most 5 Gigabytes in size.
 You also have to request an upload url for each part individually.
 
 !!! Tip "S3 Presigned download URL"
 
-    You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to upload the Object data to.
+    You can also generate presigned URLs on your own for the specific Aruna DataPoxy you want to upload the Object data to.
 
 ??? Abstract "Required permissions"
 
@@ -139,9 +149,9 @@ You also have to request an upload url for each part individually.
     # Native JSON request to request an upload url for single part upload
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}/upload
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/upload
     
-    # Native JSON request to upload single part data through the generated data proxy upload url
+    # Native JSON request to upload single part data through the generated DataProxy upload url
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
@@ -155,7 +165,7 @@ You also have to request an upload url for each part individually.
         part_number: 1,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.get_upload_url(request)
                                 .await
                                 .unwrap()
@@ -194,7 +204,7 @@ You also have to request an upload url for each part individually.
         part_number=1
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.GetUploadURL(request=request)
 
     # Do something with the response
@@ -233,9 +243,9 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
     # Native JSON request to request an upload url for specific part of multipart upload
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}/upload?multipart=true&partNumber=<part-number>'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/upload?multipart=true&partNumber=<part-number>'
     
-    # Upload multipart data with native JSON requests through the generated data proxy upload urls
+    # Upload multipart data with native JSON requests through the generated DataProxy upload urls
     curl -X PUT -T <path-to-local-file> <upload-url>
     ```
 
@@ -249,7 +259,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
         part_number: <part-number> as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.get_upload_url(request)
                                 .await
                                 .unwrap()
@@ -269,7 +279,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
         part_number=<part-number>
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.GetUploadURL(request=request)
 
     # Do something with the response
@@ -293,7 +303,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
     
         UPLOAD_URL=$(curl -s -H 'Authorization: Bearer <AUTH_TOKEN>' \
                              -H 'Content-Type: application/json' \
-                             -X GET "https://<URL-to-AOS-instance-API-gateway>/v2/object/${OBJECT_ID}/upload?multipart=true&partNumber=${PART_NUM}" | jq -r '.url')
+                             -X GET "https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/${OBJECT_ID}/upload?multipart=true&partNumber=${PART_NUM}" | jq -r '.url')
         ETAG=$(curl -X PUT -T ${PART_FILE} -i "${UPLOAD_URL}" | grep etag)
     
         echo -e "\nPart: ${PART_NUM}, ETag: ${ETAG}\n"
@@ -306,7 +316,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
     let mut file = tokio::fs::File::open("/path/to/local/file").await.unwrap();     // File handle
     let mut remaining_bytes: usize = file.metadata().await.unwrap().len() as usize; // File size in bytes
     let mut upload_part_counter: i64 = 0; 
-    let mut completed_parts: Vec<CompletedParts> = Vec::new();
+    let mut completed_parts: Vec<CompletedPart> = Vec::new();
     
     const UPLOAD_BUFFER_SIZE: usize = 1024 * 1024 * 50; // 50MiB chunks
     let mut buffer_size = UPLOAD_BUFFER_SIZE;           // Variable buffer size for loop
@@ -328,7 +338,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
             Ok(bytes) => bytes,
             Err(_) => file.read_to_end(&mut data_buf).await.unwrap(),
         };
-    
+
         // Create tonic/ArunaAPI request to request an upload url for multipart upload part
         let upload_url = object_client
             .get_upload_url(GetUploadUrlRequest {
@@ -340,7 +350,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
             .unwrap()
             .into_inner()
             .url;
-    
+
         // Upload buffer content to upload url and parse ETag from response header
         let client   = reqwest::Client::new();
         let response = client.put(upload_url).body(data_buf).send().await.unwrap();
@@ -348,7 +358,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
         let etag     = std::str::from_utf8(etag_raw).unwrap().to_string();
     
         // Collect ETag with corresponding part number
-        completed_parts.push(CompletedParts {
+        completed_parts.push(CompletedPart {
             etag: etag,
             part: upload_part_counter,
         });
@@ -383,7 +393,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
                 part_number=i+1
             )
 
-            # Send the request to the AOS instance gRPC gateway
+            # Send the request to the Aruna instance gRPC endpoint
             get_response = client.object_client.GetUploadURL(request=get_request)
 
             # Extraxt download url from response
@@ -397,7 +407,7 @@ For each uploaded part of the multipart upload you will receive a so called `ETa
 
             # Collect ETag with corresponding part number
             completed_parts.append(
-                CompletedParts(
+                CompletedPart(
                     etag=etag,
                     part=i+1
                 )
@@ -443,7 +453,7 @@ On success the response will contain the finished Object analog to the response 
 
 ??? Tip "Object hashes"
 
-    SHA256 and MD5 hash sums are always calculated automatically for the content of the object and added to the object, so they do not have to be explicitly specified when finishing. Currently AOS only supports SHA256 and MD5 but the list can be extended if the demand arises.
+    SHA256 and MD5 hash sums are always calculated automatically for the content of the object and added to the object, so they do not have to be explicitly specified when finishing. Currently Aruna only supports SHA256 and MD5 but the list can be extended if the demand arises.
 
     So, in the future further hashes of the object can be specified, which are also added to the object. However, these hashes are not validated against the content of the object.    
 
@@ -478,7 +488,7 @@ On success the response will contain the finished Object analog to the response 
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}/finish
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/finish
     ```
 
 === ":simple-rust: Rust"
@@ -509,7 +519,7 @@ On success the response will contain the finished Object analog to the response 
         ],
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.finish_object_staging(request)
                                 .await
                                 .unwrap()
@@ -543,7 +553,7 @@ On success the response will contain the finished Object analog to the response 
         ],
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.FinishObjectStaging(request=request)
 
     # Do something with the response
@@ -567,14 +577,14 @@ You can also fetch information on multiple Objects with a single request. In thi
     # Native JSON request to fetch information of a single Object
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch information of multiple Objects in a single request
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/objects?objectIds={object-id-01}&objectIds={object-id-02}'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/objects?objectIds={object-id-01}&objectIds={object-id-02}'
     ```
 
 === ":simple-rust: Rust"
@@ -585,7 +595,7 @@ You can also fetch information on multiple Objects with a single request. In thi
         object_id: "<object-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.get_object(request)
                                 .await
                                 .unwrap()
@@ -605,7 +615,7 @@ You can also fetch information on multiple Objects with a single request. In thi
         ]
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.get_objects(request)
                                 .await
                                 .unwrap()
@@ -623,7 +633,7 @@ You can also fetch information on multiple Objects with a single request. In thi
         object_id="<object-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.GetObject(request=request)
 
     # Do something with the response
@@ -640,7 +650,7 @@ You can also fetch information on multiple Objects with a single request. In thi
         ]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.GetObjects(request=request)
 
     # Do something with the response
@@ -654,7 +664,7 @@ To download the data associated with an Object you have to request a download ur
 
 !!! Tip "S3 Presigned download URL"
 
-    You can also generate presigned URLs on your own for the specific AOS DataPoxy you want to download the Object data from. 
+    You can also generate presigned URLs on your own for the specific Aruna DataPoxy you want to download the Object data from. 
 
 ??? Abstract "Required permissions"
 
@@ -666,7 +676,7 @@ To download the data associated with an Object you have to request a download ur
     # Native JSON request to fetch the download URL of an Object
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}/download
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/download
     
     # Download the data with the provided remote file name
     curl -J -O -X GET <received-download-url>
@@ -680,7 +690,7 @@ To download the data associated with an Object you have to request a download ur
         object_id: "<object-id>".to_string() 
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.get_download_url(request)
                                 .await
                                 .unwrap()
@@ -728,7 +738,7 @@ To download the data associated with an Object you have to request a download ur
         object_id="<object-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     download_url_response = client.object_client.GetDownloadURL(request=download_url_request)
 
     # Extract download url from response
@@ -766,7 +776,7 @@ Operations which are updated "in-place":
 * Key-value adding
 * Dataclass relaxing 
 * Parent modification
-* `All_Rights_Reserved` license update 
+* `AllRightsReserved` license update 
 
 Operations which always trigger the creation of a new revision:
 
@@ -774,7 +784,7 @@ Operations which always trigger the creation of a new revision:
 * Name update
 * Key-value removal
 * Object hashes modification
-* License update with the exception of `All_Rights_Reserved`
+* License update with the exception of `AllRightsReserved`
 
 A new revision Object always has the status _Initializing_ analog to the initial creation of an Object. 
 In the same way, the Object must be finished either through a single part data upload or a manual finish request to set its status to _Available_.
@@ -806,7 +816,7 @@ In the same way, the Object must be finished either through a single part data u
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}
     ```
 
     ```bash linenums="1"
@@ -834,7 +844,38 @@ In the same way, the Object must be finished either through a single part data u
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id}
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update the title of an Object in-place
+    curl -d '
+      {
+        "title": "Updated Title"
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/title
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to add an author to an Object in-place
+    curl -d '
+      {
+        "addAuthors": [
+            {
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "orcid": "0000-0002-1825-0097",
+            "id": "<user-id-if-registered>"
+            }
+        ],
+        "removeAuthors": []
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id}/authors
     ```
 
 === ":simple-rust: Rust"
@@ -855,7 +896,7 @@ In the same way, the Object must be finished either through a single part data u
         parent: None,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.update_object(add_request)
                                 .await
                                 .unwrap()
@@ -885,7 +926,7 @@ In the same way, the Object must be finished either through a single part data u
         parent: None,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.update_object(add_request)
                                 .await
                                 .unwrap()
@@ -894,6 +935,48 @@ In the same way, the Object must be finished either through a single part data u
     // Do something with the response
     println!("{:#?}", response);
     ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update the title of an Object in-place
+    let add_request = UpdateObjectTitleRequest {
+        object_id: "<object-id>".to_string(),
+        title: "Updated Title",
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = object_client.update_object_title(add_request)
+                                .await
+                                .unwrap()
+                                .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to add an author to an Object
+    let request = UpdateObjectAuthorsRequest {
+        object_id: "<object-id>".to_string(),
+        add_authors: vec![Author {
+            first_name: "John".to_string(),
+            last_name: "Doe".to_string(),
+            email: "john.doe@example.com".to_string(),
+            orcid: "0000-0002-1825-0097".to_string(),
+            id: "<user-id-if-registered>".to_string(),
+        }],
+        remove_authors: vec![],
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = object_client.update_object_authors(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
 
 === ":simple-python: Python"
 
@@ -915,7 +998,7 @@ In the same way, the Object must be finished either through a single part data u
         data_license_tag: "<old-license-tag>",
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.UpdateObject(request=request)
 
     # Do something with the response
@@ -944,12 +1027,47 @@ In the same way, the Object must be finished either through a single part data u
         data_license_tag: "<old-license-tag>",
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.UpdateObject(request=request)
 
     # Do something with the response
     print(f'{response}')
     ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to update the title of a Dataset
+    request = UpdateObjectTitleRequest(
+        object_id="<object-id>",
+        title="Updated Title"
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.dataset_client.UpdateObjectTitle(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add an author to a Dataset
+    request = UpdateObjectAuthorsRequest(
+        object_id="<object-id>",
+        add_authors=[Author(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            orcid="0000-0002-1825-0097",
+            user_id="<user-id-if-registered"
+        )],
+        remove_authors=[]
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.dataset_client.UpdateObjectAuthors(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ``` 
 
 
 ### Update which creates a new revision
@@ -980,7 +1098,7 @@ As already mentioned in the general Object update introduction, the newly create
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id} | jq -r '.object.id')
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id} | jq -r '.object.id')
 
     # Native JSON request to finish the new Object revision
     curl -d '
@@ -991,7 +1109,7 @@ As already mentioned in the general Object update introduction, the newly create
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/object/{NEW_REVISION_ID}/finish
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{NEW_REVISION_ID}/finish
     ```
 
 === ":simple-rust: Rust"
@@ -1012,7 +1130,7 @@ As already mentioned in the general Object update introduction, the newly create
         parent: None,
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.update_object(request)
                                 .await
                                 .unwrap()
@@ -1030,7 +1148,7 @@ As already mentioned in the general Object update introduction, the newly create
         completed_parts: [],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.finish_object_staging(request)
                                 .await
                                 .unwrap()
@@ -1063,7 +1181,7 @@ As already mentioned in the general Object update introduction, the newly create
         data_license_tag="<old-license-tag>",
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     update_response = client.object_client.UpdateObject(request=request)
 
     # Do something with the response
@@ -1079,7 +1197,7 @@ As already mentioned in the general Object update introduction, the newly create
         completed_parts=[],
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     finish_response = client.object_client.FinishObjectStaging(request=request)
 
     # Do something with the response
@@ -1110,14 +1228,14 @@ As already mentioned in the general Object update introduction, the newly create
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/object/{object-id} | jq -r '.object.id')
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{object-id} | jq -r '.object.id')
     
     # Native JSON request to request an upload url for single part upload
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/object/{NEW_REVISION_ID}/upload
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/{NEW_REVISION_ID}/upload
     
-    # Native JSON request to upload single part data through the generated data proxy upload url
+    # Native JSON request to upload single part data through the generated DataProxy upload url
     curl -X PUT -T <path-to-local-file> <upload-url>
     
     # Request to finish the updated object only needed in case of no upload or multipart upload
@@ -1135,13 +1253,13 @@ As already mentioned in the general Object update introduction, the newly create
         remove_key_values: vec![],
         data_class: DataClass::Public as i32,
         hashes: vec![<old-hashes>],
-        force_revision: true, // (1)
+        force_revision: true,
         metadata_license_tag: None,
         data_license_tag: None,
         parent: None,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.update_object(request)
                                        .await
                                        .unwrap()
@@ -1158,7 +1276,7 @@ As already mentioned in the general Object update introduction, the newly create
         part_number: 1,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let get_response = object_client.get_upload_url(get_request)
                                     .await
                                     .unwrap()
@@ -1209,7 +1327,7 @@ As already mentioned in the general Object update introduction, the newly create
         data_license_tag="<old-license-tag>",
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.UpdateObject(request=request)
 
     # Do something with the response
@@ -1223,7 +1341,7 @@ As already mentioned in the general Object update introduction, the newly create
         part_number=1
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     get_response = client.object_client.GetUploadURL(request=request)
 
     # Do something with the response
@@ -1292,7 +1410,7 @@ Objects can also be deleted again according to the FAIR guidelines.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/object/<object-id>
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/objects/<object-id>
     ```
 
 === ":simple-rust: Rust"
@@ -1304,7 +1422,7 @@ Objects can also be deleted again according to the FAIR guidelines.
         with_revisions: false,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = object_client.delete_object(request)
                                        .await
                                        .unwrap()
@@ -1323,7 +1441,7 @@ Objects can also be deleted again according to the FAIR guidelines.
         with_revisions=False
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.object_client.DeleteObject(request=request)
     
     # Do something with the response

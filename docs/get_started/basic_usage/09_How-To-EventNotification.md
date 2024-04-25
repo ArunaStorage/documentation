@@ -3,7 +3,7 @@
 
 ## Event notifications
 
-The AOS includes an event notification service which can be used to _subscribe_ to specific resources including their subresources. 
+Aruna includes an event notification service which can be used to _subscribe_ to specific resources including their subresources. 
 This means that the created event notification consumer can be used to fetch notifications regarding all actions which affected the resources in the scope of the consumer. 
 
 The event notification system is based on the integration of the cloud native, open source messaging technology [:simple-natsdotio: NATS.io](https://nats.io){target=_blank} 
@@ -33,7 +33,7 @@ API examples of how to create an event notification consumer.
         stream_type: Some(StreamType::StreamAll(StreamAll{})),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = notification_client.create_stream_consumer(request)
                                       .await
                                       .unwrap()
@@ -53,7 +53,7 @@ API examples of how to create an event notification consumer.
             resource_variant=ResourceVariant.RESOURCE_VARIANT_PROJECT
         ),
         user="<user-id>",
-        anouncements=False,
+        announcements=False,
         all=False,
         include_subresources=True,
         stream_all=StreamAll(),
@@ -61,7 +61,7 @@ API examples of how to create an event notification consumer.
         stream_from_sequence=None
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.notification_client.CreateStreamConsumer(request=request)
     
     # Do something with the response
@@ -86,7 +86,7 @@ API examples of how to fetch an event notification message batch.
         batch_size: 25 
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = notification_client.get_event_message_batch(request)
                                       .await
                                       .unwrap()
@@ -105,7 +105,7 @@ API examples of how to fetch an event notification message batch.
         batch_size=25 
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.notification_client.GetEventMessageBatch(request=request)
     
     # Do something with the response
@@ -129,7 +129,7 @@ API examples of how to fetch event notification messages via stream.
         stream_consumer: "<stream-consumer-id>".to_string()
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = notification_client.get_event_message_stream(request)
                                       .await
                                       .unwrap()
@@ -147,7 +147,7 @@ API examples of how to fetch event notification messages via stream.
         stream_consumer: "<stream-consumer-id>"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.notification_client.GetEventMessageStream(request=request)
     
     # Do something with the response
@@ -175,7 +175,7 @@ Event notification messages have to be acknowledged in order that they won't be 
         }],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = notification_client.acknowledge_message_batch(request)
                                       .await
                                       .unwrap()
@@ -197,7 +197,7 @@ Event notification messages have to be acknowledged in order that they won't be 
         }]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.notification_client.AcknowledgeMessageBatch(request=request)
     
     # Do something with the response
@@ -221,7 +221,7 @@ API examples of how to delete an event notification consumer.
         stream_consumer: "<stream-consumer-id>".to_string(),
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = notification_client.delete_stream_consumer(request)
                                       .await
                                       .unwrap()
@@ -239,7 +239,7 @@ API examples of how to delete an event notification consumer.
         stream_consumer="<stream-consumer-id>",
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.notification_client.DeleteStreamConsumer(request=request)
     
     # Do something with the response
@@ -248,7 +248,7 @@ API examples of how to delete an event notification consumer.
 
 ## Personal notifications
 
-Some notifications are not based on actions in the AOS that affected specific resources but are addressed directly to a specific user.
+Some notifications are not based on actions in Aruna that affected specific resources but are addressed directly to a specific user.
 These notifications have to be persistent and therefore are retained separately from the event notification system until explicitly acknowledged.
 
 Examples for personal notifications would be permission changes on resources or access requests on resources from other users.
@@ -268,7 +268,7 @@ API examples of how to fetch persistent personal notifications.
     // Create tonic/ArunaAPI request to fetch personal notifications
     let request = GetPersonalNotificationsRequest {};
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.get_personal_notifications(request)
                               .await
                               .unwrap()
@@ -284,7 +284,7 @@ API examples of how to fetch persistent personal notifications.
     # Create tonic/ArunaAPI request to fetch personal notifications
     request = GetPersonalNotificationsRequest()
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.GetPersonalNotifications(request=request)
     
     # Do something with the response
@@ -311,7 +311,7 @@ API examples of how to acknowledge persistent personal notifications.
         ],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = user_client.acknowledge_personal_notifications(request)
                               .await
                               .unwrap()
@@ -333,7 +333,7 @@ API examples of how to acknowledge persistent personal notifications.
         ]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.user_client.AcknowledgePersonalNotifications(request=request)
     
     # Do something with the response

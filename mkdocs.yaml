@@ -1,14 +1,14 @@
-site_name: Aruna Object Storage Documentation
-site_url: https://ArunaStorage.github.io/Documentation
+site_name: Aruna Documentation
+site_url: https://ArunaStorage.github.io/documentation
 
-repo_name: 'ArunaStorage/ArunaAPI'
-repo_url: 'https://github.com/ArunaStorage/ArunaAPI'
+repo_name: 'arunastorage/api'
+repo_url: 'https://github.com/ArunaStorage/api'
 
 docs_dir: docs/
 
 nav:
   - 'Home':
-    - 'AOS overview': index.md
+    - 'Aruna overview': index.md
     - 'Getting Started': get_started/basic_usage/00_index.md
   - 'Getting Started': 
     - 'Overview': get_started/basic_usage/00_index.md
@@ -29,9 +29,7 @@ nav:
     - '15 | Workspaces': get_started/basic_usage/15_How-To-Workspace.md
   - 'Data Structure':
     - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
-    #- 'Database ERD': internal_data_structure/database_erd.md
-  #- 'Generic Playbooks':
-    #- 'Overview': generic_playbooks/index.md
+    - 'Database ERD': internal_data_structure/database_erd.md
   #- 'Deployment Recipes'
     #- 'ArunaServer': deployment/server.md
 
@@ -80,7 +78,11 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: false
   - pymdownx.tabbed:
@@ -88,6 +90,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
 
 plugins:
   - glightbox

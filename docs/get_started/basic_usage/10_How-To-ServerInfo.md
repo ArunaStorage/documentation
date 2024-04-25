@@ -3,7 +3,7 @@
 
 ## Introduction
 
-To get general information about an AOS instance and its running components you can use the StorageStatusService API.
+To get general information about an Aruna instance and its running components you can use the StorageStatusService API.
 
 For example, this can be either interesting for developers to know which versions they're dealing with or maybe to 
 introduce a service health monitor with the current status of the instance.
@@ -11,7 +11,7 @@ introduce a service health monitor with the current status of the instance.
 
 ## Get Storage Version
 
-API example for fetching the versions of all components running in the specific AOS instance.
+API example for fetching the versions of all components running in the specific Aruna instance.
 
 ??? Abstract "Required permissions"
 
@@ -20,19 +20,19 @@ API example for fetching the versions of all components running in the specific 
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to get AOS stoarge instance component versions 
+    # Native JSON request to get Aruna instance component versions 
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/version
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/info/version
     ```
 
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to fetch component versions of the AOS instance
+    // Create tonic/ArunaAPI request to fetch component versions of the Aruna instance
     let get_request = GetStorageVersionRequest {};
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = info_client.get_storage_version(get_request)
                               .await
                               .unwrap()
@@ -45,10 +45,10 @@ API example for fetching the versions of all components running in the specific 
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to fetch component versions of the AOS instance
+    # Create tonic/ArunaAPI request to fetch component versions of the Aruna instance
     request = GetStorageVersionRequest()
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.info_client.GetStorageVersion(request=request)
 
     # Do something with the response
@@ -58,7 +58,7 @@ API example for fetching the versions of all components running in the specific 
 
 ## Get Storage Status
 
-API example for fetching current status of the AOS instance.
+API example for fetching current status of the Aruna instance.
 
 ??? Abstract "Required permissions"
 
@@ -67,19 +67,19 @@ API example for fetching current status of the AOS instance.
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
-    # Native JSON request to get AOS stoarge instance status
+    # Native JSON request to get Aruna stoarge instance status
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/status
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/info/status
     ```
 
 === ":simple-rust: Rust"
 
     ```rust linenums="1"
-    // Create tonic/ArunaAPI request to fetch the current status of the AOS instance
+    // Create tonic/ArunaAPI request to fetch the current status of the Aruna instance
     let get_request = GetStorageStatusRequest {};
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = info_client.get_storage_status(get_request)
                               .await
                               .unwrap()
@@ -92,10 +92,10 @@ API example for fetching current status of the AOS instance.
 === ":simple-python: Python"
 
     ```python linenums="1"
-    # Create tonic/ArunaAPI request to fetch the current status of the AOS instance
+    # Create tonic/ArunaAPI request to fetch the current status of the Aruna instance
     request = GetStorageStatusRequest()
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.info_client.GetStorageStatus(request=request)
 
     # Do something with the response
@@ -118,7 +118,7 @@ These can be used to validate signatures of tokens and/or presigned URLs.
     # Native JSON request to get the list of available public keys
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/info/pubkeys
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/info/pubkeys
     ```
 
 === ":simple-rust: Rust"
@@ -127,7 +127,7 @@ These can be used to validate signatures of tokens and/or presigned URLs.
     // Create tonic/ArunaAPI request to get the list of available public keys
     let get_request = GetPubkeysRequest {};
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = info_client.get_pubkeys(get_request)
                               .await
                               .unwrap()
@@ -143,14 +143,9 @@ These can be used to validate signatures of tokens and/or presigned URLs.
     # Create tonic/ArunaAPI request to get the list of available public keys
     request = GetPubkeysRequest()
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.info_client.GetPubkeys(request=request)
 
     # Do something with the response
     print(f'{response}')
     ```
-
-
-## Get/Set public announcements 
-
-> _Coming soon ..._

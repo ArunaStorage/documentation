@@ -4,7 +4,7 @@
 ## Introduction
 
 Collections are the second-level (and therefore optional) resource to organize stored data i.e. Objects in Projects. 
-Before you can create Collections you need to create a Project in the AOS.
+Before you can create Collections you need to create a Project in Aruna.
 
 If you don't know how to create a Project you should read the previous chapter about the [**Project API basics**](04_How-To-Project.md).
 
@@ -16,6 +16,10 @@ API example for creating a new Collection.
 
     This request requires at least APPEND permission on the Project in which the Collection is to be created.
 
+!!! Info "Collection naming guidelines"
+
+    * Collection and Dataset names are restricted to the safe characters specified in the [S3 object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines){target=_blank}
+
 === ":simple-curl: cURL"
 
     ```bash linenums="1"
@@ -23,17 +27,19 @@ API example for creating a new Collection.
     curl -d '
       {
         "name": "json-api-collection", 
+        "title": "JSON API Collection"
         "description": "Created with JSON over HTTP.",
         "keyValues": [],
         "relations": [],
         "data_class": "DATA_CLASS_PUBLIC",
         "projectId": "<project-id>",
-        "metadataLicenseTag": "CC-BY",
-        "defaultDataLicenseTag": "CC-BY"
+        "metadataLicenseTag": "CC-BY-4.0",
+        "defaultDataLicenseTag": "CC-BY-4.0",
+        "authors": []
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collection
+         -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/collections
     ```
 
 === ":simple-rust: Rust"
@@ -42,16 +48,18 @@ API example for creating a new Collection.
     // Create tonic/ArunaAPI request to create a Collection
     let request = CreateCollectionRequest {
         name: "rust-api-collection".to_string(),
+        title: "Rust API Collection".to_string(),
         description: "Created with the gRPC Rust API client.".to_string(),
         key_values: vec![],
         relations: vec![],
         data_class: DataClass::Public as i32,
-        metadata_license_tag: "CC-BY".to_string(),
-        default_data_license_tag: "CC-BY".to_string(),
+        metadata_license_tag: Some("CC-BY-4.0".to_string()),
+        default_data_license_tag: Some("CC-BY-4.0".to_string()),
         parent: Some(Parent::ProjectId("<project-id>".to_string())),
+        authors: vec![],
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.create_collection(request)
                                  .await
                                  .unwrap() 
@@ -66,17 +74,18 @@ API example for creating a new Collection.
     ```python linenums="1"
     # Create tonic/ArunaAPI request to create a new Collection
     request = CreateCollectionRequest(
-        name="python-api-project",
+        name="python-api-collection",
         description="Created with the gRPC Python API client.",
         key_values=[], 
         relations=[], 
         data_class=DataClass.DATA_CLASS_PUBLIC,
         project_id="<project-id>",
-        metadata_license_tag="CC-BY",
-        default_data_license_tag="CC-BY"
+        metadata_license_tag="CC-BY-4.0",
+        default_data_license_tag="CC-BY-4.0",
+        authors=[]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.CreateCollection(request=request)
 
     # Do something with the response
@@ -98,14 +107,14 @@ API examples of how to fetch information for one or multiple existing Collection
     # Native JSON request to fetch information of a collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}
+         -X GET https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}
     ```
 
     ```bash linenums="1"
     # Native JSON request to fetch information of multiple Collections
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X GET 'https://<URL-to-AOS-instance-API-gateway>/v2/collections?collectionIds=collection-01&collectionIds=collection-02'
+         -X GET 'https://<URL-to-Aruna-instance-API-endpoint>/v2/collections?collectionIds={collection-id-01}&collectionIds={collection-id-02}'
     ```
 
 === ":simple-rust: Rust"
@@ -116,7 +125,7 @@ API examples of how to fetch information for one or multiple existing Collection
         collection_id: "<collection-id>".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.get_collection(request)
                                     .await
                                     .unwrap()
@@ -136,7 +145,7 @@ API examples of how to fetch information for one or multiple existing Collection
         ],
     };
 
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.get_collections(request)
                                     .await
                                     .unwrap()
@@ -154,7 +163,7 @@ API examples of how to fetch information for one or multiple existing Collection
         collection_id="<collection-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.GetCollection(request=request)
 
     # Do something with the response
@@ -170,7 +179,7 @@ API examples of how to fetch information for one or multiple existing Collection
             "<...>"]
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.GetCollections(request=request)
 
     # Do something with the response
@@ -181,12 +190,6 @@ API examples of how to fetch information for one or multiple existing Collection
 ## Update Collection
 
 API examples of how to update individual metadata of an existing Collection.
-
-!!! Warning "Update operations that trigger the creation of a new revision"
-
-    * Name update
-    * Removal of KeyValues
-    * License update except from `All_Rights_Reserved`
 
 ??? Abstract "Required permissions"
 
@@ -206,7 +209,18 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/name
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/name
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to update the title of a Collection
+    curl -d '
+      {
+        "name": "Updated JSON API Collection"
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/title
     ```
 
     ```bash linenums="1"
@@ -217,7 +231,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/description
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/description
     ```
 
     ```bash linenums="1"
@@ -229,12 +243,12 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/key_values
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/key_values
     ```
 
     !!! Info
 
-        Dataclass can only be relaxed: `Confidential` > `Private` > `Public`
+        Dataclass can only be relaxed: `Confidential` > `Workspace` > `Private` > `Public`
 
     ```bash linenums="1"
     # Native JSON request to update the dataclass of a Collection
@@ -244,7 +258,7 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/data_class
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/data_class
     ```
 
     ```bash linenums="1"
@@ -256,7 +270,27 @@ API examples of how to update individual metadata of an existing Collection.
       }' \
          -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X PATCH https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/licenses
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/licenses
+    ```
+
+    ```bash linenums="1"
+    # Native JSON request to add an author to a Collection
+    curl -d '
+      {
+        "addAuthors": [
+            {
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "orcid": "0000-0002-1825-0097",
+            "id": "<user-id-if-registered>"
+            }
+        ],
+        "removeAuthors": []
+      }' \
+         -H 'Authorization: Bearer <AUTH_TOKEN>' \
+         -H 'Content-Type: application/json' \
+         -X PATCH https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/authors
     ```
 
 === ":simple-rust: Rust"
@@ -268,8 +302,25 @@ API examples of how to update individual metadata of an existing Collection.
         name: "updated-rust-api-collection".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.update_collection_name(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to update the title of a Collection
+    let request = UpdateCollectionTitleRequest {
+        collection_id: "<collection-id>".to_string(),
+        title: "Updated Rust API Collection".to_string(),
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = collection_client.update_collection_title(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -285,7 +336,7 @@ API examples of how to update individual metadata of an existing Collection.
         description: "Updated with the gRPC Rust API client.".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.update_collection_description(request)
                                  .await
                                  .unwrap()
@@ -303,7 +354,7 @@ API examples of how to update individual metadata of an existing Collection.
         remove_key_values: vec![]
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.update_collection_key_values(request)
                                  .await
                                  .unwrap()
@@ -324,7 +375,7 @@ API examples of how to update individual metadata of an existing Collection.
         data_class: DataClass::Public as i32,
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.update_collection_data_class(request)
                                  .await
                                  .unwrap()
@@ -342,8 +393,32 @@ API examples of how to update individual metadata of an existing Collection.
         default_data_license_tag: "CC0".to_string(),
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.update_collection_licenses(request)
+                                 .await
+                                 .unwrap()
+                                 .into_inner();
+    
+    // Do something with the response
+    println!("{:#?}", response);
+    ```
+
+    ```rust linenums="1"
+    // Create tonic/ArunaAPI request to add an author to a Collection
+    let request = UpdateCollectionAuthorsRequest {
+        collection_id: "<collection-id>".to_string(),
+        add_authors: vec![Author {
+            first_name: "John".to_string(),
+            last_name: "Doe".to_string(),
+            email: "john.doe@example.com".to_string(),
+            orcid: "0000-0002-1825-0097".to_string(),
+            id: "<user-id-if-registered>".to_string(),
+        }],
+        remove_authors: vec![],
+    };
+    
+    // Send the request to the Aruna instance gRPC endpoint
+    let response = collection_client.update_collection_authors(request)
                                  .await
                                  .unwrap()
                                  .into_inner();
@@ -358,11 +433,25 @@ API examples of how to update individual metadata of an existing Collection.
     # Create tonic/ArunaAPI request to update the name of a Collection
     request = UpdateCollectionNameRequest(
         collection_id="<collection-id>",
-        name="updated-python-api-project"
+        name="updated-python-api-collection"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.UpdateCollectionName(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to update the title of a Collection
+    request = UpdateCollectionTitleRequest(
+        collection_id="<collection-id>",
+        title="Updated Python API Collection"
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.collection_client.UpdateCollectionTitle(request=request)
     
     # Do something with the response
     print(f'{response}')
@@ -375,7 +464,7 @@ API examples of how to update individual metadata of an existing Collection.
         description="Updated with the gRPC Python API client"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.UpdateCollectionDescription(request=request)
     
     # Do something with the response
@@ -394,7 +483,7 @@ API examples of how to update individual metadata of an existing Collection.
         remove_key_values=[]
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.UpdateCollectionKeyValues(request=request)
     
     # Do something with the response
@@ -412,7 +501,7 @@ API examples of how to update individual metadata of an existing Collection.
         data_class=DataClass.DATA_CLASS_PUBLIC
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.UpdateCollectionDataClass(request=request)
     
     # Do something with the response
@@ -427,12 +516,33 @@ API examples of how to update individual metadata of an existing Collection.
         default_data_license_tag="CC0"
     )
     
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.UpdateCollectionLicenses(request=request)
     
     # Do something with the response
     print(f'{response}')
     ```
+
+    ```python linenums="1"
+    # Create tonic/ArunaAPI request to add an author to a Collection
+    request = UpdateCollectionAuthorsRequest(
+        collection_id="<collection-id>",
+        add_authors=[Author(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            orcid="0000-0002-1825-0097",
+            user_id="<user-id-if-registered"
+        )],
+        remove_authors=[]
+    )
+    
+    # Send the request to the Aruna instance gRPC endpoint
+    response = client.collection_client.UpdateCollectionAuthors(request=request)
+    
+    # Do something with the response
+    print(f'{response}')
+    ``` 
 
 
 ## Snapshot Collection
@@ -449,7 +559,7 @@ API examples of how to snapshot a Collection, i.e. create an immutable clone of 
     # Native JSON request request to snapshot a Collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
       -H 'Content-Type: application/json' \
-      -X POST https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}/snapshot
+      -X POST https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}/snapshot
     ```
 
 === ":simple-rust: Rust"
@@ -460,7 +570,7 @@ API examples of how to snapshot a Collection, i.e. create an immutable clone of 
         collection_id: "<collection-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.snapshot_collection_version(request)
                                     .await
                                     .unwrap()
@@ -478,7 +588,7 @@ API examples of how to snapshot a Collection, i.e. create an immutable clone of 
         collection_id="<collection-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.SnapshotCollectionVersion(request=request)
 
     # Do something with the response
@@ -504,7 +614,7 @@ API examples of how to delete a Collection.
     # Native JSON request to delete a Collection
     curl -H 'Authorization: Bearer <AUTH_TOKEN>' \
          -H 'Content-Type: application/json' \
-         -X DELETE https://<URL-to-AOS-instance-API-gateway>/v2/collection/{collection-id}
+         -X DELETE https://<URL-to-Aruna-instance-API-endpoint>/v2/collections/{collection-id}
     ```
 
 === ":simple-rust: Rust"
@@ -515,7 +625,7 @@ API examples of how to delete a Collection.
         collection_id: "<collection-id>".to_string()
     };
     
-    // Send the request to the AOS instance gRPC gateway
+    // Send the request to the Aruna instance gRPC endpoint
     let response = collection_client.delete_collection(request)
                                     .await
                                     .unwrap()
@@ -533,7 +643,7 @@ API examples of how to delete a Collection.
         collection_id="<collection-id>"
     )
 
-    # Send the request to the AOS instance gRPC gateway
+    # Send the request to the Aruna instance gRPC endpoint
     response = client.collection_client.DeleteCollection(request=request)
 
     # Do something with the response
