@@ -3,7 +3,7 @@
 
 ## Introduction
 
-The AOS DataProxy implements a subset of the AWS S3 API specification. By providing an S3 compatible interface, 
+The Aruna DataProxy implements a subset of the AWS S3 API specification. By providing an S3 compatible interface, 
 the DataProxy is able to interact with a wide variety of modern data analysis tools which natively support S3 as storage solution.
 
 Here we will give you examples for the currently supported and most common S3 functionality which can be used directly with an Aruna DataProxy. 
@@ -50,14 +50,14 @@ retrieving and managing data in Amazon S3 and other cloud storage service provid
 
     ... or partially the global CLI options of *s5cmd*:
 
-    * **Endpoint URL:** `--endpoint-url <aos-dataproxy-endpoint>`
+    * **Endpoint URL:** `--endpoint-url <aruna-dataproxy-endpoint>`
     * **Output format:** `--json`
     * **Disable SSL verification:** `--no-verify-ssl`
 
 
-### Object paths in AOS
+### Object paths in Aruna
 
-In order for the AOS to provide an S3 compatible interface, it is necessary that Objects can be accessed via a unique path instead of their id.
+In order for Aruna to provide an S3 compatible interface, it is necessary that Objects can be accessed via a unique path instead of their id.
 
 Currently, this path complies with the standardized specifications of AWS S3 and are represented in the format  
 `<project-name>/<collection-name>/<dataset-name>/<object-filename>` which resembles the S3 path-style `s3://bucket/key` where:
@@ -111,7 +111,7 @@ This means that the Project is also registered in the central ArunaServer catalo
 
 ??? Abstract "Required permissions"
 
-    To create a new Project you only have to be a registered AOS user.
+    To create a new Project you only have to be a registered Aruna user.
 
 === ":simple-amazons3: s5cmd"
 
@@ -274,5 +274,5 @@ Returns all (up to 1.000 for each request) Objects of a specific bucket i.e. Pro
 
     ```bash linenums="1"
     # Recursively list all objects in a public Project/bucket 
-    s5cmd --no-sign-request ls s3://dummy-project/*
+    s5cmd --no-sign-request ls s3://public-project/*
     ```
