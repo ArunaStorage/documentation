@@ -70,24 +70,7 @@ The implementation of the Server, that handles the incoming requests, and DataPr
 > * Hook system to integrate external workflows for data validation and transformation
 > * Dedicated rule system to handle custom server-side authorization
 
-
 <!--
-### **DataProxy**
-
-[:material-source-repository: **Github repo**](https://github.com/ArunaStorage/aruna){:target="_blank"}
-
-> This is the internal server implementation handling the communication between the data storage backend used for a Aruna instance.
-
-> DataProxy is a subcomponent of Aruna that provides a partially compatible S3 API for data storage with advanced features like multi-tenant encryption, deduplication, and storage according to FAIR principles. 
-
-> **Features**
-
-> * Partial S3 API compatibility: DataProxy implements a subset of the S3 API, making it easy to integrate with existing S3 clients and libraries.
-> * Encryption: All data stored in DataProxy is encrypted at rest, ensuring the confidentiality and integrity of your data.
-> * Deduplication: DataProxy uses advanced deduplication algorithms to ensure that identical data is stored only once, reducing storage costs and improving performance.
-> * FAIR principles: DataProxy adheres to the FAIR principles of data management, ensuring that your data is findable, accessible, interoperable and reusable.
-
-
 ### **AOS CLI**
 
 [**Main Aruna CLI repository**](https://github.com/ArunaStorage/ArunaCLI){:target="_blank"}

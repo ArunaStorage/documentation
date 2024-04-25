@@ -248,7 +248,7 @@ API examples of how to delete an event notification consumer.
 
 ## Personal notifications
 
-Some notifications are not based on actions in the AOS that affected specific resources but are addressed directly to a specific user.
+Some notifications are not based on actions in Aruna that affected specific resources but are addressed directly to a specific user.
 These notifications have to be persistent and therefore are retained separately from the event notification system until explicitly acknowledged.
 
 Examples for personal notifications would be permission changes on resources or access requests on resources from other users.

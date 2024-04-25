@@ -7,7 +7,7 @@ This section provides a simplified overview of the ArunaServer database schema t
     <figure markdown>
       ![Image title](database-erd.light.png#only-light){ loading=lazy }
       ![Image title](database-erd.dark.png#only-dark){ loading=lazy }
-      <figcaption>Aruna Object Storage (AOS) database entity-relationship diagram. Click for zoom.</figcaption>
+      <figcaption>Aruna database entity-relationship diagram. Click for zoom.</figcaption>
     </figure>
 
 
