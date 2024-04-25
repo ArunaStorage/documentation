@@ -457,7 +457,7 @@ API examples of how to update individual metadata of an existing Dataset.
     )
     
     # Send the request to the Aruna instance gRPC endpoint
-    response = client.dataset_client.UpdateDatasetName(request=request)
+    response = client.dataset_client.UpdateDatasetTitle(request=request)
     
     # Do something with the response
     print(f'{response}')
