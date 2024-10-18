@@ -99,7 +99,7 @@ As long as an Object is in the staging area data can be uploaded to it.
         title="Aruna Logo",
         description="My demo Object",
         key_values=[],
-        external_relations=[],
+        relations=[],
         data_class=DataClass.DATA_CLASS_PUBLIC,
         project_id="<project-id>",
         collection_id="<collection-id>",
